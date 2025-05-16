@@ -1,3 +1,13 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+
+use app\controllers\wifiController;
+
+$wifiController = new wifiController();
+$showDepartmentsData = $wifiController->getDepartmentsController();
+$showLocationsData = $wifiController->getLocationsController();
+?>
+
 <!-- Large Modal -->
 <div id="addWifiPassword" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-4xl max-h-full">
@@ -32,7 +42,7 @@
                     </div>
                     <div class="">
                         <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
                             </svg>
                             Contraseña
@@ -52,31 +62,34 @@
                             <input type="text" id="ipDirection" name="ipDirection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dirección IP....">
                         </div>
                     </div>
-
                     <div class="">
-                        <label for="locationName" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="locationSelect" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
                             Ubicación
                         </label>
                         <div class="relative my-2">
-                            <select id="locationName" name="locationName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option selected>Choose a country</option>
+                            <select id="locationSelect" name="location_ID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option selected value="">Seleccione....</option>
+                                <?php foreach ($showLocationsData as $key => $locationsValue) { ?>
+                                    <option value="<?= $locationsValue['location_ID'] ?>">
+                                        <?= $locationsValue['location_name'] ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
-
                     <div class="">
-                        <label for="locationName" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="departmentSelect" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                             </svg>
                             Departamento
                         </label>
                         <div class="relative my-2">
-                            <select id="locationName" name="locationName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option selected>Choose a country</option>
+                            <select id="departmentSelect" name="department_ID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option selected value="">Seleccione una Ubicación Previamente...</option>
                             </select>
                         </div>
                     </div>
@@ -99,4 +112,49 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationSelect = document.getElementById('locationSelect');
+            const departmentSelect = document.getElementById('departmentSelect');
+
+            locationSelect.addEventListener('change', function() {
+                const locationId = this.value;
+
+                // Limpiar el selector de departamentos
+                departmentSelect.innerHTML = '<option selected>Cargando departamentos...</option>';
+
+                if (locationId) {
+                    // Realizar la petición AJAX
+                    fetch(`<?= APP_URL ?>app/controllers/wifiController.php?location_id=${locationId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la respuesta del servidor');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Actualizar el selector de departamentos
+                            departmentSelect.innerHTML = '<option selected value="">Seleccione....</option>';
+
+                            if (data.length > 0) {
+                                data.forEach(departments => {
+                                    const option = document.createElement('option');
+                                    option.value = departments.department_ID;
+                                    option.textContent = departments.department_name;
+                                    departmentSelect.appendChild(option);
+                                });
+                            } else {
+                                departmentSelect.innerHTML = '<option selected value="">No hay departamentos para esta ubicación</option>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            departmentSelect.innerHTML = '<option selected value="">Error al cargar departamentos</option>';
+                        });
+                } else {
+                    departmentSelect.innerHTML = '<option selected value="">Seleccione una ubicación primero</option>';
+                }
+            });
+        });
+    </script>
 </div>

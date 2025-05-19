@@ -4,7 +4,7 @@
         <li>
             <div class="flex items-center">
                 <svg class="shrink-0 w-5 h-5 text-gray-800" aria-hidden="true" fill="currentColor">
-                    <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#lockFile"></use>
+                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile"></use>
                 </svg>
                 <p class="px-3 text-lg font-medium text-gray-900">
                     Contraseñas

@@ -69,9 +69,9 @@
         <ul class="space-y-2 font-medium">
             <!-- INICIO -->
             <li class="">
-                <a href="<?= $routes['dashboard'] ?>" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 transition duration-100">
+                <a href="<?= $routes['dashboard'] ?>/" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 transition duration-100">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#home" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#home" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Inicio</span>
                 </a>
@@ -81,7 +81,7 @@
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="password-dropdown" data-collapse-toggle="password-dropdown">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
                     </svg>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Contraseñas</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -90,7 +90,7 @@
                 </button>
                 <ul id="password-dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="<?= $routes['wifiList'] ?>" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Directorio</a>
+                        <a href="<?= $routes['wifiList'] ?>/" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Directorio</a>
                     </li>
                 </ul>
             </li>
@@ -99,7 +99,7 @@
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="conections-dropdown" data-collapse-toggle="conections-dropdown">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#rightArrow" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#rightArrow" />
                     </svg>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Conexiones</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -119,12 +119,37 @@
                     </li>
                 </ul>
             </li>
-            
+
+            <!-- CONTROL DE ENTREGA -->
+            <li>
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="devices-dropdown" data-collapse-toggle="devices-dropdown">
+                    <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#fileStorage" />
+                    </svg>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Dispositivos</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul id="devices-dropdown" class="hidden py-2 space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Control de Entrega</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Historial
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Observaciones</a>
+                    </li>
+                </ul>
+            </li>
+
             <!-- INVENTARIO -->
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="storage-dropdown" data-collapse-toggle="storage-dropdown">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#fileStorage" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#fileStorage" />
                     </svg>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Inventario</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -148,20 +173,24 @@
                 </ul>
             </li>
 
+            <!-- SEPARADOR -->
             <hr class="text-gray-700">
 
+            <!-- UBICACIONES -->
             <li>
-                <a href="<?= $routes['locationsList']?>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a href="<?= $routes['locationsList'] ?>/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Ubicaciones</span>
                 </a>
             </li>
+
+            <!-- DEPARTAMENTOS -->
             <li>
-                <a href="<?= $routes['departmentsList']?>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a href="<?= $routes['departmentsList'] ?>/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Departamentos</span>
                 </a>
@@ -170,7 +199,7 @@
             <li>
                 <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Usuarios</span>
                 </a>
@@ -178,7 +207,7 @@
             <li>
                 <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Roles</span>
                 </a>

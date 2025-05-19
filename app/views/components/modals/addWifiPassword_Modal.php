@@ -1,5 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 
 use app\controllers\wifiController;
 
@@ -27,12 +26,13 @@ $showLocationsData = $wifiController->getLocationsController();
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="#" class="AjaxForm" method="POST" autocomplete="OFF">
+            <form action="<?= $wifiAjaxRoutes['saveWifiPassword'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
+                <input type="hidden" name="wifiModule" id="wifiModule" value="saveWifiPassword">
                 <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
                         <label for="SSID" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
                             </svg>
                             SSID
                         </label>
@@ -41,20 +41,28 @@ $showLocationsData = $wifiController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
-                            </svg>
-                            Contraseña
-                        </label>
+                        <div class="flex items-center justify-between">
+                                <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
+                                    <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
+                                    </svg>
+                                    Contraseña
+                                </label>
+                                <div>
+                                    <input id="wifiCheckbox" name="wifiCheckbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                                    <label for="wifiCheckbox" class="ms-2 text-sm font-medium text-gray-900">
+                                        No Posee
+                                    </label>
+                                </div>
+                        </div>
                         <div class="relative my-2">
-                            <input type="text" id="wifiPassword" name="wifiPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dirección IP....">
+                            <input type="text" id="wifiPassword" name="wifiPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contraseña....">
                         </div>
                     </div>
                     <div class="">
                         <label for="ipDirection" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
                             </svg>
                             Dirección IP
                         </label>
@@ -63,14 +71,14 @@ $showLocationsData = $wifiController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="locationSelect" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="locations" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
                             Ubicación
                         </label>
                         <div class="relative my-2">
-                            <select id="locationSelect" name="location_ID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <select id="locations" name="locations" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected value="">Seleccione....</option>
                                 <?php foreach ($showLocationsData as $key => $locationsValue) { ?>
                                     <option value="<?= $locationsValue['location_ID'] ?>">
@@ -81,15 +89,20 @@ $showLocationsData = $wifiController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="departmentSelect" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                             </svg>
                             Departamento
                         </label>
                         <div class="relative my-2">
-                            <select id="departmentSelect" name="department_ID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option selected value="">Seleccione una Ubicación Previamente...</option>
+                            <select id="departments" name="departments" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option selected value="">Seleccione....</option>
+                                <?php foreach ($showDepartmentsData as $key => $departmentsValue) { ?>
+                                    <option value="<?= $departmentsValue['department_ID'] ?>">
+                                        <?= $departmentsValue['department_name'] ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -112,7 +125,8 @@ $showLocationsData = $wifiController->getLocationsController();
             </form>
         </div>
     </div>
-    <script>
+
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const locationSelect = document.getElementById('locationSelect');
             const departmentSelect = document.getElementById('departmentSelect');
@@ -156,5 +170,21 @@ $showLocationsData = $wifiController->getLocationsController();
                 }
             });
         });
-    </script>
+    </script> -->
+
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const wifiCheckbox = document.getElementById('wifiCheckbox');
+        const wifiPasswordInput = document.getElementById('wifiPassword');
+
+        wifiCheckbox.addEventListener('change', function() {
+            wifiPasswordInput.disabled = this.checked;
+            if (this.checked) {
+                wifiPasswordInput.classList.add('cursor-not-allowed');
+                wifiPasswordInput.value = '';
+            }
+        });
+    });
+</script>

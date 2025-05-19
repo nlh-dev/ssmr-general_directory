@@ -38,3 +38,41 @@ AjaxForms.forEach((forms) => {
     });
   });
 });
+
+function ajaxAlert(alert) {
+  if (alert.type == "simple") {
+    Swal.fire({
+      icon: alert.icon,
+      title: alert.title,
+      text: alert.text,
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#3085d6",
+    });
+  } else if (alert.type == "reload") {
+    Swal.fire({
+      icon: alert.icon,
+      title: alert.title,
+      text: alert.text,
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#3085d6",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.reload();
+      }
+    });
+  } else if (alert.type == "clean") {
+    Swal.fire({
+      icon: alert.icon,
+      title: alert.title,
+      text: alert.text,
+      confirmButtonText: "Aceptar",
+      confirmButtonColor: "#3085d6",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.querySelector(".AjaxForm").reset();
+      }
+    });
+  } else if (alert.type == "redirect") {
+    window.location.href = alert.url;
+  }
+}

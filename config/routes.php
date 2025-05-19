@@ -7,4 +7,11 @@
         'locationsList' => APP_URL . 'locationsList',
         'departmentsList' => APP_URL . 'departmentsList',
     ];
+
+    // AJAX REQUESTS
+    $wifiAjaxRoutes = [
+        'saveWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
+        'getWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
+        'deleteWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
+    ];
 ?>

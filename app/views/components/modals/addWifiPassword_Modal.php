@@ -171,7 +171,6 @@ $showLocationsData = $wifiController->getLocationsController();
             });
         });
     </script> -->
-
 </div>
 
 <script>
@@ -180,10 +179,21 @@ $showLocationsData = $wifiController->getLocationsController();
         const wifiPasswordInput = document.getElementById('wifiPassword');
 
         wifiCheckbox.addEventListener('change', function() {
-            wifiPasswordInput.disabled = this.checked;
+            wifiPasswordInput.readOnly = this.checked;
+            wifiPasswordInput.disabled = false;
             if (this.checked) {
                 wifiPasswordInput.classList.add('cursor-not-allowed');
+                wifiPasswordInput.classList.add('bg-gray-200');
+                wifiPasswordInput.classList.remove('focus:ring-blue-500');
+                wifiPasswordInput.classList.remove('focus:border-blue-500');
+                wifiPasswordInput.classList.remove('bg-gray-50');
                 wifiPasswordInput.value = '';
+            } else {
+                wifiPasswordInput.classList.remove('cursor-not-allowed');
+                wifiPasswordInput.classList.remove('bg-gray-200');
+                wifiPasswordInput.classList.add('focus:ring-blue-500');
+                wifiPasswordInput.classList.add('focus:border-blue-500');
+                wifiPasswordInput.classList.add('bg-gray-50');
             }
         });
     });

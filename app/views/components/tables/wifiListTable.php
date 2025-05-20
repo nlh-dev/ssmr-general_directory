@@ -48,7 +48,7 @@
                     <td class="px-5 py-2 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="flex items-center">
-                                <button class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                <button data-modal-target="showWifiPassword" data-modal-toggle="showWifiPassword" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                     <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
                                     </svg>

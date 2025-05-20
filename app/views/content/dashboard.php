@@ -1,7 +1,7 @@
 <!-- CONTENT GRIDS -->
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
    <div class="p-2 mt-10">
-      <div class="my-5">
+      <div class="my-4">
          <?php require_once "./app/views/components/breadcrumbs/dashboardBreadcrumb.php" ?>
          <hr class="my-4 border-gray-300">
       </div>

@@ -1,3 +1,8 @@
+<?php 
+    require_once "./app/views/components/modals/addWifiPassword_Modal.php";
+    require_once "./app/views/components/modals/showWifiPassword_Modal.php";
+?>
+
 <!-- CONTENT GRIDS -->
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
     <div class="p-2 mt-10">

@@ -1,5 +1,5 @@
 <!-- NAVBAR -->
-<nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-gray-900 border-gray-700">
+<nav class="fixed top-0 z-40 w-full border-b border-gray-200 bg-gray-900 border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -64,7 +64,7 @@
 </nav>
 
 <!-- SIDEBAR -->
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-gray-900 border-r border-gray-200 sm:translate-x-0 dark:border-gray-700" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-30 w-64 h-screen pt-20 transition-transform -translate-x-full bg-gray-900 border-r border-gray-200 sm:translate-x-0 dark:border-gray-700" aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-900">
         <ul class="space-y-2 font-medium">
             <!-- INICIO -->
@@ -124,7 +124,7 @@
             <li>
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="devices-dropdown" data-collapse-toggle="devices-dropdown">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#fileStorage" />
+                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
                     </svg>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Dispositivos</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -195,7 +195,10 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Departamentos</span>
                 </a>
             </li>
+
             <hr class="text-gray-700">
+            
+            <!-- USUARIOS -->
             <li>
                 <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -204,12 +207,13 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Usuarios</span>
                 </a>
             </li>
+            <!-- ROLES -->
             <li>
                 <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
                     </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Roles</span>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Permisos</span>
                 </a>
             </li>
         </ul>

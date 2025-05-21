@@ -13,5 +13,6 @@
         'saveWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
         'getWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
         'deleteWifiPassword' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
+        'updateWifiState' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
     ];
 ?>

@@ -4,24 +4,28 @@ namespace app\controllers;
 
 use app\models\mainModel;
 
-class wifiController extends mainModel{
+class wifiController extends mainModel
+{
 
-    public function getDepartmentsController(){
+    public function getDepartmentsController()
+    {
         $getDepartments_Query = "SELECT * FROM departments";
         $getDepartments_SLQ = $this->dbRequestExecute($getDepartments_Query);
         $getDepartments_SLQ->execute();
         return $getDepartments_SLQ;
     }
 
-    public function getLocationsController(){
+    public function getLocationsController()
+    {
         $getDepartments_Query = "SELECT * FROM locations";
         $getDepartments_SLQ = $this->dbRequestExecute($getDepartments_Query);
         $getDepartments_SLQ->execute();
         return $getDepartments_SLQ;
     }
 
-    public function saveWifiPasswordController(){
-        $SSID = $this->cleanRequest($_POST['SSID']);
+    public function saveWifiPasswordController()
+    {
+        $SSID = strtoupper($this->cleanRequest($_POST['SSID']));
         $locations = $this->cleanRequest($_POST['locations']);
         $departments = $this->cleanRequest($_POST['departments']);
         $wifiPassword = $this->cleanRequest($_POST['wifiPassword']);
@@ -60,7 +64,7 @@ class wifiController extends mainModel{
                 "type" => "simple",
                 "icon" => "warning",
                 "title" => "¡Error al Registrar!",
-                "text" => "¡Esta Dirección IP ya fue Registrada!",
+                "text" => "¡La Dirección IP " . $ipDirection . " ya fue Registrada!",
             ];
             return json_encode($alert);
             exit();
@@ -106,7 +110,7 @@ class wifiController extends mainModel{
             [
                 "db_FieldName" => "wifi_isEnable",
                 "db_ValueName" => ":isEnable",
-                "db_realValue" => true
+                "db_realValue" => 1
             ],
 
         ];
@@ -117,7 +121,7 @@ class wifiController extends mainModel{
                 "type" => "reload",
                 "icon" => "success",
                 "title" => "¡Operación Realizada!",
-                "text" => "Contraseña registrada exitosamente!",
+                "text" => "¡Contraseña de " . $SSID . " registrada exitosamente!",
             ];
         } else {
             $alert = [
@@ -125,6 +129,387 @@ class wifiController extends mainModel{
                 "icon" => "error",
                 "title" => "¡Error!",
                 "text" => "¡Contraseña no registrada, intente nuevamente!",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function wifiListController($page, $register, $url, $search)
+    {
+
+        $page = $this->cleanRequest($page);
+        $register = $this->cleanRequest($register);
+
+        $url = $this->cleanRequest($url);
+        $url = APP_URL . $url . "/";
+
+        $search = $this->cleanRequest($search);
+        $table = "";
+
+        $page = (isset($page) && $page > 0) ? (int) $page : 1;
+        $start = ($page > 0) ? (($page * $register) - $register) : 0;
+
+        $dataRequest_Query = "SELECT * FROM wifi_directory
+        JOIN locations ON wifi_directory.wifi_location_ID = locations.location_ID 
+        JOIN departments ON wifi_directory.wifi_department_ID = departments.department_ID
+        WHERE wifi_SSID LIKE '%$search%' 
+        OR wifi_password LIKE '%$search%' 
+        OR wifi_ipDirection LIKE '%$search%' 
+        OR wifi_location_ID LIKE '%$search%' 
+        OR wifi_department_ID LIKE '%$search%' 
+        OR wifi_createdAt LIKE '%$search%'
+        OR wifi_updatedAt LIKE '%$search%'
+        OR wifi_isEnable LIKE '%$search%'
+        ORDER BY wifi_SSID
+        DESC LIMIT $start,$register";
+
+        $totalData_Query = "SELECT COUNT(wifi_ID) FROM wifi_directory 
+        JOIN locations ON wifi_directory.wifi_location_ID = locations.location_ID 
+        JOIN departments ON wifi_directory.wifi_department_ID = departments.department_ID
+        WHERE wifi_SSID LIKE '%$search%' 
+        OR wifi_password LIKE '%$search%' 
+        OR wifi_ipDirection LIKE '%$search%' 
+        OR wifi_location_ID LIKE '%$search%' 
+        OR wifi_department_ID LIKE '%$search%' 
+        OR wifi_createdAt LIKE '%$search%'
+        OR wifi_updatedAt LIKE '%$search%'
+        OR wifi_isEnable LIKE '%$search%'";
+
+        $data = $this->dbRequestExecute($dataRequest_Query);
+        $data = $data->fetchAll();
+
+        $total = $this->dbRequestExecute($totalData_Query);
+        $total = (int) $total->fetchColumn();
+
+        $numPages = ceil($total / $register);
+
+        $table .= '<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-900 text-white">
+                                    <tr class="">
+                                        <th scope="col" class="px-5 py-3">
+                                            #
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            SSID
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            Contraseña
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            Ubicación
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            Departamento
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            Estado
+                                        </th>
+                                        <th scope="col" class="px-5 py-3">
+                                            <span class="sr-only">Edit</span>
+                                        </th>
+                                    </tr>
+                            </thead>
+                            <tbody>';
+
+        if ($total >= 1 && $page <= $numPages) {
+            $counter = $start + 1;
+            $startPage = $start + 1;
+            foreach ($data as $rows) {
+                $table .= '
+                    <tr class="bg-white text-gray-800 border-gray-200 hover:bg-gray-200 transition duration-100">
+                        <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
+                        <td scope="row" class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
+                            <p class="text-xs">
+                                ' . $rows['wifi_SSID'] . '
+                            </p>
+                            <div class="flex items-center mt-1 whitespace-nowrap">';
+                if (!empty($rows['wifi_ipDirection'])) {
+                    $table .= '
+                                <span class="flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-gray-900 hover:text-white transition duration-100">
+                                    <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
+                                    </svg>
+                                    ' . $rows['wifi_ipDirection'] . '
+                                </span>
+                                ';
+                } else {
+                    $table .= '
+                                <button data-modal-target="addIpDirection" data-modal-toggle="addIpDirection" data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-gray-900 hover:text-white transition duration-100">
+                                    <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
+                                    </svg>
+                                    N/A
+                                </button>
+                                ';
+                }
+                $table .= '
+                            </div>
+                        </td>
+                        <td class="px-5 py-2 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex items-center">
+                                    <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="wifiModule" value="wifiPassword">
+                                    <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
+                                    <div class="flex items-center">
+                                    <button class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                        <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
+                                        </svg>
+                                        Ver
+                                    </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-5 py-2 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                                    <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                    </svg>
+                                    ' . $rows['location_name'] . '
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-2 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
+                                    <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                    </svg>
+                                    ' . $rows['department_name'] . '
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-2 whitespace-nowrap">';
+                if ($rows['wifi_isEnable'] == 1) {
+                    $table .= '
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
+                                    <p class="font-semibold text-green-500">Habilitado</p>
+                            </div>';
+                } else {
+                    $table .= '
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-red-700 me-2"></div>
+                                <p class="font-semibold text-red-700">Deshabilitado</p>
+                            </div>';
+                }
+                $table .= '
+                        </td>
+                        <td class="items-center px-5 py-2 text-right whitespace-nowrap">
+                            <div class="flex items-center space-x-1">
+                                <div class="flex items-center">
+                                    <button class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="flex items-center">
+                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="wifiModule" value="updateWifiState">
+                                    <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
+                                    <div class="flex items-center">
+                                        <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>';;
+                $counter++;
+            }
+            $finalPage = $counter - 1;
+        } else {
+            if ($total >= 1) {
+                $table .= '
+                    <tr class="bg-white border-b border-gray-200 hover:bg-gray-200" >
+                        <td colspan="7">
+                        <div class= "flex justify-center items-center my-4">
+                            No se encontraron registros en esta pagina
+                        </div>
+                        <div class= "flex justify-center items-center my-4">
+                            <a href="' . $url . '1/" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                Haz click aqui para recargar
+                            </a>
+                        </div>
+                        </td>
+                    </tr>
+                ';
+            } else {
+                $table .= '
+                    <tr class="bg-white border-b border-gray-200 hover:bg-gray-200">
+                        <td colspan="7">
+                        <div class= "flex justify-center items-center my-4">
+                            No se encontraron registros
+                        </div>
+                        </td>
+                    </tr>
+                ';
+            }
+        }
+        $table .= '</tbody>
+                        </table>
+                    </div>
+                </div>
+        ';
+
+
+        if ($total > 0 && $page <= $numPages) {
+            $table .= '<div class="flex justify-end items-center">
+                            <p class="has-text-right">
+                                Mostrando de <strong>' . $startPage . '</strong> a <strong>' .  $finalPage . ' </strong> de un total de <strong> ' . $total . '</strong> registros
+                            </p>
+                        </div>';
+
+            $table .= $this->paginationData($page, $numPages, $url, 1);
+        }
+        return $table;
+    }
+
+    public function updateWifiStateController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+
+        $wifiData = $this->dbRequestExecute("SELECT wifi_isEnable FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $wifiCurrentState = $wifiData->fetch()['wifi_isEnable'];
+        $wifiNewState = $wifiCurrentState ? 0 : 1;
+
+        $wifiStateData = [
+            [
+                "db_FieldName" => "wifi_isEnable",
+                "db_ValueName" => ":isEnable",
+                "db_realValue" => $wifiNewState
+            ],
+            [
+                "db_FieldName" => "wifi_updatedAt",
+                "db_ValueName" => ":updatedAt",
+                "db_realValue" => date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $wifiCondition = [
+            "condition_FieldName" => "wifi_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $wifiID
+        ];
+
+        if ($this->updateData("wifi_directory", $wifiStateData, $wifiCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Estado actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el estado.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function addIpDirectionController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+        $ipDirection = $this->cleanRequest($_POST['ipDirection']);
+
+        // Validar que el registro exista
+        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        if (empty($ipDirection)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error!",
+                "text" => "El Campo se encuentra Vacío.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        // Validar que la IP no esté repetida
+        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection'");
+        if ($ipCheck->rowCount() > 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error!",
+                "text" => "La dirección IP ya está asignada a otro registro.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        // Actualizar la IP
+        $ipData = [
+            [
+                "db_FieldName" => "wifi_ipDirection",
+                "db_ValueName" => ":ipDirection",
+                "db_realValue" => $ipDirection
+            ],
+            [
+                "db_FieldName" => "wifi_updatedAt",
+                "db_ValueName" => ":updatedAt",
+                "db_realValue" => date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $ipCondition = [
+            "condition_FieldName" => "wifi_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $wifiID
+        ];
+
+        if ($this->updateData("wifi_directory", $ipData, $ipCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Dirección IP " . $ipDirection . " añadida exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo añadir la dirección IP.",
             ];
         }
         return json_encode($alert);

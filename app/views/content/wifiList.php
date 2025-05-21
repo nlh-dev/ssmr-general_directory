@@ -1,6 +1,7 @@
 <?php 
     require_once "./app/views/components/modals/addWifiPassword_Modal.php";
     require_once "./app/views/components/modals/showWifiPassword_Modal.php";
+    require_once "./app/views/components/modals/addIpDirection_Modal.php";
 ?>
 
 <!-- CONTENT GRIDS -->
@@ -28,7 +29,13 @@
             </div>
         </div>
 
-        <?php require_once "./app/views/components/tables/wifiListTable.php" ?>
+        <?php
+            use app\controllers\wifiController;
+            $wifiController = new wifiController();
+            
+            echo $wifiController -> wifiListController($url[1], 10, $url[0], "");
+        
+        ?>
 
     </div>
 </div>

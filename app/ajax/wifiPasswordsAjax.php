@@ -11,4 +11,13 @@
         if ($_POST['wifiModule'] == 'saveWifiPassword') {
             echo $wifiInstance -> saveWifiPasswordController();
         }
+
+        if ($_POST['wifiModule'] == 'updateWifiState') {
+            echo $wifiInstance -> updateWifiStateController();
+        }
+
+        if ($_POST['wifiModule'] == 'addIpDirection') {
+            echo $wifiInstance -> addIpDirectionController();
+        }
+
     }

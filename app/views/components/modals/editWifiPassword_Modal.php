@@ -214,15 +214,18 @@ $showLocationsData = $wifiController->getLocationsController();
                     .then(response => response.json())
                     .then(dataResponse => {
                         if (dataResponse.success) {
+
+                            if (document.querySelector('.modal-body #wifi_ID')) {
+                                document.querySelector('.modal-body #wifi_ID').value = dataResponse.data.wifi_ID;
+                            }
+                            
+                            document.querySelector('.modal-body  #SSID').value = dataResponse.data.wifi_SSID;
                             document.querySelector('.modal-body  #SSID').value = dataResponse.data.wifi_SSID;
                             document.querySelector('.modal-body #wifiPassword').value = dataResponse.data.wifi_password;
                             document.querySelector('.modal-body #ipDirection').value = dataResponse.data.wifi_ipDirection;
                             document.querySelector('.modal-body #locations').value = dataResponse.data.wifi_location_ID;
                             document.querySelector('.modal-body #departments').value = dataResponse.data.wifi_department_ID;
 
-                            if (document.querySelector('.modal-body #wifi_ID')) {
-                                document.querySelector('.modal-body #wifi_ID').value = dataResponse.data.wifi_ID;
-                            }
                         }
                     }).catch(err => {
                         console.error(err);

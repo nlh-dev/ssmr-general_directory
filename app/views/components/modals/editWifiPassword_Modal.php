@@ -29,7 +29,7 @@ $showLocationsData = $wifiController->getLocationsController();
             <form action="<?= $wifiAjaxRoutes['updatedWifiPassword'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
                 <input type="hidden" name="wifi_ID" id="wifi_ID" value="">
                 <input type="hidden" name="wifiModule" value="updateWifi">
-                <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
                         <label for="SSID" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -43,18 +43,18 @@ $showLocationsData = $wifiController->getLocationsController();
                     </div>
                     <div class="">
                         <div class="flex items-center justify-between">
-                                <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
-                                    <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
-                                    </svg>
-                                    Contraseña
+                            <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
+                                </svg>
+                                Contraseña
+                            </label>
+                            <div>
+                                <input id="wifiCheckbox" name="wifiCheckbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                                <label for="wifiCheckbox" class="ms-2 text-sm font-medium text-gray-900">
+                                    No Posee
                                 </label>
-                                <div>
-                                    <input id="wifiCheckbox" name="wifiCheckbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
-                                    <label for="wifiCheckbox" class="ms-2 text-sm font-medium text-gray-900">
-                                        No Posee
-                                    </label>
-                                </div>
+                            </div>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="wifiPassword" name="wifiPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contraseña....">
@@ -200,21 +200,28 @@ $showLocationsData = $wifiController->getLocationsController();
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[data-modal-target="editWifiPassword"]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
+        document.querySelectorAll('[data-modal-target="editWifiPassword"]').forEach(function(editWifiButton) {
+            editWifiButton.addEventListener('click', function() {
                 const wifiId = this.getAttribute('data-wifi-id');
-                fetch('<?= APP_URL?>app/ajax/wifiPasswordsAjax.php?wifiModule=getWifiData&wifi_ID=' + wifiId)
-                    .then(res => res.json())
-                    .then(res => {
-                        if (res.success) {
-                            document.getElementById('SSID').value = res.data.wifi_SSID;
-                            document.getElementById('wifiPassword').value = res.data.wifi_password;
-                            document.getElementById('ipDirection').value = res.data.wifi_ipDirection;
-                            document.getElementById('locations').value = res.data.wifi_location_ID;
-                            document.getElementById('departments').value = res.data.wifi_department_ID;
-                            // Si tienes un campo oculto para wifi_ID:
-                            if(document.getElementById('wifi_ID')) {
-                                document.getElementById('wifi_ID').value = res.data.wifi_ID;
+
+                let wifiURL = "<?= APP_URL ?>app/ajax/wifiPasswordsAjax.php?wifiModule=getWifiData&wifi_ID=" + wifiId;
+                let formData = new FormData();
+                formData.append('wifi_ID', wifiId);
+
+                fetch(wifiURL, {
+                        method: 'GET',
+                    })
+                    .then(response => response.json())
+                    .then(dataResponse => {
+                        if (dataResponse.success) {
+                            document.querySelector('.modal-body  #SSID').value = dataResponse.data.wifi_SSID;
+                            document.querySelector('.modal-body #wifiPassword').value = dataResponse.data.wifi_password;
+                            document.querySelector('.modal-body #ipDirection').value = dataResponse.data.wifi_ipDirection;
+                            document.querySelector('.modal-body #locations').value = dataResponse.data.wifi_location_ID;
+                            document.querySelector('.modal-body #departments').value = dataResponse.data.wifi_department_ID;
+
+                            if (document.querySelector('.modal-body #wifi_ID')) {
+                                document.querySelector('.modal-body #wifi_ID').value = dataResponse.data.wifi_ID;
                             }
                         }
                     }).catch(err => {

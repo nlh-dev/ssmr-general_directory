@@ -5,6 +5,11 @@ require_once "../../autoload.php";
 
 use app\controllers\wifiController;
 
+if (isset($_GET['wifiModule']) && $_GET['wifiModule'] == 'getWifiData') {
+    $wifiInstance = new wifiController();
+    echo $wifiInstance->getWifiDataController();
+    exit();
+}
 
 if (isset($_POST['wifiModule'])) {
     $wifiInstance = new wifiController();
@@ -28,10 +33,9 @@ if (isset($_POST['wifiModule'])) {
     if ($_POST['wifiModule'] == 'deleteWifiPassword') {
         echo $wifiInstance->deleteWifiPasswordController();
     }
+    
+    if ($_POST['wifiModule'] == 'updateWifi') {
+        echo $wifiInstance->updateWifiController();
+    }
 }
 
-if (isset($_GET['wifiModule']) && $_GET['wifiModule'] == 'getWifiData') {
-    $wifiInstance = new wifiController();
-    echo $wifiInstance->getWifiDataController();
-    exit();
-}

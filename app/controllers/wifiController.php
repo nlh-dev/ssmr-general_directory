@@ -362,6 +362,7 @@ class wifiController extends mainModel
     public function updateWifiController()
     {
         $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+
         $SSID = strtoupper($this->cleanRequest($_POST['SSID']));
         $locations = $this->cleanRequest($_POST['locations']);
         $departments = $this->cleanRequest($_POST['departments']);
@@ -375,34 +376,6 @@ class wifiController extends mainModel
                 "icon" => "warning",
                 "title" => "¡Error al Registrar!",
                 "text" => "¡Algunos campos se encuentran vacios!",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $checkSSID = $this->dbRequestExecute("SELECT wifi_SSID 
-        FROM wifi_directory
-        WHERE wifi_SSID = '$SSID'");
-        if ($checkSSID->rowCount() >= 1) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error al Registrar!",
-                "text" => "¡Este SSID ya fue Registrado!",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $checkIP = $this->dbRequestExecute("SELECT wifi_ipDirection 
-        FROM wifi_directory
-        WHERE wifi_ipDirection = '$ipDirection'");
-        if ($checkIP->rowCount() >= 1) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error al Registrar!",
-                "text" => "¡La Dirección IP " . $ipDirection . " ya fue Registrada!",
             ];
             return json_encode($alert);
             exit();

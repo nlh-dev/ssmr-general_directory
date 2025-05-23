@@ -134,6 +134,338 @@ class wifiController extends mainModel
         return json_encode($alert);
     }
 
+    public function updateWifiStateController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+
+        $wifiData = $this->dbRequestExecute("SELECT wifi_isEnable FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $wifiCurrentState = $wifiData->fetch()['wifi_isEnable'];
+        $wifiNewState = $wifiCurrentState ? 0 : 1;
+
+        $wifiStateData = [
+            [
+                "db_FieldName" => "wifi_isEnable",
+                "db_ValueName" => ":isEnable",
+                "db_realValue" => $wifiNewState
+            ],
+            [
+                "db_FieldName" => "wifi_updatedAt",
+                "db_ValueName" => ":updatedAt",
+                "db_realValue" => date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $wifiCondition = [
+            "condition_FieldName" => "wifi_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $wifiID
+        ];
+
+        if ($this->updateData("wifi_directory", $wifiStateData, $wifiCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Estado actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el estado.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function addIpDirectionController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+        $ipDirection = $this->cleanRequest($_POST['ipDirection']);
+
+        // Validar que el registro exista
+        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        if (empty($ipDirection)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error!",
+                "text" => "El Campo se encuentra Vacío.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        // Validar que la IP no esté repetida
+        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection'");
+        if ($ipCheck->rowCount() > 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error!",
+                "text" => "La dirección IP ya está asignada a otro registro.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        // Actualizar la IP
+        $ipData = [
+            [
+                "db_FieldName" => "wifi_ipDirection",
+                "db_ValueName" => ":ipDirection",
+                "db_realValue" => $ipDirection
+            ],
+            [
+                "db_FieldName" => "wifi_updatedAt",
+                "db_ValueName" => ":updatedAt",
+                "db_realValue" => date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $ipCondition = [
+            "condition_FieldName" => "wifi_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $wifiID
+        ];
+
+        if ($this->updateData("wifi_directory", $ipData, $ipCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Dirección IP " . $ipDirection . " añadida exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo añadir la dirección IP.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function showWifiPasswordController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+
+        $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error en la Consulta!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $rowWifi = $wifiData->fetch();
+        $wifiSSID = $rowWifi['wifi_SSID'];
+        $wifiPassword = $rowWifi['wifi_password'];
+
+        if (empty($wifiPassword)) {
+            $alert = [
+                "type" => "simple",
+                "title" => "Wifi Libre",
+                "text" => "Este Wifi es Libre, no posee contraseña.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "title" => "Contraseña de $wifiSSID",
+                "text" => "La contraseña es: $wifiPassword",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function deleteWifiPasswordController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+
+        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        if ($this->deleteData("wifi_directory", "wifi_ID", $wifiID)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Wifi eliminado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo eliminar el Wifi.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function getWifiDataController()
+    {
+        $wifiID = $this->cleanRequest($_GET['wifi_ID']);
+        $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+        $row = $wifiData->fetch(\PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'data' => $row]);
+        exit();
+    }
+
+    public function updateWifiController()
+    {
+        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
+        $SSID = strtoupper($this->cleanRequest($_POST['SSID']));
+        $locations = $this->cleanRequest($_POST['locations']);
+        $departments = $this->cleanRequest($_POST['departments']);
+        $wifiPassword = $this->cleanRequest($_POST['wifiPassword']);
+        $ipDirection = $this->cleanRequest($_POST['ipDirection']);
+
+        // Validaciones aquí...
+        if (empty($SSID) || empty($locations) || empty($departments)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡Algunos campos se encuentran vacios!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $checkSSID = $this->dbRequestExecute("SELECT wifi_SSID 
+        FROM wifi_directory
+        WHERE wifi_SSID = '$SSID'");
+        if ($checkSSID->rowCount() >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡Este SSID ya fue Registrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $checkIP = $this->dbRequestExecute("SELECT wifi_ipDirection 
+        FROM wifi_directory
+        WHERE wifi_ipDirection = '$ipDirection'");
+        if ($checkIP->rowCount() >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡La Dirección IP " . $ipDirection . " ya fue Registrada!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $wifiUpdateData = [
+            [
+                "db_FieldName" => "wifi_SSID",
+                "db_ValueName" => ":SSID",
+                "db_realValue" => $SSID
+            ],
+            [
+                "db_FieldName" => "wifi_password",
+                "db_ValueName" => ":password",
+                "db_realValue" => $wifiPassword
+            ],
+            [
+                "db_FieldName" => "wifi_ipDirection",
+                "db_ValueName" => ":ipDirection",
+                "db_realValue" => $ipDirection
+            ],
+            [
+                "db_FieldName" => "wifi_location_ID",
+                "db_ValueName" => ":locationID",
+                "db_realValue" => $locations
+            ],
+            [
+                "db_FieldName" => "wifi_department_ID",
+                "db_ValueName" => ":departmentID",
+                "db_realValue" => $departments
+            ],
+            [
+                "db_FieldName" => "wifi_updatedAt",
+                "db_ValueName" => ":updatedAt",
+                "db_realValue" => date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $wifiCondition = [
+            "condition_FieldName" => "wifi_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $wifiID
+        ];
+
+        if ($this->updateData("wifi_directory", $wifiUpdateData, $wifiCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Wifi actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el Wifi.",
+            ];
+        }
+        echo json_encode($alert);
+        exit();
+    }
+
     public function wifiListController($page, $register, $url, $search)
     {
 
@@ -302,18 +634,22 @@ class wifiController extends mainModel
                         <td class="items-center px-5 py-2 text-right whitespace-nowrap">
                             <div class="flex items-center space-x-1">
                                 <div class="flex items-center">
-                                    <button class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword" data-wifi-id="'. $rows['wifi_ID'] .'" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
                                     </button>
                                 </div>
                                 <div class="flex items-center">
+                                <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="wifiModule" value="deleteWifiPassword">
+                                    <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
                                     <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                         </svg>
                                     </button>
+                                    </form>
                                 </div>
                                 <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="wifiModule" value="updateWifiState">
@@ -377,141 +713,5 @@ class wifiController extends mainModel
             $table .= $this->paginationData($page, $numPages, $url, 1);
         }
         return $table;
-    }
-
-    public function updateWifiStateController()
-    {
-        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
-
-        $wifiData = $this->dbRequestExecute("SELECT wifi_isEnable FROM wifi_directory WHERE wifi_ID = '$wifiID'");
-        if ($wifiData->rowCount() <= 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "Wifi no encontrado!",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $wifiCurrentState = $wifiData->fetch()['wifi_isEnable'];
-        $wifiNewState = $wifiCurrentState ? 0 : 1;
-
-        $wifiStateData = [
-            [
-                "db_FieldName" => "wifi_isEnable",
-                "db_ValueName" => ":isEnable",
-                "db_realValue" => $wifiNewState
-            ],
-            [
-                "db_FieldName" => "wifi_updatedAt",
-                "db_ValueName" => ":updatedAt",
-                "db_realValue" => date('Y-m-d H:i:s')
-            ]
-        ];
-
-        $wifiCondition = [
-            "condition_FieldName" => "wifi_ID",
-            "condition_ValueName" => ":ID",
-            "condition_realValue" => $wifiID
-        ];
-
-        if ($this->updateData("wifi_directory", $wifiStateData, $wifiCondition)) {
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Estado actualizado exitosamente.",
-            ];
-        } else {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "No se pudo actualizar el estado.",
-            ];
-        }
-        return json_encode($alert);
-    }
-
-    public function addIpDirectionController()
-    {
-        $wifiID = $this->cleanRequest($_POST['wifi_ID']);
-        $ipDirection = $this->cleanRequest($_POST['ipDirection']);
-
-        // Validar que el registro exista
-        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
-        if ($wifiData->rowCount() <= 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "Registro no encontrado.",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        if (empty($ipDirection)) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error!",
-                "text" => "El Campo se encuentra Vacío.",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        // Validar que la IP no esté repetida
-        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection'");
-        if ($ipCheck->rowCount() > 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error!",
-                "text" => "La dirección IP ya está asignada a otro registro.",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        // Actualizar la IP
-        $ipData = [
-            [
-                "db_FieldName" => "wifi_ipDirection",
-                "db_ValueName" => ":ipDirection",
-                "db_realValue" => $ipDirection
-            ],
-            [
-                "db_FieldName" => "wifi_updatedAt",
-                "db_ValueName" => ":updatedAt",
-                "db_realValue" => date('Y-m-d H:i:s')
-            ]
-        ];
-
-        $ipCondition = [
-            "condition_FieldName" => "wifi_ID",
-            "condition_ValueName" => ":ID",
-            "condition_realValue" => $wifiID
-        ];
-
-        if ($this->updateData("wifi_directory", $ipData, $ipCondition)) {
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Dirección IP " . $ipDirection . " añadida exitosamente.",
-            ];
-        } else {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "No se pudo añadir la dirección IP.",
-            ];
-        }
-        return json_encode($alert);
     }
 }

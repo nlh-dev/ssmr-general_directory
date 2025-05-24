@@ -359,17 +359,27 @@ class wifiController extends mainModel
         exit();
     }
 
-    public function updateWifiController()
-    {
+    public function updateWifiController(){
         $wifiID = $this->cleanRequest($_POST['wifi_ID']);
 
+        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        if ($wifiData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Wifi no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+        
         $SSID = strtoupper($this->cleanRequest($_POST['SSID']));
         $locations = $this->cleanRequest($_POST['locations']);
         $departments = $this->cleanRequest($_POST['departments']);
         $wifiPassword = $this->cleanRequest($_POST['wifiPassword']);
         $ipDirection = $this->cleanRequest($_POST['ipDirection']);
 
-        // Validaciones aquí...
         if (empty($SSID) || empty($locations) || empty($departments)) {
             $alert = [
                 "type" => "simple",
@@ -419,6 +429,7 @@ class wifiController extends mainModel
             "condition_ValueName" => ":ID",
             "condition_realValue" => $wifiID
         ];
+
 
         if ($this->updateData("wifi_directory", $wifiUpdateData, $wifiCondition)) {
             $alert = [
@@ -607,7 +618,7 @@ class wifiController extends mainModel
                         <td class="items-center px-5 py-2 text-right whitespace-nowrap">
                             <div class="flex items-center space-x-1">
                                 <div class="flex items-center">
-                                    <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword" data-wifi-id="'. $rows['wifi_ID'] .'" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword" data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>

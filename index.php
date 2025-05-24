@@ -22,6 +22,9 @@
 
 <?php
     use app\controllers\viewsController;
+    use app\controllers\wifiController;
+
+    $instaceWifi = new wifiController();
 
     $viewsController = new viewsController();
     $obtainViews = $viewsController -> obtainViewsController($url[0]);

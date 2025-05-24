@@ -203,6 +203,8 @@ $showLocationsData = $wifiController->getLocationsController();
         document.querySelectorAll('[data-modal-target="editWifiPassword"]').forEach(function(editWifiButton) {
             editWifiButton.addEventListener('click', function() {
                 const wifiId = this.getAttribute('data-wifi-id');
+                
+                document.getElementById('wifi_ID').value = wifiId;
 
                 let wifiURL = "<?= APP_URL ?>app/ajax/wifiPasswordsAjax.php?wifiModule=getWifiData&wifi_ID=" + wifiId;
                 let formData = new FormData();
@@ -213,12 +215,12 @@ $showLocationsData = $wifiController->getLocationsController();
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
-                            document.querySelectorAll('.modal-body #wifi_ID').value = dataResponse.data.wifi_ID;
-                            document.querySelector('.modal-body  #SSID').value = dataResponse.data.wifi_SSID;
-                            document.querySelector('.modal-body #wifiPassword').value = dataResponse.data.wifi_password;
-                            document.querySelector('.modal-body #ipDirection').value = dataResponse.data.wifi_ipDirection;
-                            document.querySelector('.modal-body #locations').value = dataResponse.data.wifi_location_ID;
-                            document.querySelector('.modal-body #departments').value = dataResponse.data.wifi_department_ID;
+                        document.querySelectorAll('.modal-body #wifi_ID').value = dataResponse.data.wifi_ID;
+                        document.querySelector('.modal-body  #SSID').value = dataResponse.data.wifi_SSID;
+                        document.querySelector('.modal-body #wifiPassword').value = dataResponse.data.wifi_password;
+                        document.querySelector('.modal-body #ipDirection').value = dataResponse.data.wifi_ipDirection;
+                        document.querySelector('.modal-body #locations').value = dataResponse.data.wifi_location_ID;
+                        document.querySelector('.modal-body #departments').value = dataResponse.data.wifi_department_ID;
 
                     }).catch(err => {
                         console.error(err);

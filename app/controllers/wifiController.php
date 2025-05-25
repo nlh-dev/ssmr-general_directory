@@ -502,7 +502,7 @@ class wifiController extends mainModel
         OR wifi_updatedAt LIKE '%$search%'
         OR wifi_isEnable LIKE '%$search%'
         ORDER BY wifi_SSID
-        DESC LIMIT $start,$register";
+        ASC LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(wifi_ID) FROM wifi_directory 
         JOIN locations ON wifi_directory.wifi_location_ID = locations.location_ID 

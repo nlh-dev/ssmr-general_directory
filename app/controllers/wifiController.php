@@ -391,6 +391,31 @@ class wifiController extends mainModel
             exit();
         }
 
+        $checkSSID = $this->dbRequestExecute("SELECT wifi_SSID 
+        FROM wifi_directory WHERE wifi_SSID = '$SSID' AND wifi_ID != '$wifiID'");
+        if ($checkSSID->rowCount() >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡Este SSID ya fue Registrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $checkIPDirection = $this -> dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
+        if ($checkIPDirection->rowCount() >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡La dirección IP ya fue Registrada!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
         $wifiUpdateData = [
             [
                 "db_FieldName" => "wifi_SSID",
@@ -500,7 +525,7 @@ class wifiController extends mainModel
         $numPages = ceil($total / $register);
 
         $table .= '<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-900 text-white">
                                     <tr class="">
                                         <th scope="col" class="px-5 py-3">
@@ -533,7 +558,7 @@ class wifiController extends mainModel
             $startPage = $start + 1;
             foreach ($data as $rows) {
                 $table .= '
-                    <tr class="bg-white text-gray-800 border-gray-200 hover:bg-gray-200 transition duration-100">
+                    <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
                         <td scope="row" class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
                             <p class="text-xs">

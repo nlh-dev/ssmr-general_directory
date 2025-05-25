@@ -5,10 +5,18 @@ use app\controllers\wifiController;
 $wifiController = new wifiController();
 $showDepartmentsData = $wifiController->getDepartmentsController();
 $showLocationsData = $wifiController->getLocationsController();
+
+$departmentsByLocation = [];
+foreach ($showDepartmentsData as $dep) {
+    $departmentsByLocation[$dep['department_ID']] = [
+        'name' => $dep['department_name'],
+        'location_ID' => $dep['department_location_ID']
+    ];
+}
 ?>
 
 <!-- Large Modal -->
-<div id="addWifiPassword" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
+<div id="addWifiPassword" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-4xl max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
@@ -42,18 +50,18 @@ $showLocationsData = $wifiController->getLocationsController();
                     </div>
                     <div class="">
                         <div class="flex items-center justify-between">
-                                <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
-                                    <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
-                                    </svg>
-                                    Contraseña
+                            <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
+                                </svg>
+                                Contraseña
+                            </label>
+                            <div>
+                                <input id="wifiCheckbox" name="wifiCheckbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                                <label for="wifiCheckbox" class="ms-2 text-sm font-medium text-gray-900">
+                                    No Posee
                                 </label>
-                                <div>
-                                    <input id="wifiCheckbox" name="wifiCheckbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
-                                    <label for="wifiCheckbox" class="ms-2 text-sm font-medium text-gray-900">
-                                        No Posee
-                                    </label>
-                                </div>
+                            </div>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="wifiPassword" name="wifiPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contraseña....">
@@ -125,52 +133,6 @@ $showLocationsData = $wifiController->getLocationsController();
             </form>
         </div>
     </div>
-
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const locationSelect = document.getElementById('locationSelect');
-            const departmentSelect = document.getElementById('departmentSelect');
-
-            locationSelect.addEventListener('change', function() {
-                const locationId = this.value;
-
-                // Limpiar el selector de departamentos
-                departmentSelect.innerHTML = '<option selected>Cargando departamentos...</option>';
-
-                if (locationId) {
-                    // Realizar la petición AJAX
-                    fetch("./app/ajax/departmentsByLocation.php?location_id=" + locationId)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la respuesta del servidor');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Actualizar el selector de departamentos
-                            departmentSelect.innerHTML = '<option selected value="">Seleccione....</option>';
-
-                            if (data.length > 0) {
-                                data.forEach(departments => {
-                                    const option = document.createElement('option');
-                                    option.value = departments.department_ID;
-                                    option.textContent = departments.department_name;
-                                    departmentSelect.appendChild(option);
-                                });
-                            } else {
-                                departmentSelect.innerHTML = '<option selected value="">No hay departamentos para esta ubicación</option>';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            departmentSelect.innerHTML = '<option selected value="">Error al cargar departamentos</option>';
-                        });
-                } else {
-                    departmentSelect.innerHTML = '<option selected value="">Seleccione una ubicación primero</option>';
-                }
-            });
-        });
-    </script> -->
 </div>
 
 <script>
@@ -195,6 +157,71 @@ $showLocationsData = $wifiController->getLocationsController();
                 wifiPasswordInput.classList.add('focus:border-blue-500');
                 wifiPasswordInput.classList.add('bg-gray-50');
             }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Selecciona el botón de cerrar/cancelar del modal
+        document.querySelectorAll('[data-modal-hide="addWifiPassword"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                clearAddWifiPasswordModal();
+            });
+        });
+
+        // También puedes limpiar al abrir el modal si lo deseas
+        document.querySelectorAll('[data-modal-target="addWifiPassword"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                clearAddWifiPasswordModal();
+            });
+        });
+
+        function clearAddWifiPasswordModal() {
+            const form = document.querySelector('#addWifiPassword form');
+            if (!form) return;
+            form.reset();
+
+            // Si tienes selects personalizados, restáuralos manualmente
+            form.querySelectorAll('select').forEach(function(select) {
+                select.selectedIndex = 0;
+            });
+
+            // Limpia estilos y clases de los inputs
+            const wifiPasswordInput = form.querySelector('#wifiPassword');
+            if (wifiPasswordInput) {
+                wifiPasswordInput.classList.remove('cursor-not-allowed', 'bg-gray-200');
+                wifiPasswordInput.classList.add('focus:ring-blue-500', 'focus:border-blue-500', 'bg-gray-50');
+                wifiPasswordInput.readOnly = false;
+                wifiPasswordInput.disabled = false;
+            }
+            const wifiCheckbox = form.querySelector('#wifiCheckbox');
+            if (wifiCheckbox) {
+                wifiCheckbox.checked = false;
+            }
+        }
+    });
+
+    // Relación departamentos-ubicaciones desde PHP
+    const departmentsByLocation = <?= json_encode($departmentsByLocation) ?>;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const locationsSelect = document.getElementById('locations');
+        const departmentsSelect = document.getElementById('departments');
+
+        locationsSelect.addEventListener('change', function() {
+            const selectedLocation = this.value;
+            departmentsSelect.innerHTML = '<option value="">Cargando Departamentos...</option>';
+
+            setTimeout(() => {
+                departmentsSelect.innerHTML = '<option value="">Seleccione....</option>';
+                Object.entries(departmentsByLocation).forEach(([id, dep]) => {
+                    if (dep.location_ID == selectedLocation) {
+                        const option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = dep.name;
+                        departmentsSelect.appendChild(option);
+                    }
+                });
+            }, 400);
         });
     });
 </script>

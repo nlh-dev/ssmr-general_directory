@@ -127,51 +127,6 @@ $showLocationsData = $wifiController->getLocationsController();
         </div>
     </div>
 
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const locationSelect = document.getElementById('locationSelect');
-            const departmentSelect = document.getElementById('departmentSelect');
-
-            locationSelect.addEventListener('change', function() {
-                const locationId = this.value;
-
-                // Limpiar el selector de departamentos
-                departmentSelect.innerHTML = '<option selected>Cargando departamentos...</option>';
-
-                if (locationId) {
-                    // Realizar la petición AJAX
-                    fetch("./app/ajax/departmentsByLocation.php?location_id=" + locationId)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la respuesta del servidor');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Actualizar el selector de departamentos
-                            departmentSelect.innerHTML = '<option selected value="">Seleccione....</option>';
-
-                            if (data.length > 0) {
-                                data.forEach(departments => {
-                                    const option = document.createElement('option');
-                                    option.value = departments.department_ID;
-                                    option.textContent = departments.department_name;
-                                    departmentSelect.appendChild(option);
-                                });
-                            } else {
-                                departmentSelect.innerHTML = '<option selected value="">No hay departamentos para esta ubicación</option>';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            departmentSelect.innerHTML = '<option selected value="">Error al cargar departamentos</option>';
-                        });
-                } else {
-                    departmentSelect.innerHTML = '<option selected value="">Seleccione una ubicación primero</option>';
-                }
-            });
-        });
-    </script> -->
 </div>
 
 <script>
@@ -203,7 +158,6 @@ $showLocationsData = $wifiController->getLocationsController();
         document.querySelectorAll('[data-modal-target="editWifiPassword"]').forEach(function(editWifiButton) {
             editWifiButton.addEventListener('click', function() {
                 const wifiId = this.getAttribute('data-wifi-id');
-                
                 document.getElementById('wifi_ID').value = wifiId;
 
                 let wifiURL = "<?= APP_URL ?>app/ajax/wifiPasswordsAjax.php?wifiModule=getWifiData&wifi_ID=" + wifiId;

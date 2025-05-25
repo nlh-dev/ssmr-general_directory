@@ -69,7 +69,7 @@
         <ul class="space-y-2 font-medium">
             <!-- INICIO -->
             <li class="">
-                <a href="<?= $routes['dashboard'] ?>/" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 transition duration-100">
+                <a href="<?= $routes['dashboard'] ?>" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 transition duration-100">
                     <svg class="shrink-0 w-6 h-6 transition duration-75 text-gray-400 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#home" />
                     </svg>

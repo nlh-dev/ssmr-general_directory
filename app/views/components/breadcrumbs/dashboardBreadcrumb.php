@@ -12,5 +12,8 @@
             </div>
         </li>
         <span class="mx-2 text-gray-400">/</span>
+        <p class="px-3 text-md font-medium text-gray-400">
+            Menu Principal
+        </p>
     </ol>
 </nav>

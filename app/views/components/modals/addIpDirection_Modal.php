@@ -18,7 +18,7 @@
                 </div>
             </div>
             <!-- Modal body -->
-            <form action="<?= $wifiAjaxRoutes['saveWifiPassword'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
+            <form action="<?= $AjaxRoutes['wifiPasswords'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
                 <input type="hidden" name="wifiModule" id="wifiModule" value="addIpDirection">
                 <input type="hidden" name="wifi_ID" id="wifi_ID" value="">
                 <div class="p-4 bg-white grid grid-cols-1 gap-5">

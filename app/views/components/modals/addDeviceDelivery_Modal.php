@@ -17,7 +17,7 @@ foreach ($showDepartmentsData as $dep) {
 ?>
 
 <!-- Large Modal -->
-<div id="addWifiPassword" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
+<div id="addDeviceDelivery" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-4xl max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
@@ -25,9 +25,9 @@ foreach ($showDepartmentsData as $dep) {
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
                 <h3 class="text-xl font-medium text-white">
-                    Añadir Contraseña
+                    Añadir Entrega
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="addWifiPassword">
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="addDeviceDelivery">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
@@ -35,42 +35,53 @@ foreach ($showDepartmentsData as $dep) {
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="<?= $AjaxRoutes['wifiPasswords'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
-                <input type="hidden" name="wifiModule" id="wifiModule" value="saveWifiPassword">
+            <form action="<?= $AjaxRoutes['deliveryDevices']?>" class="AjaxForm" method="POST" autocomplete="OFF">
+                <input type="hidden" name="deviceModule" id="deviceModule" value="addDeviceDelivery">
                 <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
-                        <label for="SSID" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="recievedByName" class="flex items-center block text-sm font-medium text-gray-900">
+                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
+                            </svg>
+                            Recibido por:
+                        </label>
+                        <div class="relative my-2">
+                            <input type="text" id="recievedByName" name="recievedByName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Recibido por....">
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="deviceDescription" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
                             </svg>
-                            SSID
+                            Descripción de Dispositivo
                         </label>
                         <div class="relative my-2">
-                            <input type="text" id="SSID" name="SSID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="SSID....">
+                            <input type="text" id="deviceDescription" name="deviceDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dispositivo....">
                         </div>
                     </div>
                     <div class="">
                         <div class="flex items-center justify-between">
-                            <label for="wifiPassword" class="flex items-center block text-sm font-medium text-gray-900">
+                            <label for="serialCode" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#qrCode" />
                                 </svg>
-                                Contraseña
+                                Número de Serial
                             </label>
                         </div>
                         <div class="relative my-2">
-                            <input type="text" id="wifiPassword" name="wifiPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contraseña....">
+                            <input type="text" id="serialCode" name="serialCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Serial....">
                         </div>
                     </div>
                     <div class="">
-                        <label for="ipDirection" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="deliveryDate" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                             </svg>
-                            Dirección IP
+                            Fecha de Entrega
                         </label>
                         <div class="relative my-2">
-                            <input type="text" id="ipDirection" name="ipDirection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dirección IP....">
+                            <input type="date" id="deliveryDate" name="deliveryDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
                     </div>
                     <div class="">
@@ -109,10 +120,21 @@ foreach ($showDepartmentsData as $dep) {
                             </select>
                         </div>
                     </div>
+                    <div class="">
+                        <label for="roomCode" class="flex items-center block text-sm font-medium text-gray-900">
+                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bed" />
+                            </svg>
+                            Número de Habitación
+                        </label>
+                        <div class="relative my-2">
+                            <input type="text" id="roomCode" name="roomCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Número de Habitación....">
+                        </div>
+                    </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
-                    <button data-modal-hide="addWifiPassword" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
+                    <button data-modal-hide="addDeviceDelivery" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
                         <svg class="w-5 h-5 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -133,21 +155,21 @@ foreach ($showDepartmentsData as $dep) {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Selecciona el botón de cerrar/cancelar del modal
-        document.querySelectorAll('[data-modal-hide="addWifiPassword"]').forEach(function(btn) {
+        document.querySelectorAll('[data-modal-hide="addDeviceDelivery"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 clearModal();
             });
         });
 
         // También puedes limpiar al abrir el modal si lo deseas
-        document.querySelectorAll('[data-modal-target="addWifiPassword"]').forEach(function(btn) {
+        document.querySelectorAll('[data-modal-target="addDeviceDelivery"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 clearModal();
             });
         });
 
         function clearModal() {
-            const form = document.querySelector('#addWifiPassword form');
+            const form = document.querySelector('#addDeviceDelivery form');
             if (!form) return;
             form.reset();
 

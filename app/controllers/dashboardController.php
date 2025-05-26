@@ -15,6 +15,17 @@
             }
             return $totalRegisters;
         }
+
+        public function countDevicesDeliveredController(){
+            $totalRegisters = 0;
+            try {
+                $dbCountRequest = $this->dbRequestExecute("SELECT COUNT(*) as total FROM devices WHERE device_isDelivered = 1");
+                $totalRegisters = $dbCountRequest->fetchColumn();
+            } catch (Exception $e) {
+                $totalRegisters = 0;
+            }
+            return $totalRegisters;
+        }
     }
 
 ?>

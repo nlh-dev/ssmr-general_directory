@@ -4,6 +4,7 @@ use app\controllers\dashboardController;
 
 $dashboardController = new dashboardController();
 $totalWifiRegisters = $dashboardController->countWifiRegistersController();
+$totalDevicesDelivered = $dashboardController->countDevicesDeliveredController();
 
 $dashboardModules = [
    [
@@ -25,24 +26,24 @@ $dashboardModules = [
       'cards' => [
          [
             'title' => 'Control de Entrega',
-            'subtitle' => '(X) Equipos Entregados',
+            'subtitle' => "$totalDevicesDelivered Entrega(s)",
             'description' => 'Ver Dispositivos Entregados',
-            'icon' => 'clipBoard',
-            'link' => '#',
+            'icon' => 'adjustments',
+            'link' => $routes['deviceDeliveryList'],
          ],
          [
             'title' => 'Historial',
             'subtitle' => '(X) Registro(s)',
             'description' => 'Ver Historial de Entrega',
-            'icon' => 'clipBoard',
-            'link' => '#',
+            'icon' => 'book',
+            'link' => $routes['deviceHistoryList'],
          ],
          [
             'title' => 'Observaciones',
             'subtitle' => '(X) Observaciones',
             'description' => 'Ver Observaciones',
-            'icon' => 'clipBoard',
-            'link' => '#',
+            'icon' => 'floppyDisk',
+            'link' => $routes['deviceObservationsList'],
          ],
       ]
    ]

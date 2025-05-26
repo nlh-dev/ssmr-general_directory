@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-05-2025 a las 20:46:33
+-- Tiempo de generación: 26-05-2025 a las 18:31:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,6 +43,36 @@ CREATE TABLE `departments` (
 INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAt`, `department_updatedAt`, `department_isEnable`) VALUES
 (1, 'Oftalmologia', 2, '2025-05-16 18:19:48', '2025-05-16 18:19:48', 1),
 (2, 'Laboratorio', 1, '2025-05-16 18:19:48', '2025-05-16 18:19:48', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `devices`
+--
+
+CREATE TABLE `devices` (
+  `device_ID` int(20) NOT NULL,
+  `device_deliveryUser_ID` int(10) NOT NULL,
+  `device_recievedByName` text NOT NULL,
+  `device_description` varchar(50) NOT NULL,
+  `device_serialCode` varchar(50) NOT NULL,
+  `device_deliveryDate` date NOT NULL,
+  `device_deliveryTime` time NOT NULL,
+  `device_location_ID` int(10) NOT NULL,
+  `device_department_ID` int(10) NOT NULL,
+  `device_roomCode` varchar(50) NOT NULL,
+  `device_withdrawDate` date NOT NULL,
+  `device_withdrawTime` time NOT NULL,
+  `device_withdrawUser_ID` int(10) NOT NULL,
+  `device_isDelivered` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `devices`
+--
+
+INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedByName`, `device_description`, `device_serialCode`, `device_deliveryDate`, `device_deliveryTime`, `device_location_ID`, `device_department_ID`, `device_roomCode`, `device_withdrawDate`, `device_withdrawTime`, `device_withdrawUser_ID`, `device_isDelivered`) VALUES
+(1, 1, 'DANNY MORAN', 'CONTROL SAMSUNG', 'HM-2-302', '2025-05-26', '11:58:46', 1, 2, 'a-306', '0000-00-00', '00:00:00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -92,12 +122,21 @@ CREATE TABLE `wifi_directory` (
   `wifi_ID` int(11) NOT NULL,
   `wifi_SSID` varchar(100) NOT NULL,
   `wifi_password` varchar(100) NOT NULL,
+  `wifi_ipDirection` varchar(20) NOT NULL,
   `wifi_location_ID` int(11) NOT NULL,
   `wifi_department_ID` int(11) NOT NULL,
   `wifi_createdAt` datetime NOT NULL,
   `wifi_updatedAt` datetime NOT NULL,
   `wifi_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `wifi_directory`
+--
+
+INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
+(7, 'WIFI_PB', '', '192.168.10.163', 1, 1, '2025-05-23 15:26:09', '2025-05-26 10:59:05', 1),
+(8, 'INFORMATICA', 'AIT991.INFOR', '192.168.10.52', 1, 1, '2025-05-23 17:00:12', '2025-05-26 11:29:27', 1);
 
 --
 -- Índices para tablas volcadas
@@ -109,6 +148,14 @@ CREATE TABLE `wifi_directory` (
 ALTER TABLE `departments`
   ADD PRIMARY KEY (`department_ID`),
   ADD KEY `department_location_ID` (`department_location_ID`);
+
+--
+-- Indices de la tabla `devices`
+--
+ALTER TABLE `devices`
+  ADD PRIMARY KEY (`device_ID`),
+  ADD KEY `device_location_ID` (`device_location_ID`,`device_department_ID`),
+  ADD KEY `device_department_ID` (`device_department_ID`);
 
 --
 -- Indices de la tabla `locations`
@@ -126,6 +173,7 @@ ALTER TABLE `users`
 -- Indices de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
+  ADD PRIMARY KEY (`wifi_ID`),
   ADD KEY `wifi_location_ID` (`wifi_location_ID`,`wifi_department_ID`),
   ADD KEY `wifi_department_ID` (`wifi_department_ID`);
 
@@ -140,6 +188,12 @@ ALTER TABLE `departments`
   MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `devices`
+--
+ALTER TABLE `devices`
+  MODIFY `device_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
@@ -152,6 +206,12 @@ ALTER TABLE `users`
   MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `wifi_directory`
+--
+ALTER TABLE `wifi_directory`
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -160,6 +220,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `departments`
   ADD CONSTRAINT `departments_ibfk_1` FOREIGN KEY (`department_location_ID`) REFERENCES `locations` (`location_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `devices`
+--
+ALTER TABLE `devices`
+  ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`device_department_ID`) REFERENCES `departments` (`department_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_location_ID`) REFERENCES `locations` (`location_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `wifi_directory`

@@ -7,11 +7,12 @@ $totalWifiRegisters = $dashboardController->countWifiRegistersController();
 
 $dashboardModules = [
    [
-      'section' => 'Modulo: Contraseñas',
+      'section' => 'Contraseñas',
+      'sectionIcon' => 'lockFile',
       'cards' => [
          [
             'title' => 'Directorio',
-            'subtitle' => "Total: {$totalWifiRegisters} Registros",
+            'subtitle' => "$totalWifiRegisters Registro(s)",
             'description' => 'Ver Directorio de Contraseñas',
             'icon' => 'lockFile',
             'link' => $routes['wifiList'],
@@ -19,25 +20,26 @@ $dashboardModules = [
       ]
    ],
    [
-      'section' => 'Modulo: Dispositivos',
+      'section' => 'Dispositivos',
+      'sectionIcon' => 'clipBoard',
       'cards' => [
          [
             'title' => 'Control de Entrega',
-            'subtitle' => 'Total: (X) Registros',
+            'subtitle' => '(X) Equipos Entregados',
             'description' => 'Ver Dispositivos Entregados',
             'icon' => 'clipBoard',
             'link' => '#',
          ],
          [
             'title' => 'Historial',
-            'subtitle' => 'Total: (X) Registros',
+            'subtitle' => '(X) Registro(s)',
             'description' => 'Ver Historial de Entrega',
             'icon' => 'clipBoard',
             'link' => '#',
          ],
          [
             'title' => 'Observaciones',
-            'subtitle' => 'Total: (X) Registros',
+            'subtitle' => '(X) Observaciones',
             'description' => 'Ver Observaciones',
             'icon' => 'clipBoard',
             'link' => '#',
@@ -56,7 +58,12 @@ $dashboardModules = [
       <div class="grid grid-cols-1 gap-5">
          <?php foreach ($dashboardModules as $module): ?>
             <div class="rounded-lg border border-gray-300 bg-white p-4">
-               <h1 class="mb-2 font-bold text-gray-500"><?= $module['section'] ?></h1>
+               <div class="flex items-center mb-4">
+                  <svg class="w-6 h-6 text-gray-500 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#<?= $module['sectionIcon'] ?>" />
+                  </svg>
+                  <h1 class="font-bold text-gray-500"><?= $module['section'] ?></h1>
+               </div>
                <div class="grid lg:grid-cols-3 xl:grid-cols-3 gap-5">
                   <?php foreach ($module['cards'] as $card): ?>
                      <a href="<?= $card['link'] ?>">

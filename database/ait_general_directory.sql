@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-05-2025 a las 18:31:59
+-- Tiempo de generación: 27-05-2025 a las 21:33:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -63,7 +63,7 @@ CREATE TABLE `devices` (
   `device_roomCode` varchar(50) NOT NULL,
   `device_withdrawDate` date NOT NULL,
   `device_withdrawTime` time NOT NULL,
-  `device_withdrawUser_ID` int(10) NOT NULL,
+  `device_withdrawUser_ID` int(11) NOT NULL,
   `device_isDelivered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -72,7 +72,7 @@ CREATE TABLE `devices` (
 --
 
 INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedByName`, `device_description`, `device_serialCode`, `device_deliveryDate`, `device_deliveryTime`, `device_location_ID`, `device_department_ID`, `device_roomCode`, `device_withdrawDate`, `device_withdrawTime`, `device_withdrawUser_ID`, `device_isDelivered`) VALUES
-(1, 1, 'DANNY MORAN', 'CONTROL SAMSUNG', 'HM-2-302', '2025-05-26', '11:58:46', 1, 2, 'a-306', '0000-00-00', '00:00:00', 0, 1);
+(2, 1, 'HECTOR NAVARRO', 'CONTROL SAMSUNG', 'HM-2-306', '2025-05-27', '14:19:32', 1, 2, '', '0000-00-00', '00:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -107,9 +107,27 @@ CREATE TABLE `users` (
   `user_fullName` varchar(50) NOT NULL,
   `user_userName` text NOT NULL,
   `user_password` varchar(50) NOT NULL,
-  `user_role_ID` datetime NOT NULL,
+  `user_role_ID` int(11) NOT NULL,
   `user_createdAt` datetime NOT NULL,
   `user_updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`user_ID`, `user_fullName`, `user_userName`, `user_password`, `user_role_ID`, `user_createdAt`, `user_updatedAt`) VALUES
+(1, 'Hector Navarro', 'hectorlnavarro', 'h789123000', 1, '2025-05-27 19:51:45', '2025-05-27 19:51:45');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `userRole_ID` int(11) NOT NULL,
+  `userRole_name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -135,8 +153,7 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(7, 'WIFI_PB', '', '192.168.10.163', 1, 1, '2025-05-23 15:26:09', '2025-05-26 10:59:05', 1),
-(8, 'INFORMATICA', 'AIT991.INFOR', '192.168.10.52', 1, 1, '2025-05-23 17:00:12', '2025-05-26 11:29:27', 1);
+(1, 'INFORMATICA', '', '', 1, 2, '2025-05-27 13:50:29', '2025-05-27 13:50:29', 1);
 
 --
 -- Índices para tablas volcadas
@@ -155,7 +172,9 @@ ALTER TABLE `departments`
 ALTER TABLE `devices`
   ADD PRIMARY KEY (`device_ID`),
   ADD KEY `device_location_ID` (`device_location_ID`,`device_department_ID`),
-  ADD KEY `device_department_ID` (`device_department_ID`);
+  ADD KEY `device_department_ID` (`device_department_ID`),
+  ADD KEY `device_deliveryUser_ID` (`device_deliveryUser_ID`),
+  ADD KEY `device_withdrawUser_ID` (`device_withdrawUser_ID`);
 
 --
 -- Indices de la tabla `locations`
@@ -168,6 +187,12 @@ ALTER TABLE `locations`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_ID`);
+
+--
+-- Indices de la tabla `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`userRole_ID`);
 
 --
 -- Indices de la tabla `wifi_directory`
@@ -191,7 +216,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT de la tabla `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `device_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `device_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `locations`
@@ -203,13 +228,19 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `user_roles`
+--
+ALTER TABLE `user_roles`
+  MODIFY `userRole_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
-  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -226,7 +257,9 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `devices`
   ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`device_department_ID`) REFERENCES `departments` (`department_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_location_ID`) REFERENCES `locations` (`location_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_location_ID`) REFERENCES `locations` (`location_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `devices_ibfk_3` FOREIGN KEY (`device_deliveryUser_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `devices_ibfk_4` FOREIGN KEY (`device_withdrawUser_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `wifi_directory`

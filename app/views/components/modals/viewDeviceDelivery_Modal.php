@@ -9,7 +9,7 @@
                     <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
                     <div class="flex flex-col">
                         <h3 class="text-xl font-medium text-white">
-                            Información del Dispositivo Entregado
+                            Información del Dispositivo
                         </h3>
                         <div class="flex items-center">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>

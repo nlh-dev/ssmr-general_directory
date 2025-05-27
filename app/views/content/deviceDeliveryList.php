@@ -1,6 +1,9 @@
 <?php
 
-    require_once "./app/views/components/modals/addDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/addDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/viewDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/editDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/withdrawDeliveredDevice_Modal.php";
 
 ?>
 
@@ -29,7 +32,15 @@
             </div>
         </div>
 
-        <?php require_once"./app/views/components/tables/deliveredDevicesTable.php";?>
+        <?php
+
+        use app\controllers\devicesController;
+
+        $deviceController = new devicesController();
+
+        echo $deviceController->deliveredDevicesListController($url[1], 10, $url[0], "");
+
+        ?>
 
     </div>
 </div>

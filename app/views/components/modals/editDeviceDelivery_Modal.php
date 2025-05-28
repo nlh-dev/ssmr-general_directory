@@ -5,15 +5,6 @@ use app\controllers\mainController;
 $mainController = new mainController();
 $showDepartmentsData = $mainController->getDepartmentsController();
 $showLocationsData = $mainController->getLocationsController();
-
-
-// $departmentsByLocation = [];
-// foreach ($showDepartmentsData as $dep) {
-//     $departmentsByLocation[$dep['department_ID']] = [
-//         'name' => $dep['department_name'],
-//         'location_ID' => $dep['department_location_ID']
-//     ];
-// }
 ?>
 
 <!-- Large Modal -->
@@ -35,9 +26,10 @@ $showLocationsData = $mainController->getLocationsController();
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="<?= $AjaxRoutes['deliveryDevices']?>" class="AjaxForm" method="POST" autocomplete="OFF">
-                <input type="hidden" name="deviceModule" id="deviceModule" value="editDeliveredDevices">
-                <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
+            <form action="<?= $AjaxRoutes['deliveryDevices'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
+                <input type="hidden" name="deviceModule" id="deviceModule" value="updateDeliveredDevices">
+                <input type="hidden" name="device_ID" id="device_ID" value="">
+                <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
                         <label for="recievedByName" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -161,60 +153,63 @@ $showLocationsData = $mainController->getLocationsController();
             });
         });
 
-        // También puedes limpiar al abrir el modal si lo deseas
-        document.querySelectorAll('[data-modal-target="editDeliveredDevices"]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                clearModal();
-            });
-        });
-
         function clearModal() {
             const form = document.querySelector('#editDeliveredDevices form');
             if (!form) return;
             form.reset();
-
-            // Si tienes selects personalizados, restáuralos manualmente
-            form.querySelectorAll('select').forEach(function(select) {
-                select.selectedIndex = 0;
-            });
-
-            // Limpia estilos y clases de los inputs
-            const wifiPasswordInput = form.querySelector('#wifiPassword');
-            if (wifiPasswordInput) {
-                wifiPasswordInput.classList.remove('cursor-not-allowed', 'bg-gray-200');
-                wifiPasswordInput.classList.add('focus:ring-blue-500', 'focus:border-blue-500', 'bg-gray-50');
-                wifiPasswordInput.readOnly = false;
-                wifiPasswordInput.disabled = false;
-            }
-            const wifiCheckbox = form.querySelector('#wifiCheckbox');
-            if (wifiCheckbox) {
-                wifiCheckbox.checked = false;
-            }
         }
     });
 
-    // // Relación departamentos-ubicaciones desde PHP
-    // const departmentsByLocation = <?= json_encode($departmentsByLocation) ?>;
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-modal-target="editDeliveredDevices"]').forEach(function(editDeviceButton) {
+            editDeviceButton.addEventListener('click', function() {
+                const deviceID = this.getAttribute('data-device-id');
+                document.getElementById('device_ID').value = deviceID;
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const locationsSelect = document.getElementById('locations');
-    //     const departmentsSelect = document.getElementById('departments');
+                let inputDeviceID = document.querySelector('#editDeliveredDevices #device_ID');
+                let inputRecievedByName = document.querySelector('.modal-body #recievedByName');
+                let inputDeviceDescription = document.querySelector('.modal-body #deviceDescription');
+                let inputSerialCode = document.querySelector('.modal-body #serialCode');
+                let inputDeliveryDate = document.querySelector('.modal-body #deliveryDate');
+                let inputLocations = document.querySelector('.modal-body #locations');
+                let inputDepartments = document.querySelector('.modal-body #departments');
+                let inputRoomCode = document.querySelector('.modal-body #roomCode');
+                
+                let fetchURL = '<?= APP_URL ?>app/ajax/deliveryDevicesAjax.php?deviceModule=getDeviceData&device_ID=' + deviceID;
+                let formData = new FormData();
+                formData.append('device_ID', deviceID);
 
-    //     locationsSelect.addEventListener('change', function() {
-    //         const selectedLocation = this.value;
-    //         departmentsSelect.innerHTML = '<option value="">Cargando Departamentos...</option>';
-
-    //         setTimeout(() => {
-    //             departmentsSelect.innerHTML = '<option value="">Seleccione....</option>';
-    //             Object.entries(departmentsByLocation).forEach(([id, dep]) => {
-    //                 if (dep.location_ID == selectedLocation) {
-    //                     const option = document.createElement('option');
-    //                     option.value = id;
-    //                     option.textContent = dep.name;
-    //                     departmentsSelect.appendChild(option);
-    //                 }
-    //             });
-    //         }, 400);
-    //     });
-    // });
+                fetch(fetchURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(dataResponse => {
+                        // Unifica el acceso a los datos
+                        const data = dataResponse.data || dataResponse || {};
+                        const deviceFieldMap = {
+                            device_ID: inputDeviceID,
+                            device_recievedByName: inputRecievedByName,
+                            device_description: inputDeviceDescription,
+                            device_serialCode: inputSerialCode,
+                            device_deliveryDate: inputDeliveryDate,
+                            device_location_ID: inputLocations,
+                            device_department_ID: inputDepartments,
+                            device_roomCode: inputRoomCode
+                        };
+                        Object.entries(deviceFieldMap).forEach(([deviceKey, input]) => {
+                            if (Array.isArray(input)) {
+                                input.forEach(inputMap => { if (inputMap) inputMap.value = data[deviceKey] || deviceID || ''; });
+                            } else if (input) {
+                                input.value = data[deviceKey] || 'N/A';
+                            }
+                        });
+                    }).catch(err => {
+                        console.error(err);
+                    });
+            });
+        });
+    });
 </script>

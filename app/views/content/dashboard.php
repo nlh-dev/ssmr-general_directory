@@ -5,6 +5,7 @@ use app\controllers\dashboardController;
 $dashboardController = new dashboardController();
 $totalWifiRegisters = $dashboardController->countWifiRegistersController();
 $totalDevicesDelivered = $dashboardController->countDevicesDeliveredController();
+$totalDevicesWithdrew = $dashboardController->countWithdrewDevicesController();
 
 $dashboardModules = [
    [
@@ -33,7 +34,7 @@ $dashboardModules = [
          ],
          [
             'title' => 'Historial',
-            'subtitle' => '(X) Registro(s)',
+            'subtitle' => "$totalDevicesWithdrew Registro(s)",
             'description' => 'Ver Historial de Entrega',
             'icon' => 'book',
             'link' => $routes['deviceHistoryList'],

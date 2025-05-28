@@ -7,29 +7,25 @@ use app\controllers\wifiController;
 
 if (isset($_POST['wifiModule'])) {
     $wifiInstance = new wifiController();
-
-    if ($_POST['wifiModule'] == 'saveWifiPassword') {
-        echo $wifiInstance->saveWifiPasswordController();
-    }
-
-    if ($_POST['wifiModule'] == 'updateWifiState') {
-        echo $wifiInstance->updateWifiStateController();
-    }
-
-    if ($_POST['wifiModule'] == 'addIpDirection') {
-        echo $wifiInstance->addIpDirectionController();
-    }
-
-    if ($_POST['wifiModule'] == 'wifiPassword') {
-        echo $wifiInstance->showWifiPasswordController();
-    }
-
-    if ($_POST['wifiModule'] == 'deleteWifiPassword') {
-        echo $wifiInstance->deleteWifiPasswordController();
-    }
-    
-    if ($_POST['wifiModule'] == 'updateWifi') {
-        echo $wifiInstance->updateWifiController();
+    switch ($_POST['wifiModule']) {
+        case 'saveWifiPassword':
+            echo $wifiInstance->saveWifiPasswordController();
+            break;
+        case 'updateWifiState':
+            echo $wifiInstance->updateWifiStateController();
+            break;
+        case 'addIpDirection':
+            echo $wifiInstance->addIpDirectionController();
+            break;
+        case 'wifiPassword':
+            echo $wifiInstance->showWifiPasswordController();
+            break;
+        case 'deleteWifiPassword':
+            echo $wifiInstance->deleteWifiPasswordController();
+            break;
+        case 'updateWifi':
+            echo $wifiInstance->updateWifiController();
+            break;
     }
 }
 

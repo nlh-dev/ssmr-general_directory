@@ -134,8 +134,7 @@ $showLocationsData = $mainController->getLocationsController();
                 let formData = new FormData();
                 formData.append('wifi_ID', wifiId);
 
-                let inputWifiID = document.querySelectorAll('.modal-body #wifi_ID');
-                let inputSSID = document.querySelector('.modal-body  #SSID');
+                let inputSSID = document.querySelector('.modal-body #SSID');
                 let inputPassword = document.querySelector('.modal-body #wifiPassword');
                 let inputIpDirection = document.querySelector('.modal-body #ipDirection');
                 let inputLocations = document.querySelector('.modal-body #locations');
@@ -149,7 +148,6 @@ $showLocationsData = $mainController->getLocationsController();
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
-                        inputWifiID.value = dataResponse.data.wifi_ID;
                         inputSSID.value = dataResponse.data.wifi_SSID;
                         inputPassword.value = dataResponse.data.wifi_password;
                         inputIpDirection.value = dataResponse.data.wifi_ipDirection;

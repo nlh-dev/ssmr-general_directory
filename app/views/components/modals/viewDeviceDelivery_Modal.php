@@ -40,7 +40,7 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5 rounded-b">
-                <input type="hidden" name="deviceModule" id="deviceModule" value="getDeviceDeliveryInfo" />
+                <input type="hidden" name="deviceModule" id="deviceModule" value="getDeviceData" />
                 <input type="hidden" name="device_ID" id="device_ID" value="" />
                 <div class="">
                     <label class="flex items-center block text-sm font-medium text-gray-900">
@@ -140,7 +140,7 @@
                 const deviceId = this.getAttribute('data-device-id');
                 document.getElementById('device_ID').value = deviceId;
 
-                let fetchURL = '<?= APP_URL ?>app/ajax/deliveryDevicesAjax.php?deviceModule=getDeviceDeliveryInfo&device_ID=' + deviceId;
+                let fetchURL = '<?= APP_URL ?>app/ajax/deliveryDevicesAjax.php?deviceModule=getDeviceData&device_ID=' + deviceId;
 
                 // FIELDS FROM MODAL HEADER
                 let field_UserID = document.querySelector('.modal-header [data-field="usuario"]');

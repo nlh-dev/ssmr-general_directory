@@ -324,8 +324,7 @@ class wifiController extends mainModel
         return json_encode($alert);
     }
 
-    public function getWifiDataController()
-    {
+    public function getWifiDataController(){
         $wifiID = $this->cleanRequest($_GET['wifi_ID']);
         $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory WHERE wifi_ID = '$wifiID'");
         if ($wifiData->rowCount() <= 0) {

@@ -6,9 +6,8 @@ use app\models\mainModel;
 
 class devicesController extends mainModel
 {
-    public function getDeliveredDeviceById($deviceId)
-    {
-        $deviceId = $this->cleanRequest($deviceId);
+    public function getDeliveredDeviceById(){
+        $deviceId = $this->cleanRequest($_GET['device_ID']);
         $getDevices_SQL = "SELECT * FROM devices
             JOIN locations ON devices.device_location_ID = locations.location_ID
             JOIN departments ON devices.device_department_ID = departments.department_ID
@@ -20,8 +19,7 @@ class devicesController extends mainModel
         return $getDevicesByID_Query->fetch();
     }
 
-    public function saveDeliveredDevicesController()
-    {
+    public function saveDeliveredDevicesController(){
         $recievedByName = strtoupper($this->cleanRequest($_POST['recievedByName']));
         $deviceDescription = strtoupper($this->cleanRequest($_POST['deviceDescription']));
         $serialCode = strtoupper($this->cleanRequest($_POST['serialCode']));
@@ -134,50 +132,183 @@ class devicesController extends mainModel
         return json_encode($alert);
     }
 
-        public function withdrawDeviceController(){
-        $deviceID = $this -> cleanRequest($_POST['device_ID']);
-        $deviceData = $this -> dbRequestExecute("SELECT * FROM devices WHERE device_ID = '$deviceID'");
-        
-        if($deviceData -> rowCount() <= 0){
-            $alert=[
-                "tipo"=>"simple",
-                "titulo"=>"¡Error!",
-                "texto"=>"Dispositivo no encontrado",
-                "icono"=>"error"
+    public function updateDeliveredDeviceController(){
+        $deviceID = $this->cleanRequest($_POST['device_ID']);
+        $deviceData = $this->dbRequestExecute("SELECT * FROM devices WHERE device_ID = '$deviceID'");
+        if ($deviceData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Dispositivo no encontrado",
             ];
             return json_encode($alert);
             exit();
-        }else{
-            $deviceData=$deviceData->fetch();
+        } else {
+            $deviceData = $deviceData->fetch();
         }
-        
+
+        $recievedByName = strtoupper($this->cleanRequest($_POST['recievedByName']));
+        $deviceDescription = strtoupper($this->cleanRequest($_POST['deviceDescription']));
+        $serialCode = strtoupper($this->cleanRequest($_POST['serialCode']));
+        $deliveryDate = $this->cleanRequest($_POST['deliveryDate']);
+        $locations = $this->cleanRequest($_POST['locations']);
+        $departments = $this->cleanRequest($_POST['departments']);
+        $roomCode = strtoupper($this->cleanRequest($_POST['roomCode']));
+
+        if (empty($deviceDescription) || empty($serialCode) || empty($deliveryDate) || empty($locations) || empty($departments)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al entregar!",
+                "text" => "¡Algunos campos se encuentran vacios!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
         $deviceDataUpdate = [
             [
-                "db_FieldName" => "device_isDelivered",
-                "db_ValueName" => ":isDelivered",
-                "db_realValue" => false            
+                "db_FieldName" => "device_recievedByName",
+                "db_ValueName" => ":recievedByName",
+                "db_realValue" => $recievedByName
+            ],
+            [
+                "db_FieldName" => "device_description",
+                "db_ValueName" => ":deviceDescription",
+                "db_realValue" => $deviceDescription
+            ],
+            [
+                "db_FieldName" => "device_serialCode",
+                "db_ValueName" => ":serialCode",
+                "db_realValue" => $serialCode
+            ],
+            [
+                "db_FieldName" => "device_deliveryDate",
+                "db_ValueName" => ":deliveryDate",
+                "db_realValue" => $deliveryDate
+            ],
+            [
+                "db_FieldName" => "device_deliveryTime",
+                "db_ValueName" => ":deliveryTime",
+                "db_realValue" => date('H:i:s')
+            ],
+            [
+                "db_FieldName" => "device_location_ID",
+                "db_ValueName" => ":location_ID",
+                "db_realValue" => $locations
+            ],
+            [
+                "db_FieldName" => "device_department_ID",
+                "db_ValueName" => ":department_ID",
+                "db_realValue" => $departments
+            ],
+            [
+                "db_FieldName" => "device_roomCode",
+                "db_ValueName" => ":roomCode",
+                "db_realValue" => $roomCode
+            ],
+            [
+                "db_FieldName" => "device_withdrawUser_ID",
+                "db_ValueName" => ":withdrawUser_ID",
+                "db_realValue" => 1
             ],
         ];
 
-        $deviceCondition=[
+        $deviceCondition = [
             "condition_FieldName" => "device_ID",
             "condition_ValueName" => ":ID",
             "condition_realValue" => $deviceID
         ];
 
-        if($this->updateData("devices", $deviceDataUpdate, $deviceCondition)){
-            $alert=[
-                "type"=>"reload",
-                "icon"=>"success",
-                "title"=>"¡Operacion Realizada!",
-                "text"=>"Dispisitvo retirado exitosamente",
+        if ($this->updateData("devices", $deviceDataUpdate, $deviceCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operacion Realizada!",
+                "text" => "Dispisitvo Actualizado exitosamente",
             ];
-        }else{
-            $alert=[
-                "type"=>"simple",
-                "icon"=>"error",
-                "title"=>"¡Error!",
-                "text"=>"Error al retirar dispositivo, intente nuevamente",
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Error al actualizar dispositivo, intente nuevamente",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function withdrawDeviceController(){
+        $deviceID = $this->cleanRequest($_POST['device_ID']);
+        $deviceData = $this->dbRequestExecute("SELECT * FROM devices WHERE device_ID = '$deviceID'");
+        if ($deviceData->rowCount() <= 0) {
+            $alert = [
+                "tipo" => "simple",
+                "titulo" => "¡Error!",
+                "texto" => "Dispositivo no encontrado",
+                "icono" => "error"
+            ];
+            return json_encode($alert);
+            exit();
+        } else {
+            $deviceData = $deviceData->fetch();
+        }
+        
+        $withdrawalDate = $this -> cleanRequest($_POST['withdrawalDate']);
+        if (empty($withdrawalDate)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error!",
+                "text" => "¡Fecha de Retiro no Establecida!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $deviceDataUpdate = [
+            [
+                "db_FieldName" => "device_withdrawDate",
+                "db_ValueName" => ":withdrawalDate",
+                "db_realValue" => $withdrawalDate
+            ],
+            [
+                "db_FieldName" => "device_withdrawTime",
+                "db_ValueName" => ":withdrawTime",
+                "db_realValue" => date('H:i:s')
+            ],
+            [
+                "db_FieldName" => "device_withdrawUser_ID",
+                "db_ValueName" => ":withdrawUser_ID",
+                "db_realValue" => 1
+            ],
+            [
+                "db_FieldName" => "device_isDelivered",
+                "db_ValueName" => ":isDelivered",
+                "db_realValue" => false
+            ],
+        ];
+
+        $deviceCondition = [
+            "condition_FieldName" => "device_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $deviceID
+        ];
+
+        if ($this->updateData("devices", $deviceDataUpdate, $deviceCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operacion Realizada!",
+                "text" => "Dispisitvo retirado exitosamente",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Error al retirar dispositivo, intente nuevamente",
             ];
         }
         return json_encode($alert);
@@ -218,8 +349,7 @@ class devicesController extends mainModel
         return json_encode($alert);
     }
 
-    public function deliveredDevicesListController($page, $register, $url, $search)
-    {
+    public function deliveredDevicesListController($page, $register, $url, $search){
 
         $page = $this->cleanRequest($page);
         $register = $this->cleanRequest($register);
@@ -356,7 +486,7 @@ class devicesController extends mainModel
                                     </button>
                                 </div>
                                 <div class="flex items-center">
-                                    <button data-modal-target="editDeliveredDevices" data-modal-toggle="editDeliveredDevices" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button data-modal-target="editDeliveredDevices" data-modal-toggle="editDeliveredDevices" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-device-id="' . $rows['device_ID'] . '">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
@@ -374,7 +504,7 @@ class devicesController extends mainModel
                                     </form>
                                 </div>
                                     <div class="flex items-center">
-                                        <button data-modal-target="withdrawDeliveredDevices" data-modal-toggle="withdrawDeliveredDevices" type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-device-id="' . $rows['device_ID'] . '">
+                                        <button data-modal-target="withdrawDevice" data-modal-toggle="withdrawDevice" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-device-id="' . $rows['device_ID'] . '">
                                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#archiveArrow" />
                                             </svg>

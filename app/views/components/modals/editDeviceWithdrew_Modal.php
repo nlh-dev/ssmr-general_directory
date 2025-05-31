@@ -6,9 +6,8 @@ $mainController = new mainController();
 $showDepartmentsData = $mainController->getDepartmentsController();
 $showLocationsData = $mainController->getLocationsController();
 ?>
-
 <!-- Large Modal -->
-<div id="editDeliveredDevices" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
+<div id="editWithdrewDevices" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-4xl max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
@@ -16,9 +15,9 @@ $showLocationsData = $mainController->getLocationsController();
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
                 <h3 class="text-xl font-medium text-white">
-                    Editar Entrega
+                    Editar Retiro de Dispositivo
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editDeliveredDevices">
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editWithdrewDevices">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
@@ -27,7 +26,7 @@ $showLocationsData = $mainController->getLocationsController();
             </div>
             <!-- Modal body -->
             <form action="<?= $AjaxRoutes['deliveryDevices'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
-                <input type="hidden" name="deviceModule" id="deviceModule" value="updateDeliveredDevices">
+                <input type="hidden" name="deviceModule" id="deviceModule" value="updateWithdrawDevice">
                 <input type="hidden" name="device_ID" id="device_ID" value="">
                 <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
@@ -66,14 +65,14 @@ $showLocationsData = $mainController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="deliveryDate" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="withdrawDate" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                             </svg>
-                            Fecha de Entrega
+                            Fecha de Retiro
                         </label>
                         <div class="relative my-2">
-                            <input type="date" id="deliveryDate" name="deliveryDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <input type="date" id="withdrawDate" name="withdrawDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
                     </div>
                     <div class="">
@@ -126,7 +125,7 @@ $showLocationsData = $mainController->getLocationsController();
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
-                    <button data-modal-hide="editDeliveredDevices" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
+                    <button data-modal-hide="editWithdrewDevices" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
                         <svg class="w-5 h-5 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -147,30 +146,30 @@ $showLocationsData = $mainController->getLocationsController();
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Selecciona el botón de cerrar/cancelar del modal
-        document.querySelectorAll('[data-modal-hide="editDeliveredDevices"]').forEach(function(btn) {
+        document.querySelectorAll('[data-modal-hide="editWithdrewDevices"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 clearModal();
             });
         });
 
         function clearModal() {
-            const form = document.querySelector('#editDeliveredDevices form');
+            const form = document.querySelector('#editWithdrewDevices form');
             if (!form) return;
             form.reset();
         }
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[data-modal-target="editDeliveredDevices"]').forEach(function(editDeviceButton) {
+        document.querySelectorAll('[data-modal-target="editWithdrewDevices"]').forEach(function(editDeviceButton) {
             editDeviceButton.addEventListener('click', function() {
                 const deviceID = this.getAttribute('data-device-id');
                 document.getElementById('device_ID').value = deviceID;
 
-                let inputDeviceID = document.querySelector('#editDeliveredDevices #device_ID');
+                let inputDeviceID = document.querySelector('#editWithdrewDevices #device_ID');
                 let inputRecievedByName = document.querySelector('.modal-body #recievedByName');
                 let inputDeviceDescription = document.querySelector('.modal-body #deviceDescription');
                 let inputSerialCode = document.querySelector('.modal-body #serialCode');
-                let inputDeliveryDate = document.querySelector('.modal-body #deliveryDate');
+                let inputWithdrawDate = document.querySelector('.modal-body #withdrawDate');
                 let inputLocations = document.querySelector('.modal-body #locations');
                 let inputDepartments = document.querySelector('.modal-body #departments');
                 let inputRoomCode = document.querySelector('.modal-body #roomCode');
@@ -194,7 +193,7 @@ $showLocationsData = $mainController->getLocationsController();
                             device_recievedByName: inputRecievedByName,
                             device_description: inputDeviceDescription,
                             device_serialCode: inputSerialCode,
-                            device_deliveryDate: inputDeliveryDate,
+                            device_withdrawDate: inputWithdrawDate,
                             device_location_ID: inputLocations,
                             device_department_ID: inputDepartments,
                             device_roomCode: inputRoomCode

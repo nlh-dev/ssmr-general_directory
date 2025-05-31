@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-05-2025 a las 21:33:57
+-- Tiempo de generación: 31-05-2025 a las 20:15:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -72,7 +72,8 @@ CREATE TABLE `devices` (
 --
 
 INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedByName`, `device_description`, `device_serialCode`, `device_deliveryDate`, `device_deliveryTime`, `device_location_ID`, `device_department_ID`, `device_roomCode`, `device_withdrawDate`, `device_withdrawTime`, `device_withdrawUser_ID`, `device_isDelivered`) VALUES
-(2, 1, 'HECTOR NAVARRO', 'CONTROL SAMSUNG', 'HM-2-306', '2025-05-27', '14:19:32', 1, 2, '', '0000-00-00', '00:00:00', 1, 1);
+(1, 1, 'HECTOR NAVARRO', 'CONTROL SAMSUNG', 'HM-2-97', '2025-05-31', '11:34:14', 1, 2, 'A-314', '0000-00-00', '00:00:00', 1, 1),
+(2, 1, 'DANNY MORAN', 'CONTROL SAMSUNG', 'HM-2-646', '2025-05-31', '11:34:41', 1, 2, 'A-332', '2025-06-10', '11:36:20', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -99,6 +100,24 @@ INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAt`, `
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `observations`
+--
+
+CREATE TABLE `observations` (
+  `observation_ID` int(11) NOT NULL,
+  `observation_user_ID` int(11) NOT NULL,
+  `observation_reason` text NOT NULL,
+  `observation_description` text NOT NULL,
+  `observation_createdAtDate` date NOT NULL,
+  `observation_createdAtTime` time NOT NULL,
+  `observation_updatedAtDate` date NOT NULL,
+  `observation_updatedAtTime` time NOT NULL,
+  `observation_isDone` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -117,7 +136,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_fullName`, `user_userName`, `user_password`, `user_role_ID`, `user_createdAt`, `user_updatedAt`) VALUES
-(1, 'Hector Navarro', 'hectorlnavarro', 'h789123000', 1, '2025-05-27 19:51:45', '2025-05-27 19:51:45');
+(1, 'Hector Navarro', 'hectorlnavarro', 'h789123000', 1, '2025-05-27 19:51:45', '2025-05-27 19:51:45'),
+(2, 'Danny Moran', 'danny_anderson', 'danny12345', 1, '2025-05-31 16:45:43', '2025-05-31 16:45:43');
 
 -- --------------------------------------------------------
 
@@ -153,7 +173,7 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '', '', 1, 2, '2025-05-27 13:50:29', '2025-05-27 13:50:29', 1);
+(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-05-28 14:47:09', 1);
 
 --
 -- Índices para tablas volcadas
@@ -181,6 +201,13 @@ ALTER TABLE `devices`
 --
 ALTER TABLE `locations`
   ADD PRIMARY KEY (`location_ID`);
+
+--
+-- Indices de la tabla `observations`
+--
+ALTER TABLE `observations`
+  ADD PRIMARY KEY (`observation_ID`),
+  ADD KEY `observation_user_ID` (`observation_user_ID`);
 
 --
 -- Indices de la tabla `users`
@@ -225,10 +252,16 @@ ALTER TABLE `locations`
   MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `observations`
+--
+ALTER TABLE `observations`
+  MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `user_roles`

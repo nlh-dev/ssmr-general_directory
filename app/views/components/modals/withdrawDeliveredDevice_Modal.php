@@ -116,7 +116,7 @@
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
-                        field_UserID.textContent = dataResponse.user_fullName;
+                        field_UserID.textContent = dataResponse.delivery_user_fullName;
                         field_DeliveryDate.textContent =
                             (dataResponse.device_deliveryDate ? new Date(dataResponse.device_deliveryDate + 'T' + dataResponse.device_deliveryTime).toLocaleString('es-ES', {
                                 year: 'numeric',

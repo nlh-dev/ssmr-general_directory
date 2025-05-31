@@ -182,10 +182,16 @@
             clip-rule="evenodd" />
     </symbol>
 
-    <symbol id="floppyDisk" viewBox="0 0 24 24">
-            viewBox="0 0 24 24">
-            <path fill-rule="evenodd"
-                d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.414A2 2 0 0 0 20.414 6L18 3.586A2 2 0 0 0 16.586 3H5Zm10 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7V5h8v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1Z"
-                clip-rule="evenodd" />
+    <!-- FLIPPY DISK -->
+    <symbol id="floppyDisk" viewBox="0 0 24 24"> viewBox="0 0 24 24"> <path fill-rule="evenodd"
+            d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.414A2 2 0 0 0 20.414 6L18 3.586A2 2 0 0 0 16.586 3H5Zm10 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7V5h8v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1Z"
+            clip-rule="evenodd" />
+    </symbol>
+
+    <!-- CLIPBOARD LIST -->
+    <symbol id="clipboardList" viewBox="0 0 24 24">
+        <path fill-rule="evenodd"
+            d="M8 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1h2a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2Zm6 1h-4v2H9a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2h-1V4Zm-3 8a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2h-3a1 1 0 0 1-1-1Zm-2-1a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H9Zm2 5a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2h-3a1 1 0 0 1-1-1Zm-2-1a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H9Z"
+            clip-rule="evenodd" />
     </symbol>
 </svg> 

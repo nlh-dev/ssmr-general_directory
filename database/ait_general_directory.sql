@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-05-2025 a las 20:15:23
+-- Tiempo de generación: 02-06-2025 a las 21:45:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -107,6 +107,8 @@ CREATE TABLE `observations` (
   `observation_ID` int(11) NOT NULL,
   `observation_user_ID` int(11) NOT NULL,
   `observation_reason` text NOT NULL,
+  `observation_type_ID` int(11) NOT NULL,
+  `observations_priority_ID` int(11) NOT NULL,
   `observation_description` text NOT NULL,
   `observation_createdAtDate` date NOT NULL,
   `observation_createdAtTime` time NOT NULL,
@@ -114,6 +116,48 @@ CREATE TABLE `observations` (
   `observation_updatedAtTime` time NOT NULL,
   `observation_isDone` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `observations_priority`
+--
+
+CREATE TABLE `observations_priority` (
+  `observationsPriority_ID` int(11) NOT NULL,
+  `observationsPriority_name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `observations_priority`
+--
+
+INSERT INTO `observations_priority` (`observationsPriority_ID`, `observationsPriority_name`) VALUES
+(1, 'Baja'),
+(2, 'Media'),
+(3, 'Alta'),
+(4, 'Crítica');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `observations_type`
+--
+
+CREATE TABLE `observations_type` (
+  `observationType_ID` int(11) NOT NULL,
+  `observationType_name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `observations_type`
+--
+
+INSERT INTO `observations_type` (`observationType_ID`, `observationType_name`) VALUES
+(1, 'Error'),
+(2, 'Sugerencia'),
+(3, 'Alerta'),
+(4, 'Nota');
 
 -- --------------------------------------------------------
 
@@ -173,7 +217,7 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-05-28 14:47:09', 1);
+(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-02 10:59:00', 1);
 
 --
 -- Índices para tablas volcadas
@@ -207,7 +251,21 @@ ALTER TABLE `locations`
 --
 ALTER TABLE `observations`
   ADD PRIMARY KEY (`observation_ID`),
-  ADD KEY `observation_user_ID` (`observation_user_ID`);
+  ADD KEY `observation_user_ID` (`observation_user_ID`),
+  ADD KEY `observation_type_ID` (`observation_type_ID`,`observations_priority_ID`),
+  ADD KEY `observations_priority_ID` (`observations_priority_ID`);
+
+--
+-- Indices de la tabla `observations_priority`
+--
+ALTER TABLE `observations_priority`
+  ADD PRIMARY KEY (`observationsPriority_ID`);
+
+--
+-- Indices de la tabla `observations_type`
+--
+ALTER TABLE `observations_type`
+  ADD PRIMARY KEY (`observationType_ID`);
 
 --
 -- Indices de la tabla `users`
@@ -258,6 +316,18 @@ ALTER TABLE `observations`
   MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `observations_priority`
+--
+ALTER TABLE `observations_priority`
+  MODIFY `observationsPriority_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `observations_type`
+--
+ALTER TABLE `observations_type`
+  MODIFY `observationType_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
@@ -293,6 +363,14 @@ ALTER TABLE `devices`
   ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_location_ID`) REFERENCES `locations` (`location_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `devices_ibfk_3` FOREIGN KEY (`device_deliveryUser_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `devices_ibfk_4` FOREIGN KEY (`device_withdrawUser_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `observations`
+--
+ALTER TABLE `observations`
+  ADD CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`observation_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`observation_type_ID`) REFERENCES `observations_type` (`observationType_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`observations_priority_ID`) REFERENCES `observations_priority` (`observationsPriority_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `wifi_directory`

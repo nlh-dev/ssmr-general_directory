@@ -3,7 +3,7 @@
     include_once "./config/app.php";
     include_once "./config/routes.php";
     include_once "./app/views/includes/session_start.php";
-
+    
     if (isset($_GET['views'])) {
         $url = explode("/", $_GET['views']);
     } else {

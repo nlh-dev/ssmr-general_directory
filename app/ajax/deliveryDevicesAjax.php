@@ -32,6 +32,7 @@ if (isset($_POST['deviceModule'])) {
             break;
         case 'withdrawDevice':
             echo $deviceInstance->withdrawDeviceController();
+            break;
         case 'updateWithdrawDevice':
             echo $deviceInstance->updateWithdrawDeviceController();
             break;

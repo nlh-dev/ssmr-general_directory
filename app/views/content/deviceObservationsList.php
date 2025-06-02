@@ -1,9 +1,9 @@
-<?php 
-    require_once "./app/views/components/modals/addObservation_Modal.php";
+<?php
+require_once "./app/views/components/modals/addObservation_Modal.php";
 
 ?>
 
-<!-- CONTENT GRIDS -->  
+<!-- CONTENT GRIDS -->
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
     <div class="p-2 mt-10">
         <div class="my-4">
@@ -26,6 +26,8 @@
                     Añadir Observación
                 </button>
             </div>
+
         </div>
+        <?php require_once "./app/views/components/tables/observationsTable.php";?>
     </div>
 </div>

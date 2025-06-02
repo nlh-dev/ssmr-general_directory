@@ -315,7 +315,7 @@ class devicesController extends mainModel
         return json_encode($alert);
     }
 
-        public function updateWithdrawDeviceController()
+    public function updateWithdrawDeviceController()
     {
         $deviceID = $this->cleanRequest($_POST['device_ID']);
         $deviceData = $this->dbRequestExecute("SELECT * FROM devices WHERE device_ID = '$deviceID'");

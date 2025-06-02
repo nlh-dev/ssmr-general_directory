@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "./app/views/components/modals/viewDeviceWithdrew_Modal.php";
 require_once "./app/views/components/modals/editDeviceWithdrew_Modal.php";
 ?>
@@ -29,6 +29,5 @@ require_once "./app/views/components/modals/editDeviceWithdrew_Modal.php";
         echo $deviceController->withdrewDevicesListController($url[1], 10, $url[0], "");
 
         ?>
-
     </div>
 </div>

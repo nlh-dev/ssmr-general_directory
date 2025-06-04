@@ -1,5 +1,6 @@
 <?php
 require_once "./app/views/components/modals/addObservation_Modal.php";
+require_once "./app/views/components/modals/viewObservation_Modal.php";
 
 ?>
 
@@ -28,6 +29,14 @@ require_once "./app/views/components/modals/addObservation_Modal.php";
             </div>
 
         </div>
-        <?php require_once "./app/views/components/tables/observationsTable.php";?>
+        <?php
+
+        use app\controllers\observationsController;
+
+        $observationController = new observationsController();
+
+        echo $observationController->observationsListController($url[1], 10, $url[0], "");
+
+        ?>
     </div>
 </div>

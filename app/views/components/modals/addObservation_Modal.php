@@ -1,9 +1,11 @@
 <?php
-    use app\controllers\mainController;
-    $mainController = new mainController;
 
-    $showObservationsPriorityData = $mainController->getObservationsPriorityController();
-    $showObservationsTypeData = $mainController->getObservationsTypeController();
+use app\controllers\mainController;
+
+$mainController = new mainController;
+
+$showObservationsPriorityData = $mainController->getObservationsPriorityController();
+$showObservationsTypeData = $mainController->getObservationsTypeController();
 ?>
 
 
@@ -54,7 +56,7 @@
                     <div class="col-span-2">
                         <label for="observationType" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
                             </svg>
                             Tipo de Observación
                         </label>
@@ -62,26 +64,26 @@
                             <select id="observationType" name="observationType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected>Seleccione....</option>
                                 <?php foreach ($showObservationsTypeData as $key => $TypeValue) { ?>
-                                    <option value="<?= $TypeValue['observationType_ID']?>">
-                                        <?= $TypeValue['observationType_name']?>
+                                    <option value="<?= $TypeValue['observationType_ID'] ?>">
+                                        <?= $TypeValue['observationType_name'] ?>
                                     </option>
-                                <?php }?>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
                     <div class="col-span-2">
                         <label for="observationPriority" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
                             </svg>
                             Prioridad
                         </label>
                         <div class="relative my-2">
                             <select id="observationPriority" name="observationPriority" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected>Selecione.....</option>
-                                <?php foreach($showObservationsPriorityData as $key => $PriorityValue) {?>
-                                    <option value="<?=$PriorityValue['observationsPriority_ID']?>">
-                                        <?= $PriorityValue['observationsPriority_name']?>
+                                <?php foreach ($showObservationsPriorityData as $key => $PriorityValue) { ?>
+                                    <option value="<?= $PriorityValue['observationsPriority_ID'] ?>">
+                                        <?= $PriorityValue['observationsPriority_name'] ?>
                                     </option>
                                 <?php } ?>
                             </select>

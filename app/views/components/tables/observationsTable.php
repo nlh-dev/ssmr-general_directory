@@ -45,22 +45,58 @@
                         </div>
                     </td>
                     <td class="px-5 py-2 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                        <div class=" items-center">
+                            <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
                                 </svg>
                                 Error
+                            </span>
+                            <span class="flex items-center bg-indigo-100 text-indigo-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-indigo-900 hover:text-white transition duration-100">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
+                                </svg>
+                                Sugerencia
+                            </span>
+                            <span class="flex items-center bg-yellow-100 text-yellow-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-yellow-500 hover:text-white transition duration-100">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
+                                </svg>
+                                Alerta
+                            </span>
+                            <span class="flex items-center bg-stone-100 text-stone-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-stone-800 hover:text-white transition duration-100">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
+                                </svg>
+                                Nota
                             </span>
                         </div>
                     </td>
                     <td class="px-5 py-2 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
+                        <div class="">
+                            <span class="flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-800 hover:text-white transition duration-100">
                                 <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
+                                </svg>
+                                Baja
+                            </span>
+                            <span class="flex items-center bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-teal-800 hover:text-white transition duration-100">
+                                <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
+                                </svg>
+                                Media
+                            </span>
+                            <span class="flex items-center bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-yellow-500 hover:text-white transition duration-100">
+                                <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
                                 </svg>
                                 Alta
+                            </span>
+                            <span class="flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
+                                <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
+                                </svg>
+                                Crítica
                             </span>
                         </div>
                     </td>

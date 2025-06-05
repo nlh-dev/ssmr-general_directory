@@ -180,7 +180,7 @@ class observationsController extends mainModel
         OR observation_createdAtTime LIKE '%$search%'
         OR observation_updatedAtDate LIKE '%$search%'
         OR observation_updatedAtTime LIKE '%$search%'
-        ORDER BY observation_createdAtDate, observation_createdAtTime DESC
+        ORDER BY observation_createdAtDate DESC
         LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(observation_ID) FROM observations
@@ -246,13 +246,28 @@ class observationsController extends mainModel
                             <p class="text-xs">
                                 ' . $rows['observation_reason'] . '
                             </p>
-                            <div class="flex items-center mt-1">
-                                <span class="flex items-center bg-gray-100 text-gray-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-gray-900 hover:text-white transition duration-100 uppercase">
+                            <div class="flex items-center mt-1">';
+                            switch ($rows['observation_isDone']) {
+                                case 1:
+                                    $table .= '
+                                    <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check"/>
                                     </svg>
-                                    ' . $rows['user_fullName'] . '
-                                </span>
+                                    Realizada
+                                </span>';
+                                    break;
+                                case 0:
+                                    $table .= '
+                                    <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
+                                    <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#xMark"/>
+                                    </svg>
+                                    No Realizada
+                                </span>';
+                                    break;
+                            };
+                            $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">

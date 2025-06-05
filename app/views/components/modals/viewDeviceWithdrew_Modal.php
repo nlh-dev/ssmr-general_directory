@@ -1,6 +1,6 @@
 <!-- Large Modal -->
 <div id="viewWithdrewDeviceInfo" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
-    <div class="relative w-full max-w-4xl max-h-full">
+    <div class="relative w-full max-w-xl max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
@@ -14,19 +14,9 @@
                         <div class="flex items-center">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
                             <p class="font-semibold text-white text-xs mr-1">Retirado por:</p>
-                            <span class="flex items-center bg-gray-100 text-gray-900 text-xs font-medium px-1.5 py-1 rounded-sm mt-1">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
-                                </svg>
-                                <p data-field="usuario_retiro"></p>
-                            </span>
-                            <p class="mx-2 text-white">/</p>
-                            <span class="flex items-center bg-gray-100 text-gray-900 text-xs font-medium px-1.5 py-1 rounded-sm mt-1">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                                </svg>
-                                <p data-field="fecha_retiro"></p>
-                            </span>
+                            <p class="text-white font-semibold text-xs" data-field="usuario_retiro"></p>
+                            <p class="mx-1 text-white">/</p>
+                            <p class="text-white font-semibold text-xs" data-field="fecha_retiro"></p>
                         </div>
                     </div>
                 </div>
@@ -42,42 +32,48 @@
                 <input type="hidden" name="deviceModule" id="deviceModule" value="getDeviceData" />
                 <input type="hidden" name="device_ID" id="device_ID" value="" />
                 <div class="">
-                    <label class="flex items-center block text-sm font-medium text-gray-900">
+                    <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
                         </svg>
                         Recibido por:
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
                             <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
                             </svg>
                             <p data-field="recibido_por"></p>
                         </span>
-                    </label>
+                    </div>
                 </div>
                 <div class="">
-                    <label for="deviceDescription" class="flex items-center block text-sm font-medium text-gray-900">
+                    <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
                         </svg>
                         Descripción de Dispositivo:
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
                             <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
                             </svg>
                             <p data-field="descripcion"></p>
                         </span>
-                    </label>
+                    </div>
                 </div>
                 <div class="">
                     <div class="flex items-center">
-                        <label for="serialCode" class="flex items-center block text-sm font-medium text-gray-900">
+                        <div class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="h-4 w-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#qrCode" />
                             </svg>
                             Número de Serial:
-                        </label>
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
+                        </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
                             <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#qrCode" />
                             </svg>
@@ -86,71 +82,85 @@
                     </div>
                 </div>
                 <div class="">
-                    <label for="roomCode" class="flex items-center block text-sm font-medium text-gray-900">
+                    <div for="roomCode" class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bed" />
                         </svg>
                         Número de Habitación:
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bed" />
                             </svg>
                             <p data-field="habitacion"></p>
                         </span>
-                    </label>
+                    </div>
                 </div>
                 <div class="">
-                    <label for="locations" class="flex items-center block text-sm font-medium text-gray-900">
+                    <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                         </svg>
                         Ubicación:
-                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100 ml-2">
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
                             <p data-field="ubicacion"></p>
                         </span>
-                    </label>
+                    </div>
                 </div>
                 <div class="">
-                    <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
+                    <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                         </svg>
                         Departamento:
-                        <span class="flex items-center bg-purple-100 hover:bg-purple-800 text-purple-800 hover:text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2 transition duration-100">
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-purple-100 hover:bg-purple-800 text-purple-800 hover:text-white text-xs font-medium px-2.5 py-1.5 rounded-sm transition duration-100">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                             </svg>
                             <p data-field="departamento"></p>
                         </span>
-                    </label>
+                    </div>
                 </div>
-                <hr class="col-span-2 border-gray-300">
-                <div class="flex items-center">
-                    <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
-                        <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
-                        Entregado por:
-                    </label>
-                    <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm ml-2">
-                        <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
-                        </svg>
-                        <p data-field="usuario_entrega"></p>
-                    </span>
+                <hr class="md:col-span-2 border-gray-300">
+                <div>
+                    <div class="flex items-center">
+                        <div class="flex items-center block text-sm font-medium text-gray-900">
+                            <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
+                            Entregado por:
+                        </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm">
+                            <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                            </svg>
+                            <p data-field="usuario_entrega"></p>
+                        </span>
+                    </div>
                 </div>
-                <div class="flex items-center">
-                    <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
-                        <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
-                        Fecha de Entrega:
-                    </label>
-                    <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm ml-2">
-                        <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                        </svg>
-                        <p data-field="fecha_entrega"></p>
-                    </span>
+                <div>
+                    <div class="flex items-center">
+                        <div class="flex items-center block text-sm font-medium text-gray-900">
+                            <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
+                            Fecha de Entrega:
+                        </div>
+                    </div>
+                    <div class="flex mt-1">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm">
+                            <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
+                            </svg>
+                            <p data-field="fecha_entrega"></p>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

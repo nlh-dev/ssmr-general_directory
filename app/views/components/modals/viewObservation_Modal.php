@@ -4,7 +4,7 @@
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="modal-header flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+            <div class="modal-header flex items-center justify-between p-3 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <div class="flex items-center">
                     <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
                     <div class="flex flex-col">
@@ -14,20 +14,9 @@
                         <div class="flex items-center">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
                             <p class="font-semibold text-white text-xs mr-1">Creada por:</p>
-                            <span class="flex items-center bg-gray-100 text-gray-900 text-xs font-medium px-1.5 py-1 rounded-sm mt-1">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
-                                </svg>
-                                <p data-field="usuario"></p>
-                            </span>
-                            </p>
-                            <p class="mx-2 text-white">/</p>
-                            <span class="flex items-center bg-gray-100 text-gray-900 text-xs font-medium px-1.5 py-1 rounded-sm mt-1">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                                </svg>
-                                <p data-field="fecha_creacion"></p>
-                            </span>
+                            <p class="text-white font-semibold text-xs" data-field="usuario"></p>
+                            <p class="mx-1 text-white">/</p>
+                            <p class="text-white font-semibold text-xs" data-field="fecha_creacion"></p>
                         </div>
                     </div>
                 </div>
@@ -48,20 +37,26 @@
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
                         </svg>
                         Motivo:
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
-                            <p data-field="observacion_motivo"></p>
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
+                            <p class="" data-field="observacion_motivo"></p>
                         </span>
                     </div>
                 </div>
                 <div class="">
-                    <div class="flex items-center block text-sm font-medium text-gray-900">
-                        <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                            <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
-                        </svg>
-                        Estado:
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
-                            <p data-field="observacion_estado"></p>
-                        </span>
+                    <div class="">
+                        <div class="flex items-center block text-sm font-medium text-gray-900">
+                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
+                            </svg>
+                            Estado:
+                        </div>
+                        <div class="flex items-center mt-2">
+                            <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
+                                <p data-field="observacion_estado"></p>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="">
@@ -96,21 +91,18 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-span-2">
+                <div class="md:col-span-2">
                     <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipboardList" />
                         </svg>
                         Descripción de Observación:
                     </div>
-                    <div class="flex items-center mt-2">
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
-                            <p data-field="observacion_descripcion"></p>
-                        </span>
+                    <div class="p-2 mt-2 border border-gray-300 rounded-lg hover:bg-stone-200 transition duration-100">
+                        <p class="text-justify text-sm font-semibold" data-field="observacion_descripcion"></p>
                     </div>
                 </div>
-                <hr class="col-span-2 text-gray-300">
-                <div class="col-span-2">
+                <div class="md:col-span-2">
                     <div class="flex items-center block text-sm font-medium text-gray-900">
                         <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
@@ -170,11 +162,20 @@
     }
 
     function setObservationStateColor(isDone, stateSpan) {
-        stateSpan.className = "flex items-center text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2 transition duration-100";
+        stateSpan.className = "flex items-center text-xs font-medium px-2.5 py-1.5 rounded-sm transition duration-100";
+        let iconHTML = '';
         if (isDone == 1) {
             stateSpan.classList.add("bg-emerald-100", "text-emerald-900", "hover:bg-emerald-900", "hover:text-white");
+            iconHTML = `<svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
+        </svg>`;
+            stateSpan.innerHTML = iconHTML + '<p data-field="observacion_estado">Realizada</p>';
         } else {
             stateSpan.classList.add("bg-red-100", "text-red-900", "hover:bg-red-800", "hover:text-white");
+            iconHTML = `<svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#xMark" />
+        </svg>`;
+            stateSpan.innerHTML = iconHTML + '<p data-field="observacion_estado">No Realizada</p>';
         }
     }
 
@@ -227,7 +228,7 @@
                             field_ObservationReason.textContent = dataResponse.observation_reason;
                             field_ObservationType.textContent = dataResponse.observationType_name;
                             field_ObservationPrio.textContent = dataResponse.observationsPriority_name;
-                            field_ObservationState.textContent = dataResponse.observation_isDone == 0 ? 'No Realizada' : 'Realizada'
+                            field_ObservationState.textContent = dataResponse.observation_isDone
                             setObservationStateColor(dataResponse.observation_isDone, field_ObservationState.parentElement);
                             setObservationColors(
                                 dataResponse.observationType_name,

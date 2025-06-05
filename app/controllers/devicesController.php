@@ -475,7 +475,7 @@ class devicesController extends mainModel
         OR device_location_ID LIKE '%$search%'
         OR device_department_ID LIKE '%$search%')
         AND device_isDelivered = 1
-        ORDER BY device_deliveryDate, device_deliveryTime DESC
+        ORDER BY device_deliveryDate DESC
         LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(device_ID) FROM devices 
@@ -694,7 +694,7 @@ class devicesController extends mainModel
         OR device_withdrawTime LIKE '%$search%'
         OR device_withdrawUser_ID LIKE '%$search%')
         AND device_isDelivered = 0
-        ORDER BY device_withdrawDate, device_withdrawTime DESC
+        ORDER BY device_withdrawDate DESC
         LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(device_ID) FROM devices 

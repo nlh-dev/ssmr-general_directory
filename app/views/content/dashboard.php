@@ -6,6 +6,7 @@ $dashboardController = new dashboardController();
 $totalWifiRegisters = $dashboardController->countWifiRegistersController();
 $totalDevicesDelivered = $dashboardController->countDevicesDeliveredController();
 $totalDevicesWithdrew = $dashboardController->countWithdrewDevicesController();
+$totalObservations = $dashboardController->countObservationsController();
 
 $dashboardModules = [
    [
@@ -41,7 +42,7 @@ $dashboardModules = [
          ],
          [
             'title' => 'Observaciones',
-            'subtitle' => '(X) Observaciones',
+            'subtitle' => "$totalObservations Observaciones",
             'description' => 'Ver Observaciones',
             'icon' => 'floppyDisk',
             'link' => $routes['deviceObservationsList'],

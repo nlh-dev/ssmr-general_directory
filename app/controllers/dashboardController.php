@@ -37,6 +37,17 @@
             }
             return $totalRegisters;
         }
+
+        public function countObservationsController(){
+            $totalRegisters = 0;
+            try {
+                $dbCountRequest = $this->dbRequestExecute("SELECT COUNT(*) AS totalCount FROM observations WHERE observation_isDone = 0");
+                $totalRegisters = $dbCountRequest->fetchColumn();
+            } catch (Exception $e) {
+                $totalRegisters = 0;
+            }
+            return $totalRegisters;
+        }
     }
 
 ?>

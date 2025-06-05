@@ -619,7 +619,7 @@ class devicesController extends mainModel
             if ($total >= 1) {
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 hover:bg-gray-200" >
-                        <td colspan="7">
+                        <td colspan="6">
                         <div class= "flex justify-center items-center my-4">
                             No se encontraron registros en esta pagina
                         </div>
@@ -634,7 +634,7 @@ class devicesController extends mainModel
             } else {
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 hover:bg-gray-200">
-                        <td colspan="7">
+                        <td colspan="6">
                         <div class= "flex justify-center items-center my-4">
                             No se encontraron registros
                         </div>

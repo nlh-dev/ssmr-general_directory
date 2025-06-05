@@ -180,7 +180,7 @@ class observationsController extends mainModel
         OR observation_createdAtTime LIKE '%$search%'
         OR observation_updatedAtDate LIKE '%$search%'
         OR observation_updatedAtTime LIKE '%$search%'
-        ORDER BY observation_createdAtDate DESC
+        ORDER BY observation_createdAtDate DESC, observation_createdAtTime DESC
         LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(observation_ID) FROM observations

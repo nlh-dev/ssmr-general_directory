@@ -624,7 +624,7 @@ class wifiController extends mainModel
                 $table .= '
                         </td>
                         <td class="items-center px-5 py-2 text-right whitespace-nowrap">
-                            <div class="flex items-center space-x-1">
+                            <div class="flex items-center justify-end space-x-1">
                                 <div class="flex items-center">
                                     <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword" data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">

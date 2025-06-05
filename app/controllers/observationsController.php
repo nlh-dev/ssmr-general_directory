@@ -378,8 +378,8 @@ class observationsController extends mainModel
                 $table .= '
                             </div>
                         </td>
-                        <td class="items-center px-5 py-2 text-right whitespace-nowrap">
-                            <div class="flex items-center space-x-1">
+                        <td class="items-center px-5 py-2 whitespace-nowrap">
+                            <div class="flex items-center justify-end space-x-1">
                                 <div class="flex items-center">
                                     <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="'.$rows['observation_ID'].'">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -404,17 +404,23 @@ class observationsController extends mainModel
                                         </svg>
                                     </button>
                                 </form>
-                                </div>
+                                </div>';
+                                if ($rows['observation_isDone'] != 1) {
+                                    $table .= '
                                     <div class="flex items-center">
-                                        <button class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
-                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
-                                            </svg>
-                                        </button>
+                                    <form action="" class="AjaxForm" method="POST">
+                                            <button class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
+                                                </svg>
+                                            </button>
+                                    </form>
                                     </div>
-                            </div>
+                                    ';
+                                }
+                        $table .= '</div>
                         </td>
-                    </tr>';;
+                    </tr>';
                 $counter++;
             }
             $finalPage = $counter - 1;

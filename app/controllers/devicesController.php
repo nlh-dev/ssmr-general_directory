@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\mainModel;
+use DateTime;
 
 class devicesController extends mainModel
 {
@@ -529,6 +530,11 @@ class devicesController extends mainModel
             $counter = $start + 1;
             $startPage = $start + 1;
             foreach ($data as $rows) {
+                $deliveryTime = $rows['device_deliveryTime'];
+                $dateTime = new DateTime($deliveryTime);
+                $dateTime->format('h:i a');
+                $deliveryTimeDots = str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
+
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
@@ -551,7 +557,7 @@ class devicesController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['device_deliveryDate'])) . ' - ' . date('h:i A', strtotime($rows['device_deliveryTime'])) . '
+                                    ' . date('d/m/Y', strtotime($rows['device_deliveryDate'])) . ' - ' . $deliveryTimeDots . '
                                 </span>
                             </div>
                         </td>
@@ -752,6 +758,10 @@ class devicesController extends mainModel
             $counter = $start + 1;
             $startPage = $start + 1;
             foreach ($data as $rows) {
+                $deliveryTime = $rows['device_withdrawTime'];
+                $dateTime = new DateTime($deliveryTime);
+                $dateTime->format('h:i a');
+                $deliveryTimeDots = str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
@@ -774,7 +784,7 @@ class devicesController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['device_withdrawDate'])) . ' - ' . date('h:i A', strtotime($rows['device_withdrawTime'])) . '
+                                    ' . date('d/m/Y', strtotime($rows['device_withdrawDate'])) . ' - ' . $deliveryTimeDots . '
                                 </span>
                             </div>
                         </td>

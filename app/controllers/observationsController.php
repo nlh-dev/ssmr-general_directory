@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\models\mainModel;
+use DateTime;
 
 
 class observationsController extends mainModel
 {
-    public function getObservationsById(){
+    public function getObservationsById()
+    {
         $observationId = $this->cleanRequest($_GET['observation_ID']);
         $getObservationByID_SQL = "SELECT * FROM observations
         JOIN observations_priority
@@ -148,6 +150,64 @@ class observationsController extends mainModel
         return json_encode($alert);
     }
 
+    public function markDoneObservationsController()
+    {
+        $observationID = $this->cleanRequest($_POST['observation_ID']);
+
+        $observationData = $this->dbRequestExecute("SELECT observation_ID FROM observations WHERE observation_ID = '$observationID'");
+        if ($observationData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Observación no encontrada!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $observationDataUpdate = [
+            [
+                "db_FieldName" => "observation_isDone",
+                "db_ValueName" => ":isDone",
+                "db_realValue" => true
+            ],
+            [
+                "db_FieldName" => "observation_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "observation_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ]
+        ];
+
+        $observationCondition = [
+            "condition_FieldName" => "observation_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $observationID
+        ];
+
+        if ($this->updateData("observations", $observationDataUpdate, $observationCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operacion Realizada!",
+                "text" => "Observacion Realizada Exitosamente!",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Error al retirar dispositivo, intente nuevamente",
+            ];
+        }
+        return json_encode($alert);
+    }
+
     public function observationsListController($page, $register, $url, $search)
     {
 
@@ -239,6 +299,12 @@ class observationsController extends mainModel
             $counter = $start + 1;
             $startPage = $start + 1;
             foreach ($data as $rows) {
+
+                $observationTime = $rows['observation_createdAtTime'];
+                $dateTime = new DateTime($observationTime);
+                $dateTime->format('h:i a');
+                $observationTimeDots = str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
+
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 text-xs text-gray-400">' . $counter . '</td>
@@ -247,27 +313,27 @@ class observationsController extends mainModel
                                 ' . $rows['observation_reason'] . '
                             </p>
                             <div class="flex items-center mt-1">';
-                            switch ($rows['observation_isDone']) {
-                                case 1:
-                                    $table .= '
+                switch ($rows['observation_isDone']) {
+                    case 1:
+                        $table .= '
                                     <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check"/>
                                     </svg>
                                     Realizada
                                 </span>';
-                                    break;
-                                case 0:
-                                    $table .= '
+                        break;
+                    case 0:
+                        $table .= '
                                     <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#xMark"/>
                                     </svg>
                                     No Realizada
                                 </span>';
-                                    break;
-                            };
-                            $table .= '
+                        break;
+                };
+                $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
@@ -276,7 +342,7 @@ class observationsController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ' - ' . date('h:i A', strtotime($rows['observation_createdAtTime'])) . '
+                                    ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ' - ' . $observationTimeDots . '
                                 </span>
                             </div>
                         </td>
@@ -381,7 +447,7 @@ class observationsController extends mainModel
                         <td class="items-center px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
                                 <div class="flex items-center">
-                                    <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="'.$rows['observation_ID'].'">
+                                    <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="' . $rows['observation_ID'] . '">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
                                         </svg>
@@ -405,10 +471,12 @@ class observationsController extends mainModel
                                     </button>
                                 </form>
                                 </div>';
-                                if ($rows['observation_isDone'] != 1) {
-                                    $table .= '
+                if ($rows['observation_isDone'] != 1) {
+                    $table .= '
                                     <div class="flex items-center">
-                                    <form action="" class="AjaxForm" method="POST">
+                                    <form action="' . APP_URL . 'app/ajax/observationsAjax.php" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="observationsModule" value="markDoneObservations">
+                                    <input type="hidden" name="observation_ID" value="' . $rows['observation_ID'] . '">
                                             <button class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
                                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                     <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
@@ -417,8 +485,8 @@ class observationsController extends mainModel
                                     </form>
                                     </div>
                                     ';
-                                }
-                        $table .= '</div>
+                }
+                $table .= '</div>
                         </td>
                     </tr>';
                 $counter++;

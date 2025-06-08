@@ -13,7 +13,7 @@
                 </h1>
             </div>
             <div class="">
-                <button data-modal-target="addWifiPassword" data-modal-toggle="addWifiPassword" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-100" type="button">
+                <button data-modal-target="addDepartment" data-modal-toggle="addDepartment" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-100" type="button">
                     <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#addSymbol" />
                     </svg>

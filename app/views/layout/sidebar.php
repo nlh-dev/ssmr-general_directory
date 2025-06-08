@@ -49,14 +49,14 @@ $sidebarMenu = [
     ],
     'separator',
     [
-        'label' => 'Ubicaciones',
-        'icon' => 'tagLocation',
-        'url' => $routes['locationsList'],
-    ],
-    [
         'label' => 'Departamentos',
         'icon' => 'departments',
         'url' => $routes['departmentsList'] . '/',
+    ],
+    [
+        'label' => 'Ubicaciones',
+        'icon' => 'tagLocation',
+        'url' => $routes['locationsList'],
     ],
     'separator',
     [

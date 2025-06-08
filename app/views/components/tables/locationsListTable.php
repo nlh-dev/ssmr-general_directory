@@ -32,7 +32,7 @@
                     <td scope="row" class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
                         <div class="flex items-center whitespace-nowrap">
                             <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
                             <p class="text-xs">
                                 Piso 1, Lado A
@@ -72,14 +72,14 @@
                             <div class="flex items-center">
                                 <button class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
+                                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                     </svg>
                                 </button>
                             </div>
                             <div class="flex items-center">
                                 <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                        <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
+                                        <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                     </svg>
                                 </button>
                             </div>
@@ -87,7 +87,7 @@
                                 <div class="flex items-center">
                                     <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                            <use xlink:href="./app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
+                                            <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
                                         </svg>
                                     </button>
                                 </div>

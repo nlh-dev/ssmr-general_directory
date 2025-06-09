@@ -42,7 +42,7 @@ $dashboardModules = [
          ],
          [
             'title' => 'Observaciones',
-            'subtitle' => "$totalObservations Observaciones",
+            'subtitle' => "$totalObservations Observaciones Pendientes",
             'description' => 'Ver Observaciones',
             'icon' => 'floppyDisk',
             'link' => $routes['deviceObservationsList'],

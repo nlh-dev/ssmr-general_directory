@@ -1,3 +1,17 @@
 .content-main.sidebar-hidden {
-    margin-left: 0 !important; 
+  margin-left: 0 !important;
+}
+
+[data-popover].invisible {
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none;
+}
+
+[data-popover]:not(.invisible) {
+  max-width: 16rem;
+  max-height: 100vh;
+  overflow: visible;
+  pointer-events: auto;
 }

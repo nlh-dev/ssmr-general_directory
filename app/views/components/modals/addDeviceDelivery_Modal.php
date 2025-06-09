@@ -35,7 +35,7 @@ foreach ($showDepartmentsData as $dep) {
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="<?= $AjaxRoutes['deliveryDevices']?>" class="AjaxForm" method="POST" autocomplete="OFF">
+            <form action="<?= $AjaxRoutes['deliveryDevices'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
                 <input type="hidden" name="deviceModule" id="deviceModule" value="addDeviceDelivery">
                 <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="">
@@ -154,12 +154,6 @@ foreach ($showDepartmentsData as $dep) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona el botón de cerrar/cancelar del modal
-        document.querySelectorAll('[data-modal-hide="addDeviceDelivery"]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                clearModal();
-            });
-        });
 
         // También puedes limpiar al abrir el modal si lo deseas
         document.querySelectorAll('[data-modal-target="addDeviceDelivery"]').forEach(function(btn) {
@@ -178,6 +172,8 @@ foreach ($showDepartmentsData as $dep) {
                 select.selectedIndex = 0;
             });
 
+            setTodayToDeliveryDate();
+
             // Limpia estilos y clases de los inputs
             const wifiPasswordInput = form.querySelector('#wifiPassword');
             if (wifiPasswordInput) {
@@ -191,7 +187,19 @@ foreach ($showDepartmentsData as $dep) {
                 wifiCheckbox.checked = false;
             }
         }
+
     });
+
+    function setTodayToDeliveryDate() {
+        const deliveryDateInput = document.getElementById('deliveryDate');
+        if (deliveryDateInput) {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            deliveryDateInput.value = `${yyyy}-${mm}-${dd}`;
+        }
+    }
 
     // Relación departamentos-ubicaciones desde PHP
     const departmentsByLocation = <?= json_encode($departmentsByLocation) ?>;

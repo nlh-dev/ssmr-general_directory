@@ -116,6 +116,97 @@ class observationsController extends mainModel
         return json_encode($alert);
     }
 
+    public function updateObservationsController()
+    {
+        $observationID = $this->cleanRequest($_POST['observation_ID']);
+        $observationData = $this->dbRequestExecute("SELECT * FROM observations WHERE observation_ID = '$observationID'");
+        if ($observationData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Observación no encontrada",
+            ];
+            return json_encode($alert);
+            exit();
+        } else {
+            $observationData = $observationData->fetch();
+        }
+
+        $observationReason = strtoupper($this->cleanRequest($_POST['observationReason']));
+        $observationDate = $this->cleanRequest($_POST['observationDate']);
+        $observationType = $this->cleanRequest($_POST['observationType']);
+        $observationPriority = $this->cleanRequest($_POST['observationPriority']);
+        $observationDescription = $this->cleanRequest($_POST['observationDescription']);
+
+        if (empty($observationReason) || empty($observationDate) || empty($observationType) || empty($observationPriority)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡Algunos campos se encuentran vacios!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $observationDataUpdate = [
+            [
+                "db_FieldName" => "observation_reason",
+                "db_ValueName" => ":reason",
+                "db_realValue" => $observationReason
+            ],
+            [
+                "db_FieldName" => "observation_type_ID",
+                "db_ValueName" => ":type_ID",
+                "db_realValue" => $observationType
+            ],
+            [
+                "db_FieldName" => "observations_priority_ID",
+                "db_ValueName" => ":priority_ID",
+                "db_realValue" => $observationPriority
+            ],
+            [
+                "db_FieldName" => "observation_description",
+                "db_ValueName" => ":description",
+                "db_realValue" => $observationDescription
+            ],
+            [
+                "db_FieldName" => "observation_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "observation_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $observationCondition = [
+            "condition_FieldName" => "observation_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $observationID
+        ];
+
+        if ($this->updateData("observations", $observationDataUpdate, $observationCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operacion Realizada!",
+                "text" => "Observacion Actualizada exitosamente",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Error al actualizar observacion, intente nuevamente",
+            ];
+        }
+        return json_encode($alert);
+    }
+
     public function deleteObservationsController()
     {
         $observationID = $this->cleanRequest($_POST['observation_ID']);
@@ -342,7 +433,7 @@ class observationsController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ' - ' . $observationTimeDots . '
+                                    ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ', ' . $observationTimeDots . '
                                 </span>
                             </div>
                         </td>
@@ -444,50 +535,86 @@ class observationsController extends mainModel
                 $table .= '
                             </div>
                         </td>
-                        <td class="items-center px-5 py-2 whitespace-nowrap">
+                        <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
                                 <div class="flex items-center">
-                                    <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="' . $rows['observation_ID'] . '">
+                                    <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" 
+                                    id="eye-btn-' . $rows['observation_ID'] . '"
+                                    data-popover-target="popover-eye-' . $rows['observation_ID'] . '"
+                                    data-popover-placement="bottom" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="' . $rows['observation_ID'] . '">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
                                         </svg>
                                     </button>
+                                <div data-popover id="popover-eye-' . $rows['observation_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                    <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                        <h3 class="font-semibold text-white text-xs">Ver</h3>
+                                    </div>
+                                        <div data-popper-arrow bg-gray-900></div>
+                                </div>
                                 </div>
                                 <div class="flex items-center">
-                                    <button class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
+                                    <button data-modal-toggle="editObservation" data-modal-target="editObservation" id="editPen-btn-' . $rows['observation_ID'] . '"
+                                    data-popover-target="popover-editPen-' . $rows['observation_ID'] . '"
+                                    data-popover-placement="bottom" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"
+                                    data-observation-id="' . $rows['observation_ID'] . '">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
                                     </button>
+                                    <div data-popover id="popover-editPen-' . $rows['observation_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                    <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                        <h3 class="font-semibold text-white text-xs">Editar</h3>
+                                    </div>
+                                        <div data-popper-arrow bg-gray-900></div>
+                                </div>
                                 </div>
                                 <div class="flex items-center">
                                 <form action="' . APP_URL . 'app/ajax/observationsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="observationsModule" value="deleteObservations">
                                     <input type="hidden" name="observation_ID" value="' . $rows['observation_ID'] . '">
-                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button data-popover-target="popover-delete-' . $rows['observation_ID'] . '"
+                                    data-popover-placement="bottom" class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                         </svg>
                                     </button>
-                                </form>
-                                </div>';
+                                    <div data-popover id="popover-delete-' . $rows['observation_ID'] . '" role="tooltip"
+                                    class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                            <h3 class="font-semibold text-white text-xs">Eliminar</h3>
+                                        </div>
+                                            <div data-popper-arrow bg-gray-900></div>
+                                    </div>
+                                </div>
+                                </form>';
                 if ($rows['observation_isDone'] != 1) {
                     $table .= '
-                                    <div class="flex items-center">
-                                    <form action="' . APP_URL . 'app/ajax/observationsAjax.php" class="AjaxForm" method="POST">
+                                <div class="flex items-center">
+                                <form action="' . APP_URL . 'app/ajax/observationsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="observationsModule" value="markDoneObservations">
                                     <input type="hidden" name="observation_ID" value="' . $rows['observation_ID'] . '">
-                                            <button class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
-                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
-                                                </svg>
-                                            </button>
-                                    </form>
+                                    <button id="markDone-btn-' . $rows['observation_ID'] . '"
+                                    data-popover-target="popover-markDone-' . $rows['observation_ID'] . '"
+                                    data-popover-placement="bottom" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#check" />
+                                        </svg>
+                                    </button>
+                                    <div data-popover id="popover-markDone-' . $rows['observation_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                    <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                        <h3 class="font-semibold text-white text-xs">Marcar como Realizada</h3>
                                     </div>
-                                    ';
+                                        <div data-popper-arrow bg-gray-900></div>
+                                </div>
+                                </form>
+                                </div>
+                            </div>';
                 }
-                $table .= '</div>
-                        </td>
+                $table .= '</td>
                     </tr>';
                 $counter++;
             }

@@ -23,6 +23,9 @@ if (isset($_POST['observationsModule'])) {
         case 'saveObservations':
             echo $observationsInstance -> saveObservationsController();
             break;
+        case 'editObservation':
+            echo $observationsInstance -> updateObservationsController();
+            break;
         case 'deleteObservations':
             echo $observationsInstance -> deleteObservationsController();
             break;

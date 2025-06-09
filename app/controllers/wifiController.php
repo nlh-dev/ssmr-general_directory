@@ -324,7 +324,8 @@ class wifiController extends mainModel
         return json_encode($alert);
     }
 
-    public function getWifiDataController(){
+    public function getWifiDataController()
+    {
         $wifiID = $this->cleanRequest($_GET['wifi_ID']);
         $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory WHERE wifi_ID = '$wifiID'");
         if ($wifiData->rowCount() <= 0) {
@@ -342,7 +343,8 @@ class wifiController extends mainModel
         exit();
     }
 
-    public function updateWifiController(){
+    public function updateWifiController()
+    {
         $wifiID = $this->cleanRequest($_POST['wifi_ID']);
 
         $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
@@ -356,7 +358,7 @@ class wifiController extends mainModel
             return json_encode($alert);
             exit();
         }
-        
+
         $SSID = strtoupper($this->cleanRequest($_POST['SSID']));
         $locations = $this->cleanRequest($_POST['locations']);
         $departments = $this->cleanRequest($_POST['departments']);
@@ -387,7 +389,7 @@ class wifiController extends mainModel
             exit();
         }
 
-        $checkIPDirection = $this -> dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
+        $checkIPDirection = $this->dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
         if ($checkIPDirection->rowCount() >= 1) {
             $alert = [
                 "type" => "simple",
@@ -623,35 +625,61 @@ class wifiController extends mainModel
                 }
                 $table .= '
                         </td>
-                        <td class="items-center px-5 py-2 text-right whitespace-nowrap">
+                        <td class="items-center px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
                                 <div class="flex items-center">
-                                    <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword" data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword"
+                                    id="editPen-btn-' . $rows['wifi_ID'] . '"
+                                    data-popover-target="popover-editPen-' . $rows['wifi_ID'] . '"
+                                    data-popover-placement="bottom"
+                                    data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
                                     </button>
+                                    <div data-popover id="popover-editPen-' . $rows['wifi_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                            <h3 class="font-semibold text-white text-xs">Editar</h3>
+                                        </div>
+                                            <div data-popper-arrow bg-gray-900></div>
+                                    </div>
                                 </div>
                                 <div class="flex items-center">
                                 <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="wifiModule" value="deleteWifiPassword">
                                     <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
-                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-trashCan-' . $rows['wifi_ID'] . '"
+                                    data-popover-placement="bottom">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                         </svg>
                                     </button>
                                     </form>
+                                    <div data-popover id="popover-trashCan-' . $rows['wifi_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                            <h3 class="font-semibold text-white text-xs">Eliminar</h3>
+                                        </div>
+                                            <div data-popper-arrow bg-gray-900></div>
+                                    </div>
                                 </div>
                                 <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="wifiModule" value="updateWifiState">
                                     <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
                                     <div class="flex items-center">
-                                        <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                        <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-arrowRepeat-' . $rows['wifi_ID'] . '" data-popover-placement="bottom">
                                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
                                             </svg>
                                         </button>
+                                        <div data-popover id="popover-arrowRepeat-' . $rows['wifi_ID'] . '" role="tooltip"
+                                        class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                            <h3 class="font-semibold text-white text-xs">Cambiar Estado</h3>
+                                        </div>
+                                            <div data-popper-arrow bg-gray-900></div>
+                                    </div>
                                     </div>
                                 </form>
                             </div>

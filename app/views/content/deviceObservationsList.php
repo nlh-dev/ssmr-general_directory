@@ -1,6 +1,7 @@
 <?php
 require_once "./app/views/components/modals/addObservation_Modal.php";
 require_once "./app/views/components/modals/viewObservation_Modal.php";
+require_once "./app/views/components/modals/editObservation_Modal.php";
 
 ?>
 

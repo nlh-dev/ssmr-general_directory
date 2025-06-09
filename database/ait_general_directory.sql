@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-06-2025 a las 19:33:14
+-- Tiempo de generación: 09-06-2025 a las 21:47:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -72,7 +72,7 @@ CREATE TABLE `devices` (
 --
 
 INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedByName`, `device_description`, `device_serialCode`, `device_deliveryDate`, `device_deliveryTime`, `device_location_ID`, `device_department_ID`, `device_roomCode`, `device_withdrawDate`, `device_withdrawTime`, `device_withdrawUser_ID`, `device_isDelivered`) VALUES
-(1, 1, 'HECTOR NAVARRO', 'CONTROL SAMSUNG', 'HM-2-97', '2025-05-31', '11:34:14', 1, 2, 'A-314', '0000-00-00', '00:00:00', 1, 1),
+(1, 1, '', 'CONTROL SAMSUNG', 'HM-2-97', '2025-05-31', '11:34:14', 1, 2, 'A-314', '0000-00-00', '00:00:00', 1, 1),
 (2, 1, 'DANNY MORAN', 'CONTROL SAMSUNG', 'HM-2-646', '2025-05-31', '11:34:41', 1, 2, 'A-332', '2025-06-04', '11:36:20', 2, 0),
 (3, 1, 'N/A', 'CONTROL SAMSUNG', 'HM-2-565', '2025-06-05', '14:42:07', 1, 2, 'N/A', '2025-07-05', '14:44:05', 2, 0),
 (4, 1, '', 'CABLE HDMI', 'HM-2-100', '2025-06-05', '15:00:04', 1, 2, '', '0000-00-00', '00:00:00', 1, 1),
@@ -125,10 +125,10 @@ CREATE TABLE `observations` (
 --
 
 INSERT INTO `observations` (`observation_ID`, `observation_user_ID`, `observation_reason`, `observation_type_ID`, `observations_priority_ID`, `observation_description`, `observation_createdAtDate`, `observation_createdAtTime`, `observation_updatedAtDate`, `observation_updatedAtTime`, `observation_isDone`) VALUES
-(1, 1, 'PRUEBA 1', 4, 1, 'El estudiante mantiene una actitud atenta y participativa durante la clase, demostrando interés en los temas abordados. Realiza preguntas pertinentes y aporta ideas claras, mostrando comprensión de los contenidos. Sin embargo, ocasionalmente se distrae con facilidad, lo que afecta levemente su ritmo de trabajo', '2025-06-04', '09:09:06', '2025-06-08', '12:04:31', 1),
-(2, 1, 'PRUEBA 2', 2, 2, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-08', '12:04:28', 1),
-(3, 1, 'PRUEBA 3', 3, 3, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-06', '10:55:57', '2025-06-08', '11:58:51', 1),
-(4, 1, 'PRUEBA 4', 1, 4, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-07', '10:56:15', '2025-06-08', '11:58:58', 1);
+(1, 1, 'PRUEBA 1', 4, 1, 'El estudiante mantiene una actitud atenta y participativa durante la clase, demostrando interés en los temas abordados. Realiza preguntas pertinentes y aporta ideas claras, mostrando comprensión de los contenidos. Sin embargo, ocasionalmente se distrae con facilidad, lo que afecta levemente su ritmo de trabajo', '2025-06-04', '09:09:06', '2025-06-09', '10:05:03', 0),
+(2, 1, 'PRUEBA 2', 2, 2, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-09', '09:19:04', 1),
+(3, 1, 'PRUEBA 3', 3, 3, 'PRUEBA DE ACTUALIZACION 3', '2025-06-06', '10:55:57', '2025-06-09', '15:24:16', 1),
+(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION', '2025-06-07', '10:56:15', '2025-06-09', '12:49:03', 1);
 
 -- --------------------------------------------------------
 
@@ -230,7 +230,8 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-02 10:59:00', 1);
+(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-02 10:59:00', 1),
+(2, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 2, 1, '2025-06-09 13:07:12', '2025-06-09 13:07:12', 1);
 
 --
 -- Índices para tablas volcadas
@@ -326,7 +327,7 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT de la tabla `observations`
 --
 ALTER TABLE `observations`
-  MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `observations_priority`
@@ -356,7 +357,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
-  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

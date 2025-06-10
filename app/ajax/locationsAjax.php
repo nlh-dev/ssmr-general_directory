@@ -1,0 +1,22 @@
+<?php
+    
+    require_once "../../config/app.php";
+    require_once "../views/includes/session_start.php";
+    require_once "../../autoload.php";
+
+    use app\controllers\locationsController;
+
+    $locationsInstance = new locationsController();
+
+    if (isset($_POST['locationModule'])) {
+        switch ($_POST['locationModule']) {
+            case 'addLocation':
+                echo $locationsInstance -> addLocationsController();
+                break;
+            case 'updateLocationState':
+                echo $locationsInstance -> updateLocationsStateController();
+                break;
+        }
+    }
+
+?>

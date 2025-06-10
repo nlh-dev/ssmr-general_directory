@@ -15,6 +15,7 @@
     $AjaxRoutes = [
         'wifiPasswords' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
         'deliveryDevices' => APP_URL . 'app/ajax/deliveryDevicesAjax.php',
-        'Observations' => APP_URL . 'app/ajax/observationsAjax.php'
+        'Observations' => APP_URL . 'app/ajax/observationsAjax.php',
+        'locations' => APP_URL . 'app/ajax/locationsAjax.php',
     ];
 ?>

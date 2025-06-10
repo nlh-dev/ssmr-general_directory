@@ -42,7 +42,7 @@ class wifiController extends mainModel
 
         $checkIP = $this->dbRequestExecute("SELECT wifi_ipDirection 
         FROM wifi_directory
-        WHERE wifi_ipDirection = '$ipDirection'");
+        WHERE wifi_ipDirection = '$ipDirection' AND wifi_ipDirection != ''");
         if ($checkIP->rowCount() >= 1) {
             $alert = [
                 "type" => "simple",
@@ -203,14 +203,13 @@ class wifiController extends mainModel
             exit();
         }
 
-        // Validar que la IP no esté repetida
-        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection'");
+        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
         if ($ipCheck->rowCount() > 0) {
             $alert = [
                 "type" => "simple",
                 "icon" => "warning",
                 "title" => "¡Error!",
-                "text" => "La dirección IP ya está asignada a otro registro.",
+                "text" => "La dirección ya está asignada a otro registro.",
             ];
             return json_encode($alert);
             exit();
@@ -241,7 +240,7 @@ class wifiController extends mainModel
                 "type" => "reload",
                 "icon" => "success",
                 "title" => "¡Operación Realizada!",
-                "text" => "Dirección IP " . $ipDirection . " añadida exitosamente.",
+                "text" => "Dirección " . $ipDirection . " añadida exitosamente.",
             ];
         } else {
             $alert = [
@@ -389,13 +388,13 @@ class wifiController extends mainModel
             exit();
         }
 
-        $checkIPDirection = $this->dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
+        $checkIPDirection = $this->dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ipDirection != ''");
         if ($checkIPDirection->rowCount() >= 1) {
             $alert = [
                 "type" => "simple",
                 "icon" => "warning",
                 "title" => "¡Error al Registrar!",
-                "text" => "¡La dirección IP ya fue Registrada!",
+                "text" => "Esta dirección IP ya fue Registrada!",
             ];
             return json_encode($alert);
             exit();
@@ -552,12 +551,12 @@ class wifiController extends mainModel
                             <div class="flex items-center mt-1 whitespace-nowrap">';
                 if (!empty($rows['wifi_ipDirection'])) {
                     $table .= '
-                                <span class="flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-gray-900 hover:text-white transition duration-100">
+                                <button data-modal-target="addIpDirection" data-modal-toggle="addIpDirection" data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-gray-900 hover:text-white transition duration-100">
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
                                     </svg>
                                     ' . $rows['wifi_ipDirection'] . '
-                                </span>
+                                </button>
                                 ';
                 } else {
                     $table .= '

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-06-2025 a las 21:47:17
+-- Tiempo de generación: 10-06-2025 a las 21:26:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -87,8 +87,10 @@ INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedBy
 CREATE TABLE `locations` (
   `location_ID` int(11) NOT NULL,
   `location_name` text NOT NULL,
-  `location_createdAt` datetime NOT NULL,
-  `location_updatedAt` datetime NOT NULL,
+  `location_createdAtDate` date NOT NULL,
+  `location_createdAtTime` time NOT NULL,
+  `location_updatedAtDate` date NOT NULL,
+  `location_updatedAtTime` time NOT NULL,
   `location_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -96,9 +98,10 @@ CREATE TABLE `locations` (
 -- Volcado de datos para la tabla `locations`
 --
 
-INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAt`, `location_updatedAt`, `location_isEnable`) VALUES
-(1, 'Piso 1, Lado A', '2025-05-16 16:23:01', '2025-05-16 16:23:01', 1),
-(2, 'Piso 1, Lado B', '2025-05-16 18:19:19', '2025-05-16 18:19:19', 0);
+INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate`, `location_createdAtTime`, `location_updatedAtDate`, `location_updatedAtTime`, `location_isEnable`) VALUES
+(1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
+(2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 0),
+(3, 'prueba', '2025-06-10', '12:28:41', '2025-06-10', '12:28:41', 1);
 
 -- --------------------------------------------------------
 
@@ -125,10 +128,10 @@ CREATE TABLE `observations` (
 --
 
 INSERT INTO `observations` (`observation_ID`, `observation_user_ID`, `observation_reason`, `observation_type_ID`, `observations_priority_ID`, `observation_description`, `observation_createdAtDate`, `observation_createdAtTime`, `observation_updatedAtDate`, `observation_updatedAtTime`, `observation_isDone`) VALUES
-(1, 1, 'PRUEBA 1', 4, 1, 'El estudiante mantiene una actitud atenta y participativa durante la clase, demostrando interés en los temas abordados. Realiza preguntas pertinentes y aporta ideas claras, mostrando comprensión de los contenidos. Sin embargo, ocasionalmente se distrae con facilidad, lo que afecta levemente su ritmo de trabajo', '2025-06-04', '09:09:06', '2025-06-09', '10:05:03', 0),
+(1, 1, 'PRUEBA 1', 4, 1, '', '2025-06-04', '09:09:06', '2025-06-10', '10:53:23', 0),
 (2, 1, 'PRUEBA 2', 2, 2, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-09', '09:19:04', 1),
 (3, 1, 'PRUEBA 3', 3, 3, 'PRUEBA DE ACTUALIZACION 3', '2025-06-06', '10:55:57', '2025-06-09', '15:24:16', 1),
-(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION', '2025-06-07', '10:56:15', '2025-06-09', '12:49:03', 1);
+(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION 4', '2025-06-07', '10:56:15', '2025-06-10', '10:54:51', 1);
 
 -- --------------------------------------------------------
 
@@ -230,8 +233,8 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-02 10:59:00', 1),
-(2, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 2, 1, '2025-06-09 13:07:12', '2025-06-09 13:07:12', 1);
+(1, 'INFORMATICA', '123456', '192.168.10.2', 1, 2, '2025-05-27 13:50:29', '2025-06-10 15:07:31', 1),
+(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 2, '2025-06-10 11:19:34', '2025-06-10 15:25:11', 1);
 
 --
 -- Índices para tablas volcadas
@@ -321,7 +324,7 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `observations`
@@ -357,7 +360,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
-  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas

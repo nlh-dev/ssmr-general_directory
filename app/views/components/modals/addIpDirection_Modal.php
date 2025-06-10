@@ -27,7 +27,7 @@
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
                             </svg>
-                            Dirección IP
+                            Dirección IP / Dirección de Acceso
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="ipDirection" name="ipDirection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dirección IP....">
@@ -55,15 +55,49 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('[data-modal-target="addIpDirection"]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var wifiId = this.getAttribute('data-wifi-id');
-            var input = document.querySelector('#addIpDirection input[name="wifi_ID"]');
-            if (input) {
-                input.value = wifiId;
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        // También puedes limpiar al abrir el modal si lo deseas
+        document.querySelectorAll('[data-modal-target="addIpDirection"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                clearModal();
+            });
+        });
+
+        function clearModal() {
+            const form = document.querySelector('#addIpDirection form');
+            if (!form) return;
+            form.reset();
+        }
+
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-modal-target="addIpDirection"]').forEach(function(addIpButton) {
+            addIpButton.addEventListener('click', function() {
+                const wifiId = this.getAttribute('data-wifi-id');
+                document.getElementById('wifi_ID').value = wifiId;
+
+                let wifiURL = "<?= APP_URL ?>app/ajax/wifiPasswordsAjax.php?wifiModule=getWifiData&wifi_ID=" + wifiId;
+                let formData = new FormData();
+                formData.append('wifi_ID', wifiId);
+
+                let inputWifiID = document.querySelector('#addIpDirection #wifi_ID');
+                let inputIpDirection = document.querySelector('#addIpDirection #ipDirection');
+
+                fetch(wifiURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(dataResponse => {
+                        inputWifiID.value = dataResponse.data.wifi_ID;
+                        inputIpDirection.value = dataResponse.data.wifi_ipDirection;
+                    }).catch(err => {
+                        console.error(err);
+                    });
+            });
         });
     });
-});
 </script>

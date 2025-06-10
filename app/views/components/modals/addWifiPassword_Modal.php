@@ -156,17 +156,10 @@ foreach ($showDepartmentsData as $dep) {
                 select.selectedIndex = 0;
             });
 
-            // Limpia estilos y clases de los inputs
-            const wifiPasswordInput = form.querySelector('#wifiPassword');
-            if (wifiPasswordInput) {
-                wifiPasswordInput.classList.remove('cursor-not-allowed', 'bg-gray-200');
-                wifiPasswordInput.classList.add('focus:ring-blue-500', 'focus:border-blue-500', 'bg-gray-50');
-                wifiPasswordInput.readOnly = false;
-                wifiPasswordInput.disabled = false;
-            }
-            const wifiCheckbox = form.querySelector('#wifiCheckbox');
-            if (wifiCheckbox) {
-                wifiCheckbox.checked = false;
+            // Reinicia el select de departamentos a su estado inicial
+            const departmentsSelect = form.querySelector('#departments');
+            if (departmentsSelect) {
+                departmentsSelect.innerHTML = '<option selected value="">Seleccione....</option>';
             }
         }
     });
@@ -183,6 +176,7 @@ foreach ($showDepartmentsData as $dep) {
             departmentsSelect.innerHTML = '<option value="">Cargando Departamentos...</option>';
 
             setTimeout(() => {
+                let hasDepartments = false;
                 departmentsSelect.innerHTML = '<option value="">Seleccione....</option>';
                 Object.entries(departmentsByLocation).forEach(([id, dep]) => {
                     if (dep.location_ID == selectedLocation) {
@@ -190,8 +184,12 @@ foreach ($showDepartmentsData as $dep) {
                         option.value = id;
                         option.textContent = dep.name;
                         departmentsSelect.appendChild(option);
+                        hasDepartments = true
                     }
                 });
+                if (!hasDepartments) {
+                    departmentsSelect.innerHTML = '<option value="">No hay departamentos Relacionados....</option>';
+                }
             }, 400);
         });
     });

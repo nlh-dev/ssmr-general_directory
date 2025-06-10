@@ -16,6 +16,9 @@
             case 'updateLocationState':
                 echo $locationsInstance -> updateLocationsStateController();
                 break;
+            case 'deleteLocation':
+                echo $locationsInstance -> deleteLocationController();
+                break;
         }
     }
 

@@ -155,6 +155,40 @@ class locationsController extends mainModel
         return json_encode($alert);
     }
 
+    public function deleteLocationController()
+    {
+        $locationID = $this->cleanRequest($_POST['location_ID']);
+
+        $locationData = $this->dbRequestExecute("SELECT location_ID FROM locations WHERE location_ID = '$locationID'");
+        if ($locationData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        if ($this->deleteData("locations", "location_ID", $locationID)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Ubicacion eliminada exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo eliminar la Ubicación.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
     public function locationsListController($page, $register, $url, $search)
     {
 
@@ -295,7 +329,7 @@ class locationsController extends mainModel
                                     </div>
                                 </div>
                                 <div class="flex items-center">
-                                <form action="#" class="AjaxForm" method="POST">
+                                <form action="'.APP_URL.'app/ajax/locationsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="locationModule" value="deleteLocation">
                                     <input type="hidden" name="location_ID" value="' . $rows['location_ID'] . '">
                                     <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-trashCan-' . $rows['location_ID'] . '"

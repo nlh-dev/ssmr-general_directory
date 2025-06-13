@@ -17,5 +17,6 @@
         'deliveryDevices' => APP_URL . 'app/ajax/deliveryDevicesAjax.php',
         'Observations' => APP_URL . 'app/ajax/observationsAjax.php',
         'locations' => APP_URL . 'app/ajax/locationsAjax.php',
+        'departments' => APP_URL . 'app/ajax/departmentsAjax.php',
     ];
 ?>

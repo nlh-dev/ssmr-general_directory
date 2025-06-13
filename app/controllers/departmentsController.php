@@ -5,15 +5,15 @@ namespace app\controllers;
 use app\models\mainModel;
 use DateTime;
 
-
-class locationsController extends mainModel
+class departmentsController extends mainModel
 {
 
-    public function addLocationsController()
+    public function saveDepartmentsController()
     {
-        $locationName = $this->cleanRequest($_POST['locationName']);
+        $departmentName = ucwords($this->cleanRequest($_POST['departmentName']));
+        $selectedLocation = $this->cleanRequest($_POST['locations']);
 
-        if (empty($locationName)) {
+        if (empty($departmentName) || empty($selectedLocation)) {
             $alert = [
                 "type" => "simple",
                 "icon" => "warning",
@@ -24,65 +24,72 @@ class locationsController extends mainModel
             exit();
         }
 
-        $checkLocationName = $this->dbRequestExecute("SELECT location_name FROM locations WHERE location_name = '$locationName'");
-        if ($checkLocationName->rowCount() >= 1) {
+        $checkLocationState = $this->dbRequestExecute("SELECT location_isEnable FROM locations WHERE location_ID = '$selectedLocation'");
+
+        $location = $checkLocationState->fetch();
+        if (!$location || $location['location_isEnable'] != 1) {
             $alert = [
                 "type" => "simple",
                 "icon" => "warning",
                 "title" => "¡Error al Registrar!",
-                "text" => "¡Esta Ubicación ya se encuentra Registrada!",
+                "text" => "¡Esta Ubicación se encuentra Deshabilitada!",
             ];
             return json_encode($alert);
             exit();
         }
 
-        $locationRegisterData = [
+        $departmentRegisterData = [
             [
-                "db_FieldName" => "location_name",
-                "db_ValueName" => ":locationName",
-                "db_realValue" => $locationName
+                "db_FieldName" => "department_name",
+                "db_ValueName" => ":departmentName",
+                "db_realValue" => $departmentName
             ],
             [
-                "db_FieldName" => "location_createdAtDate",
+                "db_FieldName" => "department_location_ID",
+                "db_ValueName" => ":location_ID",
+                "db_realValue" => $selectedLocation
+            ],
+            [
+                "db_FieldName" => "department_createdAtDate",
                 "db_ValueName" => ":createdAtDate",
                 "db_realValue" => date('Y-m-d')
             ],
             [
-                "db_FieldName" => "location_createdAtTime",
+                "db_FieldName" => "department_createdAtTime",
                 "db_ValueName" => ":createdAtTime",
                 "db_realValue" => date('H:i:s')
             ],
             [
-                "db_FieldName" => "location_updatedAtDate",
+                "db_FieldName" => "department_updatedAtDate",
                 "db_ValueName" => ":updatedAtDate",
                 "db_realValue" => date('Y-m-d')
             ],
             [
-                "db_FieldName" => "location_updatedAtTime",
+                "db_FieldName" => "department_updatedAtTime",
                 "db_ValueName" => ":updatedAtTime",
                 "db_realValue" => date('H:i:s')
             ],
             [
-                "db_FieldName" => "location_isEnable",
+                "db_FieldName" => "department_isEnable",
                 "db_ValueName" => ":isEnable",
                 "db_realValue" => true
             ],
         ];
 
-        $saveLocation = $this->saveData("locations", $locationRegisterData);
-        if ($saveLocation->rowCount() >= 1) {
+        $saveDepartments = $this->saveData("departments", $departmentRegisterData);
+        if ($saveDepartments->rowCount() >= 1) {
             $alert = [
                 "type" => "reload",
                 "icon" => "success",
                 "title" => "¡Operación Realizada!",
-                "text" => "La Ubicacion " . $locationName . " fue registrada exitosamente!",
+                "text" => "Departamento ". $departmentName ." registrado exitosamente!",
             ];
         } else {
             $alert = [
                 "type" => "simple",
                 "icon" => "error",
                 "title" => "¡Error!",
-                "text" => "¡Ubicación no registrada, intente nuevamente!",
+                "text" => "Departamento no registrado, intente nuevamente!",
             ];
         }
         return json_encode($alert);
@@ -94,200 +101,7 @@ class locationsController extends mainModel
         return str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
     }
 
-    public function getLocationsByIdController()
-    {
-        $locationId = $this->cleanRequest($_GET['location_ID']);
-        $getLocations_SQL = "SELECT * FROM locations WHERE location_ID = '$locationId' LIMIT 1";
-        $getLocations_Query = $this->dbRequestExecute($getLocations_SQL);
-        $getLocations_Query->execute();
-        return $getLocations_Query->fetch();
-    }
-
-    public function updateLocationsStateController()
-    {
-        $locationID = $this->cleanRequest($_POST['location_ID']);
-
-        $locationData = $this->dbRequestExecute("SELECT location_isEnable FROM locations WHERE location_ID = '$locationID'");
-        if ($locationData->rowCount() <= 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "Registro no encontrado!",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $locationCurrentState = $locationData->fetch()['location_isEnable'];
-        $locationNewState = $locationCurrentState ? 0 : 1;
-
-        $locationStateData = [
-            [
-                "db_FieldName" => "location_isEnable",
-                "db_ValueName" => ":isEnable",
-                "db_realValue" => $locationNewState
-            ],
-            [
-                "db_FieldName" => "location_updatedAtDate",
-                "db_ValueName" => ":updatedAtDate",
-                "db_realValue" => date('Y-m-d')
-            ],
-            [
-                "db_FieldName" => "location_updatedAtTime",
-                "db_ValueName" => ":updatedAtTime",
-                "db_realValue" => date('H:i:s')
-            ],
-        ];
-
-        $locationCondition = [
-            "condition_FieldName" => "location_ID",
-            "condition_ValueName" => ":ID",
-            "condition_realValue" => $locationID
-        ];
-
-        $locationStateSuccess = $this->updateData("locations", $locationStateData, $locationCondition);
-        if ($locationStateSuccess && $locationNewState == 0) {
-            $updateDepartments_SQL = "UPDATE departments 
-            SET department_isEnable = 0 
-            WHERE department_location_ID = '$locationID'";
-            $this->dbRequestExecute($updateDepartments_SQL)->execute();
-
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Estado actualizado exitosamente.",
-            ];
-        } elseif ($locationStateSuccess && $locationNewState == 1) {
-            $updateDepartments_SQL = "UPDATE departments 
-            SET department_isEnable = 1 
-            WHERE department_location_ID = '$locationID'";
-            $this->dbRequestExecute($updateDepartments_SQL)->execute();
-
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Estado actualizado exitosamente.",
-            ];
-        } else {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "No se pudo actualizar el estado.",
-            ];
-        }
-        return json_encode($alert);
-    }
-
-    public function updateLocationController()
-    {
-        $locationID = $this->cleanRequest($_POST['location_ID']);
-        $locationData = $this->dbRequestExecute("SELECT * FROM locations WHERE location_ID = '$locationID'");
-        if ($locationData->rowCount() <= 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "Ubicación no encontrada",
-            ];
-            return json_encode($alert);
-            exit();
-        } else {
-            $locationData = $locationData->fetch();
-        }
-
-        $locationName = $this->cleanRequest($_POST['locationName']);
-        if (empty($locationName)) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error al Registrar!",
-                "text" => "Algunos campos se encuentran Vacíos",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $locationStateData = [
-            [
-                "db_FieldName" => "location_name",
-                "db_ValueName" => ":locationName",
-                "db_realValue" => $locationName
-            ],
-            [
-                "db_FieldName" => "location_updatedAtDate",
-                "db_ValueName" => ":updatedAtDate",
-                "db_realValue" => date('Y-m-d')
-            ],
-            [
-                "db_FieldName" => "location_updatedAtTime",
-                "db_ValueName" => ":updatedAtTime",
-                "db_realValue" => date('H:i:s')
-            ],
-        ];
-
-        $locationCondition = [
-            "condition_FieldName" => "location_ID",
-            "condition_ValueName" => ":ID",
-            "condition_realValue" => $locationID
-        ];
-
-        if ($this->updateData("locations", $locationStateData, $locationCondition)) {
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Ubicación actualizada exitosamente.",
-            ];
-        } else {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "No se pudo actualizar la ubicación, Intente Nuevamente.",
-            ];
-        }
-        return json_encode($alert);
-    }
-
-    public function deleteLocationController()
-    {
-        $locationID = $this->cleanRequest($_POST['location_ID']);
-
-        $locationData = $this->dbRequestExecute("SELECT location_ID FROM locations WHERE location_ID = '$locationID'");
-        if ($locationData->rowCount() <= 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "Registro no encontrado!",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        if ($this->deleteData("locations", "location_ID", $locationID)) {
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Ubicacion eliminada exitosamente.",
-            ];
-        } else {
-            $alert = [
-                "type" => "simple",
-                "icon" => "error",
-                "title" => "¡Error!",
-                "text" => "No se pudo eliminar la Ubicación.",
-            ];
-        }
-        return json_encode($alert);
-    }
-
-    public function locationsListController($page, $register, $url, $search)
+    public function departmentsListController($page, $register, $url, $search)
     {
 
         $page = $this->cleanRequest($page);
@@ -302,23 +116,27 @@ class locationsController extends mainModel
         $page = (isset($page) && $page > 0) ? (int) $page : 1;
         $start = ($page > 0) ? (($page * $register) - $register) : 0;
 
-        $dataRequest_Query = "SELECT * FROM locations
-        WHERE location_name LIKE '%$search%' 
-        OR location_createdAtDate LIKE '%$search%' 
-        OR location_createdAtTime LIKE '%$search%' 
-        OR location_updatedAtDate LIKE '%$search%' 
-        OR location_updatedAtTime LIKE '%$search%'
-        OR location_isEnable LIKE '%$search%'
-        ORDER BY location_name ASC
-        LIMIT $start,$register";
+        $dataRequest_Query = "SELECT * FROM departments dep
+        JOIN locations loc ON dep.department_location_ID = loc.location_ID
+        WHERE department_name LIKE '%$search%' 
+        OR department_location_ID LIKE '%$search%' 
+        OR department_createdAtDate LIKE '%$search%' 
+        OR department_createdAtTime LIKE '%$search%' 
+        OR department_updatedAtDate LIKE '%$search%'
+        OR department_updatedAtTime LIKE '%$search%'
+        OR department_isEnable LIKE '%$search%'
+        ORDER BY department_location_ID DESC
+        LIMIT $start, $register";
 
-        $totalData_Query = "SELECT COUNT(location_ID) FROM locations
-        WHERE location_name LIKE '%$search%' 
-        OR location_createdAtDate LIKE '%$search%' 
-        OR location_createdAtTime LIKE '%$search%' 
-        OR location_updatedAtDate LIKE '%$search%' 
-        OR location_updatedAtTime LIKE '%$search%'
-        OR location_isEnable LIKE '%$search%'";
+        $totalData_Query = "SELECT COUNT(department_ID) FROM departments dep
+        JOIN locations loc ON dep.department_location_ID = loc.location_ID
+        WHERE department_name LIKE '%$search%' 
+        OR department_location_ID LIKE '%$search%' 
+        OR department_createdAtDate LIKE '%$search%' 
+        OR department_createdAtTime LIKE '%$search%' 
+        OR department_updatedAtDate LIKE '%$search%'
+        OR department_updatedAtTime LIKE '%$search%'
+        OR department_isEnable LIKE '%$search%'";
 
         $data = $this->dbRequestExecute($dataRequest_Query);
         $data = $data->fetchAll();
@@ -336,7 +154,7 @@ class locationsController extends mainModel
                                             #
                                         </th>
                                         <th scope="col" class="px-5 py-3">
-                                            Ubicación
+                                            Departamento
                                         </th>
                                         <th scope="col" class="px-5 py-3">
                                             Fecha de Creación
@@ -357,18 +175,21 @@ class locationsController extends mainModel
             $counter = $start + 1;
             $startPage = $start + 1;
             foreach ($data as $rows) {
-                $locationCreateTimeDots = $this->formatTimeDots($rows['location_createdAtTime']);
-                $locationUpdateTimeDots = $this->formatTimeDots($rows['location_updatedAtTime']);
+                $departmentCreateTimeDots = $this->formatTimeDots($rows['department_createdAtTime']);
+                $departmentUpdateTimeDots = $this->formatTimeDots($rows['department_updatedAtTime']);
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
-                        <td scope="row" class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
+                        <td class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
+                        <p class="text-xs">' . $rows['department_name'] . '</p>
                         <div class="flex items-center">
-                        <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                            <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100 mt-1">
+                            <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation"/>
                             </svg>
-                        <p class="text-xs">' . $rows['location_name'] . '</p>
-                            </div>
+                            ' . $rows['location_name'] . '
+                        </span>
+                        </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center">
@@ -376,7 +197,7 @@ class locationsController extends mainModel
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                 </svg>
-                                ' . date('d/m/Y', strtotime($rows['location_createdAtDate'])) . ', ' . $locationCreateTimeDots . '
+                                ' . date('d/m/Y', strtotime($rows['department_createdAtDate'])) . ', ' . $departmentCreateTimeDots . '
                             </span>
                             </div>
                         </td>
@@ -386,12 +207,12 @@ class locationsController extends mainModel
                             <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                             </svg>
-                            ' . date('d/m/Y', strtotime($rows['location_updatedAtDate'])) . ' - ' . $locationUpdateTimeDots . '
+                            ' . date('d/m/Y', strtotime($rows['department_updatedAtDate'])) . ', ' . $departmentUpdateTimeDots . '
                         </span>
                         </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">';
-                if ($rows['location_isEnable'] == 1) {
+                if ($rows['department_isEnable'] == 1) {
                     $table .= '
                             <div class="flex items-center">
                                 <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
@@ -409,16 +230,16 @@ class locationsController extends mainModel
                         <td class="items-center px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-1">
                                 <div class="flex items-center">
-                                    <button data-modal-target="editLocation" data-modal-toggle="editLocation"
-                                    id="editPen-btn-' . $rows['location_ID'] . '"
-                                    data-popover-target="popover-editPen-' . $rows['location_ID'] . '"
+                                    <button data-modal-target="editDepartment" data-modal-toggle="editDepartment"
+                                    id="editPen-btn-' . $rows['department_ID'] . '"
+                                    data-popover-target="popover-editPen-' . $rows['department_ID'] . '"
                                     data-popover-placement="bottom"
-                                    data-location-id="' . $rows['location_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    data-department-id="' . $rows['department_ID'] . '" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
                                     </button>
-                                    <div data-popover id="popover-editPen-' . $rows['location_ID'] . '" role="tooltip"
+                                    <div data-popover id="popover-editPen-' . $rows['department_ID'] . '" role="tooltip"
                                     class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
                                         <div class="px-3 py-2 bg-gray-900 rounded-lg">
                                             <h3 class="font-semibold text-white text-xs">Editar</h3>
@@ -427,17 +248,17 @@ class locationsController extends mainModel
                                     </div>
                                 </div>
                                 <div class="flex items-center">
-                                <form action="' . APP_URL . 'app/ajax/locationsAjax.php" class="AjaxForm" method="POST">
-                                    <input type="hidden" name="locationModule" value="deleteLocation">
-                                    <input type="hidden" name="location_ID" value="' . $rows['location_ID'] . '">
-                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-trashCan-' . $rows['location_ID'] . '"
+                                <form action="#" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="departmentModule" value="deleteDepartment">
+                                    <input type="hidden" name="department_ID" value="' . $rows['department_ID'] . '">
+                                    <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-trashCan-' . $rows['department_ID'] . '"
                                     data-popover-placement="bottom">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                         </svg>
                                     </button>
                                     </form>
-                                    <div data-popover id="popover-trashCan-' . $rows['location_ID'] . '" role="tooltip"
+                                    <div data-popover id="popover-trashCan-' . $rows['department_ID'] . '" role="tooltip"
                                     class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
                                         <div class="px-3 py-2 bg-gray-900 rounded-lg">
                                             <h3 class="font-semibold text-white text-xs">Eliminar</h3>
@@ -445,16 +266,16 @@ class locationsController extends mainModel
                                             <div data-popper-arrow bg-gray-900></div>
                                     </div>
                                 </div>
-                                <form action="' . APP_URL . 'app/ajax/locationsAjax.php" class="AjaxForm" method="POST">
-                                    <input type="hidden" name="locationModule" value="updateLocationState">
-                                    <input type="hidden" name="location_ID" value="' . $rows['location_ID'] . '">
+                                <form action="#" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="departmentModule" value="updateDepartmentState">
+                                    <input type="hidden" name="department_ID" value="' . $rows['department_ID'] . '">
                                     <div class="flex items-center">
-                                        <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-arrowRepeat-' . $rows['location_ID'] . '" data-popover-placement="bottom">
+                                        <button type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-arrowRepeat-' . $rows['department_ID'] . '" data-popover-placement="bottom">
                                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
                                             </svg>
                                         </button>
-                                        <div data-popover id="popover-arrowRepeat-' . $rows['location_ID'] . '" role="tooltip"
+                                        <div data-popover id="popover-arrowRepeat-' . $rows['department_ID'] . '" role="tooltip"
                                         class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
                                         <div class="px-3 py-2 bg-gray-900 rounded-lg">
                                             <h3 class="font-semibold text-white text-xs">Cambiar Estado</h3>

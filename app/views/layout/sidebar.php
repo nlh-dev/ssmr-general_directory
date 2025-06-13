@@ -51,7 +51,7 @@ $sidebarMenu = [
     [
         'label' => 'Departamentos',
         'icon' => 'departments',
-        'url' => $routes['departmentsList'] . '/',
+        'url' => $routes['departmentsList'],
     ],
     [
         'label' => 'Ubicaciones',

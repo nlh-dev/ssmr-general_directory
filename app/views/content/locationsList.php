@@ -1,5 +1,6 @@
 <?php
     require_once "./app/views/components/modals/addLocation_Modal.php";
+    require_once "./app/views/components/modals/editLocation_Modal.php";
 
 ?>
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">

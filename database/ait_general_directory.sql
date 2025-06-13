@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2025 a las 21:26:42
+-- Tiempo de generación: 13-06-2025 a las 21:28:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -31,8 +31,10 @@ CREATE TABLE `departments` (
   `department_ID` int(11) NOT NULL,
   `department_name` text NOT NULL,
   `department_location_ID` int(11) NOT NULL,
-  `department_createdAt` datetime NOT NULL,
-  `department_updatedAt` datetime NOT NULL,
+  `department_createdAtDate` date NOT NULL,
+  `department_createdAtTime` time NOT NULL,
+  `department_updatedAtDate` date NOT NULL,
+  `department_updatedAtTime` time NOT NULL,
   `department_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -40,9 +42,12 @@ CREATE TABLE `departments` (
 -- Volcado de datos para la tabla `departments`
 --
 
-INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAt`, `department_updatedAt`, `department_isEnable`) VALUES
-(1, 'Oftalmologia', 2, '2025-05-16 18:19:48', '2025-05-16 18:19:48', 1),
-(2, 'Laboratorio', 1, '2025-05-16 18:19:48', '2025-05-16 18:19:48', 1);
+INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAtDate`, `department_createdAtTime`, `department_updatedAtDate`, `department_updatedAtTime`, `department_isEnable`) VALUES
+(1, 'Oftalmologia', 2, '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
+(2, 'Laboratorio', 1, '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
+(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-13', '14:55:08', 1),
+(6, 'Nefrologia Pediatrica', 5, '2025-06-13', '14:55:57', '2025-06-13', '14:55:57', 1),
+(7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1);
 
 -- --------------------------------------------------------
 
@@ -99,9 +104,20 @@ CREATE TABLE `locations` (
 --
 
 INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate`, `location_createdAtTime`, `location_updatedAtDate`, `location_updatedAtTime`, `location_isEnable`) VALUES
-(1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
-(2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 0),
-(3, 'prueba', '2025-06-10', '12:28:41', '2025-06-10', '12:28:41', 1);
+(1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-06-13', '15:23:42', 1),
+(2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-06-13', '13:19:06', 1),
+(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-13', '12:59:42', 1),
+(6, 'PB, Lado B', '2025-06-13', '12:59:53', '2025-06-13', '12:59:53', 1),
+(7, 'Piso 2, Lado A', '2025-06-13', '13:04:09', '2025-06-13', '13:04:09', 1),
+(8, 'Piso 2, Lado B', '2025-06-13', '13:04:17', '2025-06-13', '13:04:17', 1),
+(9, 'Piso 3, Lado A', '2025-06-13', '13:04:36', '2025-06-13', '13:04:36', 1),
+(10, 'Piso 3, Lado B', '2025-06-13', '13:04:44', '2025-06-13', '13:04:44', 1),
+(11, 'Piso 4, Lado A', '2025-06-13', '13:04:51', '2025-06-13', '13:04:51', 1),
+(12, 'Piso 4, Lado B', '2025-06-13', '13:05:08', '2025-06-13', '13:05:08', 1),
+(13, 'Piso 5, Lado A', '2025-06-13', '13:05:22', '2025-06-13', '13:05:22', 1),
+(14, 'Piso 5, Lado B', '2025-06-13', '13:05:33', '2025-06-13', '13:05:33', 1),
+(15, 'Sotano, Lado A', '2025-06-13', '14:39:08', '2025-06-13', '14:39:08', 1),
+(16, 'Sotano, Lado B', '2025-06-13', '14:39:16', '2025-06-13', '14:39:16', 1);
 
 -- --------------------------------------------------------
 
@@ -233,8 +249,8 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '192.168.10.2', 1, 2, '2025-05-27 13:50:29', '2025-06-10 15:07:31', 1),
-(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 2, '2025-06-10 11:19:34', '2025-06-10 15:25:11', 1);
+(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-13 08:11:37', 1),
+(3, 'FARMACIA', 'STEC991.FARM', '192.168.10.1', 1, 2, '2025-06-10 11:19:34', '2025-06-13 07:58:15', 1);
 
 --
 -- Índices para tablas volcadas
@@ -312,7 +328,7 @@ ALTER TABLE `wifi_directory`
 -- AUTO_INCREMENT de la tabla `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `devices`
@@ -324,7 +340,7 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `observations`

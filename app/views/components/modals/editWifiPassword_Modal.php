@@ -59,7 +59,7 @@ $showLocationsData = $mainController->getLocationsController();
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#ipFile" />
                             </svg>
-                            Dirección IP
+                            Dirección IP / Dirección de Acceso
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="ipDirection" name="ipDirection" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dirección IP....">

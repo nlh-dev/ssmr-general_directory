@@ -1,4 +1,12 @@
-<div id="addLocation" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
+<?php
+
+
+use app\controllers\mainController;
+
+$mainController = new mainController();
+$showLocationsData = $mainController->getLocationsController();
+?>
+<div id="addDepartment" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-lg max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
@@ -9,7 +17,7 @@
                     <h3 class="text-xl font-medium text-white">
                         Añadir Nueva Ubicación
                     </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="addLocation">
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="addDepartment">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
@@ -18,24 +26,44 @@
                 </div>
             </div>
             <!-- Modal body -->
-            <form action="<?= $AjaxRoutes['locations'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
-                <input type="hidden" name="locationModule" id="locationModule" value="addLocation">
+            <form action="<?= $AjaxRoutes['departments'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
+                <input type="hidden" name="departmentModule" id="departmentModule" value="addDepartment">
                 <div class="p-4 bg-white grid grid-cols-1 gap-5">
                     <div class="">
-                        <label for="locationName" class="flex items-center block text-sm font-medium text-gray-900">
+                        <label for="departmentName" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
-                            Nombre de la Ubicación
+                            Nombre del Departamento
                         </label>
                         <div class="relative my-2">
-                            <input type="text" id="locationName" name="locationName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ubicación....">
+                            <input type="text" id="departmentName" name="departmentName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ubicación....">
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="locations" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                </svg>
+                                Ubicación
+                            </label>
+                            <div class="relative my-2">
+                                <select id="locations" name="locations" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected value="">Seleccione....</option>
+                                    <?php foreach ($showLocationsData as $key => $locationsValue) { ?>
+                                        <option value="<?= $locationsValue['location_ID'] ?>">
+                                            <?= $locationsValue['location_name'] ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
-                    <button data-modal-hide="addLocation" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
+                    <button data-modal-hide="addDepartment" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
                         <svg class="w-5 h-5 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -56,14 +84,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // También puedes limpiar al abrir el modal si lo deseas
-        document.querySelectorAll('[data-modal-target="addLocation"]').forEach(function(btn) {
+        document.querySelectorAll('[data-modal-target="addDepartment"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 clearModal();
             });
         });
 
         function clearModal() {
-            const form = document.querySelector('#addLocation form');
+            const form = document.querySelector('#addDepartment form');
             if (!form) return;
             form.reset();
         }

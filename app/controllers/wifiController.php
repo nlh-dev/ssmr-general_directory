@@ -180,7 +180,7 @@ class wifiController extends mainModel
         $ipDirection = $this->cleanRequest($_POST['ipDirection']);
 
         // Validar que el registro exista
-        $wifiData = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        $wifiData = $this->dbRequestExecute("SELECT wifi_ID, wifi_ipDirection FROM wifi_directory WHERE wifi_ID = '$wifiID'");
         if ($wifiData->rowCount() <= 0) {
             $alert = [
                 "type" => "simple",
@@ -215,6 +215,9 @@ class wifiController extends mainModel
             exit();
         }
 
+        $rowWifi = $wifiData ->fetch();
+        $previousIPDirection = $rowWifi['wifi_ipDirection'];
+
         // Actualizar la IP
         $ipData = [
             [
@@ -236,18 +239,27 @@ class wifiController extends mainModel
         ];
 
         if ($this->updateData("wifi_directory", $ipData, $ipCondition)) {
-            $alert = [
-                "type" => "reload",
-                "icon" => "success",
-                "title" => "¡Operación Realizada!",
-                "text" => "Dirección " . $ipDirection . " añadida exitosamente.",
-            ];
+            if (empty($previousIPDirection)) {
+                $alert = [
+                    "type" => "reload",
+                    "icon" => "success",
+                    "title" => "¡Operación Realizada!",
+                    "text" => "Dirección Añadida exitosamente.",
+                ];
+            } else {
+                $alert = [
+                    "type" => "reload",
+                    "icon" => "success",
+                    "title" => "¡Operación Realizada!",
+                    "text" => "Dirección Actualizada exitosamente.",
+                ];
+            }
         } else {
             $alert = [
                 "type" => "simple",
                 "icon" => "error",
                 "title" => "¡Error!",
-                "text" => "No se pudo añadir la dirección IP.",
+                "text" => "No se pudo añadir la dirección IP, intente nuevamente",
             ];
         }
         return json_encode($alert);
@@ -262,7 +274,7 @@ class wifiController extends mainModel
             $alert = [
                 "type" => "simple",
                 "icon" => "error",
-                "title" => "¡Error en la Consulta!",
+                "title" => "¡Error!",
                 "text" => "Wifi no encontrado!",
             ];
             return json_encode($alert);

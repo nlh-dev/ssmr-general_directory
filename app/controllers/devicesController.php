@@ -557,7 +557,7 @@ class devicesController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['device_deliveryDate'])) . ' - ' . $deliveryTimeDots . '
+                                    ' . date('d/m/Y', strtotime($rows['device_deliveryDate'])) . ', ' . $deliveryTimeDots . '
                                 </span>
                             </div>
                         </td>
@@ -816,7 +816,7 @@ class devicesController extends mainModel
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                     </svg>
-                                    ' . date('d/m/Y', strtotime($rows['device_withdrawDate'])) . ' - ' . $deliveryTimeDots . '
+                                    ' . date('d/m/Y', strtotime($rows['device_withdrawDate'])) . ', ' . $deliveryTimeDots . '
                                 </span>
                             </div>
                         </td>

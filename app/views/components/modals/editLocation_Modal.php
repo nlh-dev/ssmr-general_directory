@@ -1,4 +1,4 @@
-<div id="addLocation" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
+<div id="editLocation" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-lg max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
@@ -7,9 +7,9 @@
                 <div class="flex items-center justify-between">
                     <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-8 mr-3" alt="">
                     <h3 class="text-xl font-medium text-white">
-                        Añadir Nueva Ubicación
+                        Editar Ubicación
                     </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="addLocation">
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editLocation">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
@@ -18,9 +18,10 @@
                 </div>
             </div>
             <!-- Modal body -->
-            <form action="<?= $AjaxRoutes['locations'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
-                <input type="hidden" name="locationModule" id="locationModule" value="addLocation">
-                <div class="p-4 bg-white grid grid-cols-1 gap-5">
+            <form action="<?= $AjaxRoutes['locations']?>" class="AjaxForm" method="POST" autocomplete="OFF">
+                <input type="hidden" name="locationModule" id="locationModule" value="updateLocation">
+                <input type="hidden" name="location_ID" id="location_ID" value="">
+                <div class="modal-body p-4 bg-white grid grid-cols-1 gap-5">
                     <div class="">
                         <label for="locationName" class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -35,7 +36,7 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
-                    <button data-modal-hide="addLocation" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
+                    <button data-modal-hide="editLocation" type="button" class="AjaxForm px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 mr-3">
                         <svg class="w-5 h-5 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -55,17 +56,29 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // También puedes limpiar al abrir el modal si lo deseas
-        document.querySelectorAll('[data-modal-target="addLocation"]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                clearModal();
+        document.querySelectorAll('[data-modal-target="editLocation"]').forEach(function(editLocationButton) {
+            editLocationButton.addEventListener('click', function() {
+                const locationId = this.getAttribute('data-location-id');
+                document.getElementById('location_ID').value = locationId;
+                
+                let inputLocationName = document.querySelector('#editLocation #locationName');
+                let locationURL = "<?= APP_URL ?>app/ajax/locationsAjax.php?locationModule=getLocationData&location_ID=" + locationId;
+                let formData = new FormData();
+                formData.append('location_ID', locationId);
+
+                fetch(locationURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(dataResponse => {
+                        inputLocationName.value = dataResponse.location_name;
+                    }).catch(err => {
+                        console.error(err);
+                    });
             });
         });
-
-        function clearModal() {
-            const form = document.querySelector('#addLocation form');
-            if (!form) return;
-            form.reset();
-        }
     });
 </script>

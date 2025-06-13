@@ -148,8 +148,9 @@ class locationsController extends mainModel
 
         $locationStateSuccess = $this->updateData("locations", $locationStateData, $locationCondition);
         if ($locationStateSuccess && $locationNewState == 0) {
-            $updateDepartments_SQL = "UPDATE departments 
-            SET department_isEnable = 0 
+            $updateDepartments_SQL = "UPDATE departments SET department_isEnable = 0, 
+            department_updatedAtDate = '" . date('Y-m-d') . "',
+            department_updatedAtTime = '" . date('H:i:s') . "' 
             WHERE department_location_ID = '$locationID'";
             $this->dbRequestExecute($updateDepartments_SQL)->execute();
 
@@ -160,8 +161,9 @@ class locationsController extends mainModel
                 "text" => "Estado actualizado exitosamente.",
             ];
         } elseif ($locationStateSuccess && $locationNewState == 1) {
-            $updateDepartments_SQL = "UPDATE departments 
-            SET department_isEnable = 1 
+            $updateDepartments_SQL = "UPDATE departments SET department_isEnable = 1, 
+            department_updatedAtDate = '" . date('Y-m-d') . "',
+            department_updatedAtTime = '" . date('H:i:s') . "' 
             WHERE department_location_ID = '$locationID'";
             $this->dbRequestExecute($updateDepartments_SQL)->execute();
 

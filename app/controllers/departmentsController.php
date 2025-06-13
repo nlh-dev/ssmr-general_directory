@@ -182,13 +182,25 @@ class departmentsController extends mainModel
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
                         <td class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
                         <p class="text-xs">' . $rows['department_name'] . '</p>
-                        <div class="flex items-center">
+                        <div class="flex items-center">';
+                        if ($rows['department_isEnable'] != 0) {
+                            $table .= '
                             <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100 mt-1">
-                            <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation"/>
                             </svg>
                             ' . $rows['location_name'] . '
-                        </span>
+                            </span>';
+                        } else {
+                            $table .= '
+                            <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-900 hover:text-white transition duration-100 mt-1">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation"/>
+                            </svg>
+                            ' . $rows['location_name'] . '
+                            </span>';
+                        }
+                        $table .= '
                         </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">

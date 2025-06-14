@@ -601,23 +601,59 @@ class wifiController extends mainModel
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                        <div class="flex items-center">';
+                        switch ($rows['location_isEnable']) {
+                            case 1:
+                                $table .= '
+                                    <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                                     </svg>
                                     ' . $rows['location_name'] . '
                                 </span>
+                                ';
+                                break;
+                            
+                            case 0:
+                                $table .= '
+                                <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-900 hover:text-white transition duration-100">
+                                    <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                    </svg>
+                                    ' . $rows['location_name'] . '
+                                </span>
+                                ';
+                                break;
+                        }
+                        $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
-                                    <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
-                                    </svg>
-                                    ' . $rows['department_name'] . '
-                                </span>
+                            <div class="flex items-center">';
+                            switch ($rows['department_isEnable']) {
+                                case 1:
+                                    $table .= '
+                                    <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
+                                        <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                        </svg>
+                                        ' . $rows['department_name'] . '
+                                    </span>
+                                    ';
+                                    break;
+                                    
+                                    case 0:
+                                        $table .= '
+                                        <span class="flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
+                                            <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                            </svg>
+                                            ' . $rows['department_name'] . '
+                                        </span>
+                                        ';
+                                    break;
+                            }
+                            $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">';

@@ -7,6 +7,8 @@ $totalWifiRegisters = $dashboardController->countWifiRegistersController();
 $totalDevicesDelivered = $dashboardController->countDevicesDeliveredController();
 $totalDevicesWithdrew = $dashboardController->countWithdrewDevicesController();
 $totalObservations = $dashboardController->countObservationsController();
+$totalDepartments = $dashboardController->countDepartmentsController();
+$totalLocations = $dashboardController->countLocationsController();
 
 $dashboardModules = [
    [
@@ -48,7 +50,27 @@ $dashboardModules = [
             'link' => $routes['deviceObservationsList'],
          ],
       ]
-   ]
+      ],
+   [
+      'section' => 'Opciones',
+      'sectionIcon' => 'tools',
+      'cards' => [
+         [
+            'title' => 'Departamentos',
+            'subtitle' => "$totalDepartments Departamento(s)",
+            'description' => 'Ver Lista de Departamentos',
+            'icon' => 'departments',
+            'link' => $routes['departmentsList'],
+         ],
+         [
+            'title' => 'Ubicaciones',
+            'subtitle' => "$totalLocations Ubicacion(es)",
+            'description' => 'Ver Lista de Ubicaciones',
+            'icon' => 'tagLocation',
+            'link' => $routes['locationsList'],
+         ],
+      ]
+      ],
 ];
 ?>
 <!-- CONTENT GRIDS -->

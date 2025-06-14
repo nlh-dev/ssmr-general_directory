@@ -48,6 +48,28 @@
             }
             return $totalRegisters;
         }
+        
+        public function countLocationsController(){
+            $totalRegisters = 0;
+            try {
+                $dbCountRequest = $this->dbRequestExecute("SELECT COUNT(*) AS totalCount FROM locations WHERE location_isEnable = 1");
+                $totalRegisters = $dbCountRequest->fetchColumn();
+            } catch (Exception $e) {
+                $totalRegisters = 0;
+            }
+            return $totalRegisters;
+        }
+        
+        public function countDepartmentsController(){
+            $totalRegisters = 0;
+            try {
+                $dbCountRequest = $this->dbRequestExecute("SELECT COUNT(*) AS totalCount FROM departments WHERE department_isEnable = 1");
+                $totalRegisters = $dbCountRequest->fetchColumn();
+            } catch (Exception $e) {
+                $totalRegisters = 0;
+            }
+            return $totalRegisters;
+        }
     }
 
 ?>

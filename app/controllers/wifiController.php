@@ -192,30 +192,21 @@ class wifiController extends mainModel
             exit();
         }
 
-        if (empty($ipDirection)) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error!",
-                "text" => "El Campo se encuentra Vacío.",
-            ];
-            return json_encode($alert);
-            exit();
+        if (!empty($ipDirection)) {
+            $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
+            if ($ipCheck->rowCount() >= 1) {
+                $alert = [
+                    "type" => "simple",
+                    "icon" => "warning",
+                    "title" => "¡Error!",
+                    "text" => "La dirección ya está asignada a otro registro.",
+                ];
+                return json_encode($alert);
+                exit();
+            }
         }
 
-        $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
-        if ($ipCheck->rowCount() > 0) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error!",
-                "text" => "La dirección ya está asignada a otro registro.",
-            ];
-            return json_encode($alert);
-            exit();
-        }
-
-        $rowWifi = $wifiData ->fetch();
+        $rowWifi = $wifiData->fetch();
         $previousIPDirection = $rowWifi['wifi_ipDirection'];
 
         // Actualizar la IP
@@ -400,16 +391,18 @@ class wifiController extends mainModel
             exit();
         }
 
-        $checkIPDirection = $this->dbRequestExecute("SELECT wifi_ipDirection FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ipDirection != ''");
-        if ($checkIPDirection->rowCount() >= 1) {
-            $alert = [
-                "type" => "simple",
-                "icon" => "warning",
-                "title" => "¡Error al Registrar!",
-                "text" => "Esta dirección IP ya fue Registrada!",
-            ];
-            return json_encode($alert);
-            exit();
+        if (!empty($ipDirection)) {
+            $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
+            if ($ipCheck->rowCount() >= 1) {
+                $alert = [
+                    "type" => "simple",
+                    "icon" => "warning",
+                    "title" => "¡Error!",
+                    "text" => "¡La dirección ya está asignada a otro registro!",
+                ];
+                return json_encode($alert);
+                exit();
+            }
         }
 
         $wifiUpdateData = [
@@ -497,7 +490,7 @@ class wifiController extends mainModel
         OR wifi_createdAt LIKE '%$search%'
         OR wifi_updatedAt LIKE '%$search%'
         OR wifi_isEnable LIKE '%$search%'
-        ORDER BY wifi_SSID ASC
+        ORDER BY location_name ASC, wifi_SSID ASC
         LIMIT $start,$register";
 
         $totalData_Query = "SELECT COUNT(wifi_ID) FROM wifi_directory 
@@ -602,9 +595,9 @@ class wifiController extends mainModel
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                         <div class="flex items-center">';
-                        switch ($rows['location_isEnable']) {
-                            case 1:
-                                $table .= '
+                switch ($rows['location_isEnable']) {
+                    case 1:
+                        $table .= '
                                     <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
@@ -612,10 +605,10 @@ class wifiController extends mainModel
                                     ' . $rows['location_name'] . '
                                 </span>
                                 ';
-                                break;
-                            
-                            case 0:
-                                $table .= '
+                        break;
+
+                    case 0:
+                        $table .= '
                                 <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-900 hover:text-white transition duration-100">
                                     <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                         <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
@@ -623,16 +616,16 @@ class wifiController extends mainModel
                                     ' . $rows['location_name'] . '
                                 </span>
                                 ';
-                                break;
-                        }
-                        $table .= '
+                        break;
+                }
+                $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center">';
-                            switch ($rows['department_isEnable']) {
-                                case 1:
-                                    $table .= '
+                switch ($rows['department_isEnable']) {
+                    case 1:
+                        $table .= '
                                     <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
                                         <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
@@ -640,10 +633,10 @@ class wifiController extends mainModel
                                         ' . $rows['department_name'] . '
                                     </span>
                                     ';
-                                    break;
-                                    
-                                    case 0:
-                                        $table .= '
+                        break;
+
+                    case 0:
+                        $table .= '
                                         <span class="flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-800 hover:text-white transition duration-100">
                                             <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
@@ -651,9 +644,9 @@ class wifiController extends mainModel
                                             ' . $rows['department_name'] . '
                                         </span>
                                         ';
-                                    break;
-                            }
-                            $table .= '
+                        break;
+                }
+                $table .= '
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">';

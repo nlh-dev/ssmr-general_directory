@@ -33,34 +33,43 @@ $showObservationsTypeData = $mainController->getObservationsTypeController();
                 <input type="hidden" name="observation_ID" id="observation_ID" value="">
                 <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="col-span-2">
-                        <label for="observationReason" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
-                            </svg>
-                            Motivo
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="observationReason" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
+                                </svg>
+                                Motivo
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <input type="text" id="observationReason" name="observationReason" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Recibido por....">
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <label for="observationDate" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                            </svg>
-                            Fecha de Creación
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="observationDate" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
+                                </svg>
+                                Fecha de Creación
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <input type="date" id="observationDate" name="observationDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <label for="observationType" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
-                            </svg>
-                            Tipo de Observación
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="observationType" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
+                                </svg>
+                                Tipo de Observación
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <select id="observationType" name="observationType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="">Seleccione....</option>
@@ -73,12 +82,15 @@ $showObservationsTypeData = $mainController->getObservationsTypeController();
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <label for="observationPriority" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
-                            </svg>
-                            Prioridad
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="observationPriority" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
+                                </svg>
+                                Prioridad
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <select id="observationPriority" name="observationPriority" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="">Selecione.....</option>

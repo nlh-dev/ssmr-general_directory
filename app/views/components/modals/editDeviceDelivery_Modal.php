@@ -42,12 +42,15 @@ $showLocationsData = $mainController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="deviceDescription" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
-                            </svg>
-                            Descripción de Dispositivo
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="deviceDescription" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#lockFile" />
+                                </svg>
+                                Descripción de Dispositivo
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <input type="text" id="deviceDescription" name="deviceDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Dispositivo....">
                         </div>
@@ -60,29 +63,36 @@ $showLocationsData = $mainController->getLocationsController();
                                 </svg>
                                 Número de Serial
                             </label>
+                            <p class="font-bold text-red-600">*</p>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="serialCode" name="serialCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Serial....">
                         </div>
                     </div>
                     <div class="">
-                        <label for="deliveryDate" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                            </svg>
-                            Fecha de Entrega
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="deliveryDate" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
+                                </svg>
+                                Fecha de Entrega
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <input type="date" id="deliveryDate" name="deliveryDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
                     </div>
                     <div class="">
-                        <label for="locations" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
-                            </svg>
-                            Ubicación
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="locations" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
+                                </svg>
+                                Ubicación
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <select id="locations" name="locations" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected value="">Seleccione....</option>
@@ -95,12 +105,15 @@ $showLocationsData = $mainController->getLocationsController();
                         </div>
                     </div>
                     <div class="">
-                        <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
-                            </svg>
-                            Departamento
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                </svg>
+                                Departamento
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <select id="departments" name="departments" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected value="">Seleccione....</option>

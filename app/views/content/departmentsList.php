@@ -1,5 +1,6 @@
 <?php
     require_once "./app/views/components/modals/addDepartment_Modal.php";
+    require_once "./app/views/components/modals/editDepartment_Modal.php";
 
 ?>
 

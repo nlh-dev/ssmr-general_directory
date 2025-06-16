@@ -8,6 +8,17 @@ use DateTime;
 class departmentsController extends mainModel
 {
 
+    public function getDepartmentsByIdController()
+    {
+        $departmentId = $this->cleanRequest($_GET['department_ID']);
+        $getDepartment_SQL = "SELECT * FROM departments dep 
+        JOIN locations loc ON dep.department_location_ID = loc.location_ID
+        WHERE department_ID = '$departmentId' LIMIT 1";
+        $getDepartments_Query = $this->dbRequestExecute($getDepartment_SQL);
+        $getDepartments_Query->execute();
+        return $getDepartments_Query->fetch();
+    }
+
     public function saveDepartmentsController()
     {
         $departmentName = ucwords($this->cleanRequest($_POST['departmentName']));
@@ -25,7 +36,6 @@ class departmentsController extends mainModel
         }
 
         $checkLocationState = $this->dbRequestExecute("SELECT location_isEnable FROM locations WHERE location_ID = '$selectedLocation'");
-
         $location = $checkLocationState->fetch();
         if (!$location || $location['location_isEnable'] != 1) {
             $alert = [
@@ -33,6 +43,20 @@ class departmentsController extends mainModel
                 "icon" => "warning",
                 "title" => "¡Error al Registrar!",
                 "text" => "¡Esta Ubicación se encuentra Deshabilitada!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $checkDepartments_SQL = "SELECT * FROM departments 
+        WHERE department_name = '$departmentName' AND department_location_ID = '$selectedLocation'";
+        $checkDepartmentName = $this->dbRequestExecute($checkDepartments_SQL);
+        if ($checkDepartmentName->rowCount() >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡El Departamento " . $departmentName . " ya está Registrado!",
             ];
             return json_encode($alert);
             exit();
@@ -82,7 +106,7 @@ class departmentsController extends mainModel
                 "type" => "reload",
                 "icon" => "success",
                 "title" => "¡Operación Realizada!",
-                "text" => "Departamento ". $departmentName ." registrado exitosamente!",
+                "text" => "Departamento " . $departmentName . " registrado exitosamente!",
             ];
         } else {
             $alert = [
@@ -100,6 +124,208 @@ class departmentsController extends mainModel
         $dateTime = new DateTime($timeString);
         return str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
     }
+
+    public function updateDepartmentStateController()
+    {
+        $departmentID = $this->cleanRequest($_POST['department_ID']);
+
+        $departmentData = $this->dbRequestExecute("SELECT * FROM departments WHERE department_ID = '$departmentID'");
+        if ($departmentData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $departmentLocationData = $this->dbRequestExecute("SELECT department_location_ID FROM departments WHERE department_ID = '$departmentID'");
+        $departmentLocation = $departmentLocationData->fetch();
+        if (!$departmentLocation) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Departamento no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $locationID = $departmentLocation['department_location_ID'];
+        $locationStateData = $this->dbRequestExecute("SELECT location_isEnable FROM locations WHERE location_ID = '$locationID'");
+        $locationState = $locationStateData->fetch();
+        if (!$locationState || $locationState['location_isEnable'] != 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Actualizar!",
+                "text" => "No se puede habilitar porque la Ubicación esta deshabilitada.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $departmentCurrentState = $departmentData->fetch()['department_isEnable'];
+        $departmentNewState = $departmentCurrentState ? 0 : 1;
+
+        $departmentStateData = [
+            [
+                "db_FieldName" => "department_isEnable",
+                "db_ValueName" => ":isEnable",
+                "db_realValue" => $departmentNewState
+            ],
+            [
+                "db_FieldName" => "department_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "department_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $departmentCondition = [
+            "condition_FieldName" => "department_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $departmentID
+        ];
+
+        $saveDepartmentsState = $this->updateData("departments", $departmentStateData, $departmentCondition);
+        if ($saveDepartmentsState->rowCount() >= 1) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Estado actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el estado.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function updateDepartmentsController()
+    {
+        $departmentID = $this->cleanRequest($_POST['department_ID']);
+        $departmentData = $this->dbRequestExecute("SELECT * FROM departments WHERE department_ID = '$departmentID'");
+        if ($departmentData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Departamento no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        } else {
+            $departmentData = $departmentData->fetch();
+        }
+
+        $departmentName = ucwords($this->cleanRequest($_POST['departmentName']));
+        $locationName = $this->cleanRequest($_POST['locations']);
+
+        if (empty($departmentName) || empty($locationName)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "¡Algunos campos se encuentran vacios!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $departmentDataUpdate = [
+            [
+                "db_FieldName" => "department_name",
+                "db_ValueName" => ":name",
+                "db_realValue" => $departmentName
+            ],
+            [
+                "db_FieldName" => "department_location_ID",
+                "db_ValueName" => ":location_ID",
+                "db_realValue" => $locationName
+            ],
+            [
+                "db_FieldName" => "department_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "department_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $departmentCondition = [
+            "condition_FieldName" => "department_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $departmentID
+        ];
+
+        if ($this->updateData("departments", $departmentDataUpdate, $departmentCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operacion Realizada!",
+                "text" => "Departamento Actualizado exitosamente",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Error al actualizar departamento, intente nuevamente",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function deleteDepartmentController()
+    {
+        $departmentID = $this->cleanRequest($_POST['department_ID']);
+
+        $departmentData = $this->dbRequestExecute("SELECT department_ID FROM departments WHERE department_ID = '$departmentID'");
+        if ($departmentData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        if ($this->deleteData("departments", "department_ID", $departmentID)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Departamento eliminado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo eliminar el Departamento.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
 
     public function departmentsListController($page, $register, $url, $search)
     {
@@ -125,7 +351,7 @@ class departmentsController extends mainModel
         OR department_updatedAtDate LIKE '%$search%'
         OR department_updatedAtTime LIKE '%$search%'
         OR department_isEnable LIKE '%$search%'
-        ORDER BY department_location_ID DESC
+        ORDER BY location_name ASC, department_name ASC
         LIMIT $start, $register";
 
         $totalData_Query = "SELECT COUNT(department_ID) FROM departments dep
@@ -183,24 +409,24 @@ class departmentsController extends mainModel
                         <td class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
                         <p class="text-xs">' . $rows['department_name'] . '</p>
                         <div class="flex items-center">';
-                        if ($rows['department_isEnable'] != 0) {
-                            $table .= '
+                if ($rows['location_isEnable'] == 1) {
+                    $table .= '
                             <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-green-900 hover:text-white transition duration-100 mt-1">
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation"/>
                             </svg>
                             ' . $rows['location_name'] . '
                             </span>';
-                        } else {
-                            $table .= '
+                } else {
+                    $table .= '
                             <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-red-900 hover:text-white transition duration-100 mt-1">
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation"/>
                             </svg>
                             ' . $rows['location_name'] . '
                             </span>';
-                        }
-                        $table .= '
+                }
+                $table .= '
                         </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
@@ -260,7 +486,7 @@ class departmentsController extends mainModel
                                     </div>
                                 </div>
                                 <div class="flex items-center">
-                                <form action="#" class="AjaxForm" method="POST">
+                                <form action="' . APP_URL . 'app/ajax/departmentsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="departmentModule" value="deleteDepartment">
                                     <input type="hidden" name="department_ID" value="' . $rows['department_ID'] . '">
                                     <button class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-popover-target="popover-trashCan-' . $rows['department_ID'] . '"
@@ -278,7 +504,7 @@ class departmentsController extends mainModel
                                             <div data-popper-arrow bg-gray-900></div>
                                     </div>
                                 </div>
-                                <form action="#" class="AjaxForm" method="POST">
+                                <form action="' . APP_URL . 'app/ajax/departmentsAjax.php" class="AjaxForm" method="POST">
                                     <input type="hidden" name="departmentModule" value="updateDepartmentState">
                                     <input type="hidden" name="department_ID" value="' . $rows['department_ID'] . '">
                                     <div class="flex items-center">

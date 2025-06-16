@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-06-2025 a las 21:28:25
+-- Tiempo de generación: 16-06-2025 a las 21:39:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,11 +43,38 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAtDate`, `department_createdAtTime`, `department_updatedAtDate`, `department_updatedAtTime`, `department_isEnable`) VALUES
-(1, 'Oftalmologia', 2, '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
-(2, 'Laboratorio', 1, '2025-05-16', '00:00:00', '2025-05-16', '00:00:00', 1),
-(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-13', '14:55:08', 1),
-(6, 'Nefrologia Pediatrica', 5, '2025-06-13', '14:55:57', '2025-06-13', '14:55:57', 1),
-(7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1);
+(1, 'Oftalmología', 2, '2025-05-16', '00:00:00', '2025-06-16', '12:23:47', 1),
+(2, 'Laboratorio', 1, '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
+(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-16', '12:58:27', 1),
+(6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-16', '12:58:27', 1),
+(7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1),
+(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-16', '12:58:27', 1),
+(9, 'Farmacia', 2, '2025-06-16', '09:19:54', '2025-06-16', '09:19:54', 1),
+(10, 'Informática', 17, '2025-06-16', '10:26:29', '2025-06-16', '10:26:29', 1),
+(11, 'Hospitalización', 9, '2025-06-16', '10:34:44', '2025-06-16', '10:34:44', 1),
+(12, 'UCI', 8, '2025-06-16', '10:35:22', '2025-06-16', '10:35:22', 1),
+(13, 'UCI Pediátrica', 9, '2025-06-16', '10:36:40', '2025-06-16', '10:36:40', 1),
+(16, 'Servicios Generales', 17, '2025-06-16', '12:24:34', '2025-06-16', '12:24:34', 1),
+(17, 'Café Europa', 17, '2025-06-16', '12:24:55', '2025-06-16', '12:24:55', 1),
+(18, 'Rayos X', 17, '2025-06-16', '12:25:17', '2025-06-16', '12:25:17', 1),
+(19, 'Emergencias', 18, '2025-06-16', '12:25:26', '2025-06-16', '12:25:26', 1),
+(20, 'Caja (Emergencias)', 18, '2025-06-16', '12:25:40', '2025-06-16', '12:25:50', 1),
+(21, 'Traumatologia', 5, '2025-06-16', '12:26:45', '2025-06-16', '12:58:27', 1),
+(22, 'Oncología', 1, '2025-06-16', '12:27:20', '2025-06-16', '12:27:20', 1),
+(23, 'Pre-clínica', 5, '2025-06-16', '12:27:51', '2025-06-16', '12:58:27', 1),
+(24, 'Historias Médicas', 5, '2025-06-16', '12:28:02', '2025-06-16', '12:58:27', 1),
+(25, 'Gastroenterología', 5, '2025-06-16', '12:28:26', '2025-06-16', '12:58:27', 1),
+(26, 'ORL', 5, '2025-06-16', '12:28:47', '2025-06-16', '12:58:27', 1),
+(27, 'Medicina Familiar', 5, '2025-06-16', '12:29:03', '2025-06-16', '12:58:27', 1),
+(28, 'Psicología', 2, '2025-06-16', '12:33:10', '2025-06-16', '12:33:10', 1),
+(29, 'Fisiatría', 2, '2025-06-16', '12:33:30', '2025-06-16', '12:33:30', 1),
+(32, 'Administración', 6, '2025-06-16', '12:52:30', '2025-06-16', '12:52:30', 1),
+(33, 'Información', 6, '2025-06-16', '12:53:03', '2025-06-16', '12:53:03', 1),
+(34, 'Medicina Interna', 6, '2025-06-16', '12:53:22', '2025-06-16', '12:53:22', 1),
+(35, 'Hospitalización (Aislamiento)', 10, '2025-06-16', '14:34:17', '2025-06-16', '14:34:35', 1),
+(36, 'Quirófano', 7, '2025-06-16', '14:36:25', '2025-06-16', '14:36:25', 1),
+(37, 'Hospitalización', 13, '2025-06-16', '14:37:50', '2025-06-16', '14:37:50', 1),
+(38, 'Presidencia', 13, '2025-06-16', '14:38:18', '2025-06-16', '14:38:18', 1);
 
 -- --------------------------------------------------------
 
@@ -104,9 +131,9 @@ CREATE TABLE `locations` (
 --
 
 INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate`, `location_createdAtTime`, `location_updatedAtDate`, `location_updatedAtTime`, `location_isEnable`) VALUES
-(1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-06-13', '15:23:42', 1),
+(1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
 (2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-06-13', '13:19:06', 1),
-(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-13', '12:59:42', 1),
+(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-16', '12:58:27', 1),
 (6, 'PB, Lado B', '2025-06-13', '12:59:53', '2025-06-13', '12:59:53', 1),
 (7, 'Piso 2, Lado A', '2025-06-13', '13:04:09', '2025-06-13', '13:04:09', 1),
 (8, 'Piso 2, Lado B', '2025-06-13', '13:04:17', '2025-06-13', '13:04:17', 1),
@@ -117,7 +144,9 @@ INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate
 (13, 'Piso 5, Lado A', '2025-06-13', '13:05:22', '2025-06-13', '13:05:22', 1),
 (14, 'Piso 5, Lado B', '2025-06-13', '13:05:33', '2025-06-13', '13:05:33', 1),
 (15, 'Sotano, Lado A', '2025-06-13', '14:39:08', '2025-06-13', '14:39:08', 1),
-(16, 'Sotano, Lado B', '2025-06-13', '14:39:16', '2025-06-13', '14:39:16', 1);
+(16, 'Sotano, Lado B', '2025-06-13', '14:39:16', '2025-06-13', '14:39:16', 1),
+(17, 'Semi Sotano, Lado A', '2025-06-16', '10:24:17', '2025-06-16', '10:24:17', 1),
+(18, 'Semi Sotano, Lado B', '2025-06-16', '10:24:28', '2025-06-16', '10:24:28', 1);
 
 -- --------------------------------------------------------
 
@@ -249,8 +278,9 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 1, 2, '2025-05-27 13:50:29', '2025-06-13 08:11:37', 1),
-(3, 'FARMACIA', 'STEC991.FARM', '192.168.10.1', 1, 2, '2025-06-10 11:19:34', '2025-06-13 07:58:15', 1);
+(1, 'INFORMATICA', '123456', '', 17, 10, '2025-05-27 13:50:29', '2025-06-16 10:26:43', 1),
+(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.2', 1, 9, '2025-06-10 11:19:34', '2025-06-16 11:01:13', 1),
+(4, 'STEC', 'STEC991.INFOR', '', 5, 8, '2025-06-13 15:32:22', '2025-06-16 11:00:46', 1);
 
 --
 -- Índices para tablas volcadas
@@ -328,7 +358,7 @@ ALTER TABLE `wifi_directory`
 -- AUTO_INCREMENT de la tabla `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `devices`
@@ -340,7 +370,7 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `location_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `observations`
@@ -376,7 +406,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
-  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

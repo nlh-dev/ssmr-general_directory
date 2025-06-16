@@ -9,7 +9,6 @@ class mainController extends mainModel
     public function getDepartmentsController()
     {
         $getDepartments_Query = "SELECT * FROM departments
-        WHERE department_isEnable = 1
         ORDER BY department_name ASC";
         $getDepartments_SLQ = $this->dbRequestExecute($getDepartments_Query);
         $getDepartments_SLQ->execute();
@@ -19,7 +18,6 @@ class mainController extends mainModel
     public function getLocationsController()
     {
         $getLocations_Query = "SELECT * FROM locations 
-        WHERE location_isEnable = 1 
         ORDER BY location_name ASC";
         $getLocations_SLQ = $this->dbRequestExecute($getLocations_Query);
         $getLocations_SLQ->execute();

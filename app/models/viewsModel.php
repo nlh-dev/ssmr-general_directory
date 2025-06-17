@@ -9,12 +9,19 @@
             $viewsList = [
                 "dashboard",
                 "wifiList",
+                "conectionsList",
+                "conectionsPortList",
                 "deviceDeliveryList",
                 "deviceHistoryList",
                 "deviceObservationsList",
+                "storageList",
+                "storageCategoryList",
+                "storageMovementsList",
+                "storageHistoryList",
                 "locationsList",
                 "departmentsList",
                 "users",
+                "userRoles",
                 "logout"
             ];
 

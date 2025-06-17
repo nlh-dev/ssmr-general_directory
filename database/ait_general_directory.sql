@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-06-2025 a las 21:39:15
+-- Tiempo de generación: 17-06-2025 a las 19:16:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -48,7 +48,7 @@ INSERT INTO `departments` (`department_ID`, `department_name`, `department_locat
 (5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-16', '12:58:27', 1),
 (6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-16', '12:58:27', 1),
 (7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1),
-(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-16', '12:58:27', 1),
+(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-17', '10:01:52', 1),
 (9, 'Farmacia', 2, '2025-06-16', '09:19:54', '2025-06-16', '09:19:54', 1),
 (10, 'Informática', 17, '2025-06-16', '10:26:29', '2025-06-16', '10:26:29', 1),
 (11, 'Hospitalización', 9, '2025-06-16', '10:34:44', '2025-06-16', '10:34:44', 1),
@@ -74,7 +74,14 @@ INSERT INTO `departments` (`department_ID`, `department_name`, `department_locat
 (35, 'Hospitalización (Aislamiento)', 10, '2025-06-16', '14:34:17', '2025-06-16', '14:34:35', 1),
 (36, 'Quirófano', 7, '2025-06-16', '14:36:25', '2025-06-16', '14:36:25', 1),
 (37, 'Hospitalización', 13, '2025-06-16', '14:37:50', '2025-06-16', '14:37:50', 1),
-(38, 'Presidencia', 13, '2025-06-16', '14:38:18', '2025-06-16', '14:38:18', 1);
+(38, 'Presidencia', 13, '2025-06-16', '14:38:18', '2025-06-16', '14:38:18', 1),
+(39, 'Contabilidad', 6, '2025-06-16', '15:55:56', '2025-06-16', '15:55:56', 1),
+(40, 'Nefrología', 6, '2025-06-16', '15:56:54', '2025-06-16', '15:56:54', 1),
+(41, 'Dirección Médica', 6, '2025-06-16', '15:57:42', '2025-06-16', '15:57:42', 1),
+(42, 'Gerencia Médica', 6, '2025-06-16', '15:58:03', '2025-06-16', '15:58:03', 1),
+(43, 'Taller De Carpintería', 15, '2025-06-16', '15:58:48', '2025-06-16', '15:59:03', 1),
+(44, 'Almacén', 16, '2025-06-16', '15:59:16', '2025-06-16', '15:59:16', 1),
+(45, 'Trabajo Social', 6, '2025-06-17', '08:06:51', '2025-06-17', '08:06:51', 1);
 
 -- --------------------------------------------------------
 
@@ -358,7 +365,7 @@ ALTER TABLE `wifi_directory`
 -- AUTO_INCREMENT de la tabla `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `department_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `devices`

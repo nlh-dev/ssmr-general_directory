@@ -50,7 +50,41 @@ $dashboardModules = [
             'link' => $routes['deviceObservationsList'],
          ],
       ]
-      ],
+   ],
+   [
+      'section' => 'Inventario',
+      'sectionIcon' => 'fileStorage',
+      'cards' => [
+         [
+            'title' => 'Existencias',
+            'subtitle' => "(X) Registro(s)",
+            'description' => 'Ver Existencias de Inventario',
+            'icon' => 'book',
+            'link' => '#',
+         ],
+         [
+            'title' => 'Categorías',
+            'subtitle' => "(X) Categoría(s)",
+            'description' => 'Ver Lista de Categorías',
+            'icon' => 'pencil',
+            'link' => '#',
+         ],
+         [
+            'title' => 'Movimientos',
+            'subtitle' => "(X) Movimientos",
+            'description' => 'Ver Lista de Movimientos',
+            'icon' => 'codeFork',
+            'link' => '#',
+         ],
+         [
+            'title' => 'Historial',
+            'subtitle' => "(X) Movimientos Realizados",
+            'description' => 'Ver Historial de Movimientos',
+            'icon' => 'floppyDisk',
+            'link' => '#',
+         ],
+      ]
+   ],
    [
       'section' => 'Opciones',
       'sectionIcon' => 'tools',
@@ -70,7 +104,7 @@ $dashboardModules = [
             'link' => $routes['locationsList'],
          ],
       ]
-      ],
+   ],
 ];
 ?>
 <!-- CONTENT GRIDS -->

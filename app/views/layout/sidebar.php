@@ -40,10 +40,11 @@ $sidebarMenu = [
         'label' => 'Inventario',
         'icon' => 'fileStorage',
         'submenu' => [
-            ['label' => 'Existencias', 'url' => '#'],
-            ['label' => 'Categorias', 'url' => '#'],
-            ['label' => 'Movimientos', 'url' => '#'],
-            ['label' => 'Historial', 'url' => '#'],
+            ['label' => 'Productos', 'url' => '#'],
+            ['label' => 'Existencias', 'url' => $routes['storageList']],
+            ['label' => 'Categorias', 'url' => $routes['storageCategoryList']],
+            ['label' => 'Movimientos', 'url' => $routes['storageMovementsList']],
+            ['label' => 'Historial', 'url' => $routes['storageHistoryList']],
         ],
         'dropdownId' => 'storage-dropdown',
     ],
@@ -61,13 +62,12 @@ $sidebarMenu = [
     'separator',
     [
         'label' => 'Usuarios',
-        'icon' => 'users',
-        'url' => '#',
-    ],
-    [
-        'label' => 'Permisos',
-        'icon' => 'users',
-        'url' => '#',
+        'icon' => 'usersGroup',
+        'submenu' => [
+            ['label' => 'Directorio', 'url' => '#'],
+            ['label' => 'Roles', 'url' => ''],
+        ],
+        'dropdownId' => 'users-dropdown',
     ],
 ];
 ?>

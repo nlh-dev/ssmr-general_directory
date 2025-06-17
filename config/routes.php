@@ -9,6 +9,10 @@
         'deviceObservationsList' => APP_URL . 'deviceObservationsList/',
         'locationsList' => APP_URL . 'locationsList/',
         'departmentsList' => APP_URL . 'departmentsList/',
+        'storageList' => APP_URL . 'storageList/',
+        'storageCategoryList' => APP_URL . 'storageCategoryList/',
+        'storageMovementsList' => APP_URL . 'storageMovementsList/',
+        'storageHistoryList' => APP_URL . 'storageHistoryList/',
     ];
 
     // AJAX REQUESTS

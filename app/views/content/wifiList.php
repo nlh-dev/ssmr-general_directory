@@ -2,6 +2,7 @@
 
     require_once "./app/views/components/modals/addWifiPassword_Modal.php";
     require_once "./app/views/components/modals/editWifiPassword_Modal.php";
+    require_once "./app/views/components/modals/viewWifiPassword_Modal.php";
     require_once "./app/views/components/modals/addIpDirection_Modal.php";
 ?>
 

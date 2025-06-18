@@ -140,7 +140,7 @@
                     <div class="flex mt-1">
                         <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm">
                             <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#usersGroup" />
                             </svg>
                             <p data-field="usuario_entrega"></p>
                         </span>

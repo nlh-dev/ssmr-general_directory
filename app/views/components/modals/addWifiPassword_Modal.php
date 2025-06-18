@@ -118,6 +118,20 @@ foreach ($showDepartmentsData as $dep) {
                             </select>
                         </div>
                     </div>
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <label for="departments" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#filter" />
+                                </svg>
+                                Filtro de MAC Avanzado
+                            </label>
+                        </div>
+                        <div class="flex items-center rounded-sm">
+                            <input id="macFilterCheckBox" type="checkbox" value="0" name="macFilterCheckBox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                            <label for="macFilterCheckBox" class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Activado</label>
+                        </div>
+                    </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
@@ -200,6 +214,21 @@ foreach ($showDepartmentsData as $dep) {
                     departmentsSelect.innerHTML = '<option value="">No hay departamentos Relacionados....</option>';
                 }
             }, 400);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const macFilterCheckBox = document.getElementById('macFilterCheckBox');
+        const form = document.querySelector('#addWifiPassword form');
+
+        // Al cambiar el estado del checkbox, actualiza su valor
+        macFilterCheckBox.addEventListener('change', function() {
+            this.value = this.checked ? '1' : '0';
+        });
+
+        // Al enviar el formulario, fuerza el valor correcto
+        form.addEventListener('submit', function() {
+            macFilterCheckBox.value = macFilterCheckBox.checked ? '1' : '0';
         });
     });
 </script>

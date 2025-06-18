@@ -110,6 +110,20 @@ $showLocationsData = $mainController->getLocationsController();
                             </select>
                         </div>
                     </div>
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="24" height="24">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#filter" />
+                                </svg>
+                                Filtro de MAC Avanzado
+                            </label>
+                        </div>
+                        <div class="flex items-center rounded-sm">
+                            <input name="macFilterCheckBox" id="macFilterCheckBox" type="checkbox" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                            <label for="macFilterCheckBox" class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Activado</label>
+                        </div>
+                    </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="w-full flex items-center justify-end p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b">
@@ -148,7 +162,15 @@ $showLocationsData = $mainController->getLocationsController();
                 let inputIpDirection = document.querySelector('.modal-body #ipDirection');
                 let inputLocations = document.querySelector('.modal-body #locations');
                 let inputDepartments = document.querySelector('.modal-body #departments');
+                let macFilterCheckBox = document.querySelector('.modal-body #macFilterCheckBox');
 
+                macFilterCheckBox.addEventListener('change', function() {
+                    this.value = this.checked ? '1' : '0';
+                });
+                document.querySelector('#editWifiPassword form').addEventListener('submit', function() {
+                    macFilterCheckBox.value = macFilterCheckBox.checked ? '1' : '0';
+                });
+                
                 fetch(wifiURL, {
                         method: 'GET',
                         headers: {
@@ -163,6 +185,13 @@ $showLocationsData = $mainController->getLocationsController();
                         inputLocations.value = dataResponse.data.wifi_location_ID;
                         inputDepartments.value = dataResponse.data.wifi_department_ID;
 
+                        if (dataResponse.data.wifi_isMACProtected == "1") {
+                            macFilterCheckBox.checked = true;
+                            macFilterCheckBox.value = "1";
+                        } else {
+                            macFilterCheckBox.checked = false;
+                            macFilterCheckBox.value = "0";
+                        }
                     }).catch(err => {
                         console.error(err);
                     });

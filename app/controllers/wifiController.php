@@ -14,6 +14,7 @@ class wifiController extends mainModel
         $departments = $this->cleanRequest($_POST['departments']);
         $wifiPassword = $this->cleanRequest($_POST['wifiPassword']);
         $ipDirection = $this->cleanRequest($_POST['ipDirection']);
+        $macFilterCheckBox = isset($_POST['macFilterCheckBox']) && $_POST['macFilterCheckBox'] == '1' ? 1 : 0;
 
         if (empty($SSID) || empty($locations) || empty($departments)) {
             $alert = [
@@ -80,6 +81,11 @@ class wifiController extends mainModel
                 "db_FieldName" => "wifi_department_ID",
                 "db_ValueName" => ":departmentID",
                 "db_realValue" => $departments
+            ],
+            [
+                "db_FieldName" => "wifi_isMACProtected",
+                "db_ValueName" => ":isMACProtected",
+                "db_realValue" => $macFilterCheckBox
             ],
             [
                 "db_FieldName" => "wifi_createdAt",
@@ -190,20 +196,6 @@ class wifiController extends mainModel
             ];
             return json_encode($alert);
             exit();
-        }
-
-        if (!empty($ipDirection)) {
-            $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
-            if ($ipCheck->rowCount() >= 1) {
-                $alert = [
-                    "type" => "simple",
-                    "icon" => "warning",
-                    "title" => "¡Error!",
-                    "text" => "La dirección ya está asignada a otro registro.",
-                ];
-                return json_encode($alert);
-                exit();
-            }
         }
 
         $rowWifi = $wifiData->fetch();
@@ -329,7 +321,10 @@ class wifiController extends mainModel
     public function getWifiDataController()
     {
         $wifiID = $this->cleanRequest($_GET['wifi_ID']);
-        $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory WHERE wifi_ID = '$wifiID'");
+        $wifiData = $this->dbRequestExecute("SELECT * FROM wifi_directory wifi
+        JOIN locations loc ON wifi.wifi_location_ID = loc.location_ID
+        JOIN departments dep ON wifi.wifi_department_ID = dep.department_ID
+        WHERE wifi_ID = '$wifiID'");
         if ($wifiData->rowCount() <= 0) {
             $alert = [
                 "type" => "simple",
@@ -366,6 +361,7 @@ class wifiController extends mainModel
         $departments = $this->cleanRequest($_POST['departments']);
         $wifiPassword = $this->cleanRequest($_POST['wifiPassword']);
         $ipDirection = $this->cleanRequest($_POST['ipDirection']);
+        $macFilterCheckBox = isset($_POST['macFilterCheckBox']) && $_POST['macFilterCheckBox'] == '1' ? 1 : 0;
 
         if (empty($SSID) || empty($locations) || empty($departments)) {
             $alert = [
@@ -389,20 +385,6 @@ class wifiController extends mainModel
             ];
             return json_encode($alert);
             exit();
-        }
-
-        if (!empty($ipDirection)) {
-            $ipCheck = $this->dbRequestExecute("SELECT wifi_ID FROM wifi_directory WHERE wifi_ipDirection = '$ipDirection' AND wifi_ID != '$wifiID'");
-            if ($ipCheck->rowCount() >= 1) {
-                $alert = [
-                    "type" => "simple",
-                    "icon" => "warning",
-                    "title" => "¡Error!",
-                    "text" => "¡La dirección ya está asignada a otro registro!",
-                ];
-                return json_encode($alert);
-                exit();
-            }
         }
 
         $wifiUpdateData = [
@@ -430,6 +412,11 @@ class wifiController extends mainModel
                 "db_FieldName" => "wifi_department_ID",
                 "db_ValueName" => ":departmentID",
                 "db_realValue" => $departments
+            ],
+            [
+                "db_FieldName" => "wifi_isMACProtected",
+                "db_ValueName" => ":isMACProtected",
+                "db_realValue" => $macFilterCheckBox
             ],
             [
                 "db_FieldName" => "wifi_updatedAt",
@@ -524,9 +511,6 @@ class wifiController extends mainModel
                                             SSID
                                         </th>
                                         <th scope="col" class="px-5 py-3">
-                                            Contraseña
-                                        </th>
-                                        <th scope="col" class="px-5 py-3">
                                             Ubicación
                                         </th>
                                         <th scope="col" class="px-5 py-3">
@@ -574,23 +558,6 @@ class wifiController extends mainModel
                                 ';
                 }
                 $table .= '
-                            </div>
-                        </td>
-                        <td class="px-5 py-2 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex items-center">
-                                    <form action="' . APP_URL . 'app/ajax/wifiPasswordsAjax.php" class="AjaxForm" method="POST">
-                                    <input type="hidden" name="wifiModule" value="wifiPassword">
-                                    <input type="hidden" name="wifi_ID" value="' . $rows['wifi_ID'] . '">
-                                    <div class="flex items-center">
-                                    <button class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
-                                        <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
-                                        </svg>
-                                        Ver
-                                    </button>
-                                    </form>
-                                </div>
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
@@ -667,6 +634,24 @@ class wifiController extends mainModel
                         </td>
                         <td class="items-center px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
+                                <div class="flex items-center">
+                                    <button data-modal-target="viewWifiPasswordInfo" data-modal-toggle="viewWifiPasswordInfo"
+                                    id="eye-btn-' . $rows['wifi_ID'] . '"
+                                    data-popover-target="popover-eye-' . $rows['wifi_ID'] . '"
+                                    data-popover-placement="bottom"
+                                    data-wifi-id="' . $rows['wifi_ID'] . '" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
+                                        </svg>
+                                    </button>
+                                    <div data-popover id="popover-eye-' . $rows['wifi_ID'] . '" role="tooltip"
+                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                            <h3 class="font-semibold text-white text-xs">Ver</h3>
+                                        </div>
+                                            <div data-popper-arrow bg-gray-900></div>
+                                    </div>
+                                </div>
                                 <div class="flex items-center">
                                     <button data-modal-target="editWifiPassword" data-modal-toggle="editWifiPassword"
                                     id="editPen-btn-' . $rows['wifi_ID'] . '"

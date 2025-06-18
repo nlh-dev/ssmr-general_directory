@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-06-2025 a las 19:16:08
+-- Tiempo de generación: 18-06-2025 a las 21:51:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,10 +45,10 @@ CREATE TABLE `departments` (
 INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAtDate`, `department_createdAtTime`, `department_updatedAtDate`, `department_updatedAtTime`, `department_isEnable`) VALUES
 (1, 'Oftalmología', 2, '2025-05-16', '00:00:00', '2025-06-16', '12:23:47', 1),
 (2, 'Laboratorio', 1, '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
-(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-16', '12:58:27', 1),
-(6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-16', '12:58:27', 1),
+(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-18', '08:02:32', 1),
+(6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-18', '08:02:32', 1),
 (7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1),
-(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-17', '10:01:52', 1),
+(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-18', '08:02:32', 1),
 (9, 'Farmacia', 2, '2025-06-16', '09:19:54', '2025-06-16', '09:19:54', 1),
 (10, 'Informática', 17, '2025-06-16', '10:26:29', '2025-06-16', '10:26:29', 1),
 (11, 'Hospitalización', 9, '2025-06-16', '10:34:44', '2025-06-16', '10:34:44', 1),
@@ -59,13 +59,13 @@ INSERT INTO `departments` (`department_ID`, `department_name`, `department_locat
 (18, 'Rayos X', 17, '2025-06-16', '12:25:17', '2025-06-16', '12:25:17', 1),
 (19, 'Emergencias', 18, '2025-06-16', '12:25:26', '2025-06-16', '12:25:26', 1),
 (20, 'Caja (Emergencias)', 18, '2025-06-16', '12:25:40', '2025-06-16', '12:25:50', 1),
-(21, 'Traumatologia', 5, '2025-06-16', '12:26:45', '2025-06-16', '12:58:27', 1),
+(21, 'Traumatologia', 5, '2025-06-16', '12:26:45', '2025-06-18', '08:02:32', 1),
 (22, 'Oncología', 1, '2025-06-16', '12:27:20', '2025-06-16', '12:27:20', 1),
-(23, 'Pre-clínica', 5, '2025-06-16', '12:27:51', '2025-06-16', '12:58:27', 1),
-(24, 'Historias Médicas', 5, '2025-06-16', '12:28:02', '2025-06-16', '12:58:27', 1),
-(25, 'Gastroenterología', 5, '2025-06-16', '12:28:26', '2025-06-16', '12:58:27', 1),
-(26, 'ORL', 5, '2025-06-16', '12:28:47', '2025-06-16', '12:58:27', 1),
-(27, 'Medicina Familiar', 5, '2025-06-16', '12:29:03', '2025-06-16', '12:58:27', 1),
+(23, 'Pre-clínica', 5, '2025-06-16', '12:27:51', '2025-06-18', '08:02:32', 1),
+(24, 'Historias Médicas', 5, '2025-06-16', '12:28:02', '2025-06-18', '08:02:32', 1),
+(25, 'Gastroenterología', 5, '2025-06-16', '12:28:26', '2025-06-18', '08:02:32', 1),
+(26, 'ORL', 5, '2025-06-16', '12:28:47', '2025-06-18', '08:02:32', 1),
+(27, 'Medicina Familiar', 5, '2025-06-16', '12:29:03', '2025-06-18', '08:02:32', 1),
 (28, 'Psicología', 2, '2025-06-16', '12:33:10', '2025-06-16', '12:33:10', 1),
 (29, 'Fisiatría', 2, '2025-06-16', '12:33:30', '2025-06-16', '12:33:30', 1),
 (32, 'Administración', 6, '2025-06-16', '12:52:30', '2025-06-16', '12:52:30', 1),
@@ -140,7 +140,7 @@ CREATE TABLE `locations` (
 INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate`, `location_createdAtTime`, `location_updatedAtDate`, `location_updatedAtTime`, `location_isEnable`) VALUES
 (1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
 (2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-06-13', '13:19:06', 1),
-(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-16', '12:58:27', 1),
+(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-18', '08:02:32', 1),
 (6, 'PB, Lado B', '2025-06-13', '12:59:53', '2025-06-13', '12:59:53', 1),
 (7, 'Piso 2, Lado A', '2025-06-13', '13:04:09', '2025-06-13', '13:04:09', 1),
 (8, 'Piso 2, Lado B', '2025-06-13', '13:04:17', '2025-06-13', '13:04:17', 1),
@@ -150,10 +150,10 @@ INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate
 (12, 'Piso 4, Lado B', '2025-06-13', '13:05:08', '2025-06-13', '13:05:08', 1),
 (13, 'Piso 5, Lado A', '2025-06-13', '13:05:22', '2025-06-13', '13:05:22', 1),
 (14, 'Piso 5, Lado B', '2025-06-13', '13:05:33', '2025-06-13', '13:05:33', 1),
-(15, 'Sotano, Lado A', '2025-06-13', '14:39:08', '2025-06-13', '14:39:08', 1),
-(16, 'Sotano, Lado B', '2025-06-13', '14:39:16', '2025-06-13', '14:39:16', 1),
-(17, 'Semi Sotano, Lado A', '2025-06-16', '10:24:17', '2025-06-16', '10:24:17', 1),
-(18, 'Semi Sotano, Lado B', '2025-06-16', '10:24:28', '2025-06-16', '10:24:28', 1);
+(15, 'Sótano, Lado A', '2025-06-13', '14:39:08', '2025-06-18', '09:29:07', 1),
+(16, 'Sótano, Lado B', '2025-06-13', '14:39:16', '2025-06-18', '09:28:58', 1),
+(17, 'Semi-Sótano, Lado A', '2025-06-16', '10:24:17', '2025-06-18', '11:26:37', 1),
+(18, 'Semi-Sótano, Lado B', '2025-06-16', '10:24:28', '2025-06-18', '11:26:23', 1);
 
 -- --------------------------------------------------------
 
@@ -230,6 +230,56 @@ INSERT INTO `observations_type` (`observationType_ID`, `observationType_name`) V
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `storage_categories`
+--
+
+CREATE TABLE `storage_categories` (
+  `storageCategory_ID` int(11) NOT NULL,
+  `storageCategory_name` text NOT NULL,
+  `storageCategory_type_ID` int(11) NOT NULL,
+  `storageCategory_createdAtDate` date NOT NULL,
+  `storageCategory_createdAtTime` time NOT NULL,
+  `storageCategory_updatedAtDate` date NOT NULL,
+  `storageCategory_updatedAtTime` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `storage_stock`
+--
+
+CREATE TABLE `storage_stock` (
+  `stock_ID` int(11) NOT NULL,
+  `stock_name` text NOT NULL,
+  `stock_description` text NOT NULL,
+  `stock_type_ID` int(11) NOT NULL,
+  `stock_category_ID` int(11) NOT NULL,
+  `stock_amount` int(11) NOT NULL,
+  `stock_createdAtDate` date NOT NULL,
+  `stock_createdAtTime` time NOT NULL,
+  `stock_updatedAtDate` date NOT NULL,
+  `stock_updatedAtTime` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `storage_types`
+--
+
+CREATE TABLE `storage_types` (
+  `storageType_ID` int(11) NOT NULL,
+  `storageType_name` text NOT NULL,
+  `storageType_createdAtDate` date NOT NULL,
+  `storageType_createdAtTime` time NOT NULL,
+  `storageType_updatedAtDate` date NOT NULL,
+  `storageType_updatedAtTime` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -275,6 +325,7 @@ CREATE TABLE `wifi_directory` (
   `wifi_ipDirection` varchar(20) NOT NULL,
   `wifi_location_ID` int(11) NOT NULL,
   `wifi_department_ID` int(11) NOT NULL,
+  `wifi_isMACProtected` tinyint(1) NOT NULL,
   `wifi_createdAt` datetime NOT NULL,
   `wifi_updatedAt` datetime NOT NULL,
   `wifi_isEnable` tinyint(1) NOT NULL
@@ -284,10 +335,11 @@ CREATE TABLE `wifi_directory` (
 -- Volcado de datos para la tabla `wifi_directory`
 --
 
-INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 17, 10, '2025-05-27 13:50:29', '2025-06-16 10:26:43', 1),
-(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.2', 1, 9, '2025-06-10 11:19:34', '2025-06-16 11:01:13', 1),
-(4, 'STEC', 'STEC991.INFOR', '', 5, 8, '2025-06-13 15:32:22', '2025-06-16 11:00:46', 1);
+INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_isMACProtected`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
+(1, 'INFORMATICA', '123456', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-06-18 11:38:14', 1),
+(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-06-18 11:26:07', 1),
+(4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-18 11:17:16', 1),
+(11, 'QUIROFANO', 'Ait991.QUIR', '192.168.1.1', 7, 36, 1, '2025-06-18 11:23:26', '2025-06-18 11:25:04', 1);
 
 --
 -- Índices para tablas volcadas
@@ -336,6 +388,27 @@ ALTER TABLE `observations_priority`
 --
 ALTER TABLE `observations_type`
   ADD PRIMARY KEY (`observationType_ID`);
+
+--
+-- Indices de la tabla `storage_categories`
+--
+ALTER TABLE `storage_categories`
+  ADD PRIMARY KEY (`storageCategory_ID`),
+  ADD KEY `storageCategory_type_ID` (`storageCategory_type_ID`);
+
+--
+-- Indices de la tabla `storage_stock`
+--
+ALTER TABLE `storage_stock`
+  ADD PRIMARY KEY (`stock_ID`),
+  ADD KEY `type_ID` (`stock_type_ID`),
+  ADD KEY `category_ID` (`stock_category_ID`);
+
+--
+-- Indices de la tabla `storage_types`
+--
+ALTER TABLE `storage_types`
+  ADD PRIMARY KEY (`storageType_ID`);
 
 --
 -- Indices de la tabla `users`
@@ -398,6 +471,24 @@ ALTER TABLE `observations_type`
   MODIFY `observationType_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `storage_categories`
+--
+ALTER TABLE `storage_categories`
+  MODIFY `storageCategory_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `storage_stock`
+--
+ALTER TABLE `storage_stock`
+  MODIFY `stock_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `storage_types`
+--
+ALTER TABLE `storage_types`
+  MODIFY `storageType_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
@@ -413,7 +504,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT de la tabla `wifi_directory`
 --
 ALTER TABLE `wifi_directory`
-  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `wifi_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -441,6 +532,19 @@ ALTER TABLE `observations`
   ADD CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`observation_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`observation_type_ID`) REFERENCES `observations_type` (`observationType_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`observations_priority_ID`) REFERENCES `observations_priority` (`observationsPriority_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `storage_categories`
+--
+ALTER TABLE `storage_categories`
+  ADD CONSTRAINT `storage_categories_ibfk_1` FOREIGN KEY (`storageCategory_type_ID`) REFERENCES `storage_types` (`storageType_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `storage_stock`
+--
+ALTER TABLE `storage_stock`
+  ADD CONSTRAINT `storage_stock_ibfk_1` FOREIGN KEY (`stock_category_ID`) REFERENCES `storage_categories` (`storageCategory_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `storage_stock_ibfk_2` FOREIGN KEY (`stock_type_ID`) REFERENCES `storage_types` (`storageType_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `wifi_directory`

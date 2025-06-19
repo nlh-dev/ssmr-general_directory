@@ -11,6 +11,7 @@
         'departmentsList' => APP_URL . 'departmentsList/',
         'storageList' => APP_URL . 'storageList/',
         'storageCategoryList' => APP_URL . 'storageCategoryList/',
+        'storageTypesList' => APP_URL . 'storageTypesList/',
         'storageMovementsList' => APP_URL . 'storageMovementsList/',
         'storageHistoryList' => APP_URL . 'storageHistoryList/',
     ];
@@ -22,5 +23,6 @@
         'Observations' => APP_URL . 'app/ajax/observationsAjax.php',
         'locations' => APP_URL . 'app/ajax/locationsAjax.php',
         'departments' => APP_URL . 'app/ajax/departmentsAjax.php',
+        'storage' => APP_URL . 'app/ajax/storageAjax.php',
     ];
 ?>

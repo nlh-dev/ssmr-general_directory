@@ -4,7 +4,7 @@
 use app\controllers\mainController;
 
 $mainController = new mainController();
-$showLocationsData = $mainController->getLocationsController();
+$showLocationsData = $mainController->getDataController('locations', 'location_name', 'ASC');
 ?>
 <div id="editDepartment" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
     <div class="relative w-full max-w-lg max-h-full">

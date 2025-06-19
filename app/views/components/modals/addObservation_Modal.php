@@ -4,8 +4,8 @@ use app\controllers\mainController;
 
 $mainController = new mainController;
 
-$showObservationsPriorityData = $mainController->getObservationsPriorityController();
-$showObservationsTypeData = $mainController->getObservationsTypeController();
+$showObservationsPriorityData = $mainController->getDataController('observations_priority', 'observationsPriority_name', 'ASC');
+$showObservationsTypeData = $mainController->getDataController('observations_type', 'observationType_name', 'ASC');
 ?>
 
 

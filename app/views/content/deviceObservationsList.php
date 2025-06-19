@@ -17,7 +17,7 @@ require_once "./app/views/components/modals/editObservation_Modal.php";
             <div>
                 <h1 class="text-lg font-semibold text-left">
                     Lista de Observaciones
-                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de Observaciones del Departamento de Informática del Sistema de Salud Madre Rafols.</p>
+                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de Observaciones del Departamento de Informática del Hospital Madre Rafols.</p>
                 </h1>
             </div>
             <div class="">

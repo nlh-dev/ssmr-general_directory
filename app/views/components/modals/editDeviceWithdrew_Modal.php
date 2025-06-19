@@ -3,8 +3,8 @@
 use app\controllers\mainController;
 
 $mainController = new mainController();
-$showDepartmentsData = $mainController->getDepartmentsController();
-$showLocationsData = $mainController->getLocationsController();
+$showDepartmentsData = $mainController->getDataController('departments', 'department_name', 'ASC');
+$showLocationsData = $mainController->getDataController('locations', 'location_name', 'ASC');
 ?>
 <!-- Large Modal -->
 <div id="editWithdrewDevices" tabindex="0" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">

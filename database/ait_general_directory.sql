@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-06-2025 a las 21:51:33
+-- Tiempo de generación: 19-06-2025 a las 21:58:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -240,8 +240,19 @@ CREATE TABLE `storage_categories` (
   `storageCategory_createdAtDate` date NOT NULL,
   `storageCategory_createdAtTime` time NOT NULL,
   `storageCategory_updatedAtDate` date NOT NULL,
-  `storageCategory_updatedAtTime` time NOT NULL
+  `storageCategory_updatedAtTime` time NOT NULL,
+  `storageCategory_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `storage_categories`
+--
+
+INSERT INTO `storage_categories` (`storageCategory_ID`, `storageCategory_name`, `storageCategory_type_ID`, `storageCategory_createdAtDate`, `storageCategory_createdAtTime`, `storageCategory_updatedAtDate`, `storageCategory_updatedAtTime`, `storageCategory_isEnable`) VALUES
+(1, 'Routers', 1, '2025-06-19', '00:00:00', '2025-06-19', '00:00:00', 1),
+(3, 'Discos de Almacenamiento', 2, '2025-06-19', '15:50:48', '2025-06-19', '15:50:48', 1),
+(4, 'Kits De Herramientas', 5, '2025-06-19', '15:52:46', '2025-06-19', '15:52:46', 1),
+(5, 'Switches', 1, '2025-06-19', '15:53:45', '2025-06-19', '15:53:45', 1);
 
 -- --------------------------------------------------------
 
@@ -274,8 +285,20 @@ CREATE TABLE `storage_types` (
   `storageType_createdAtDate` date NOT NULL,
   `storageType_createdAtTime` time NOT NULL,
   `storageType_updatedAtDate` date NOT NULL,
-  `storageType_updatedAtTime` time NOT NULL
+  `storageType_updatedAtTime` time NOT NULL,
+  `storageType_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `storage_types`
+--
+
+INSERT INTO `storage_types` (`storageType_ID`, `storageType_name`, `storageType_createdAtDate`, `storageType_createdAtTime`, `storageType_updatedAtDate`, `storageType_updatedAtTime`, `storageType_isEnable`) VALUES
+(1, 'Redes y Conexiones', '2025-06-19', '09:34:11', '2025-06-19', '14:07:23', 1),
+(2, 'Computación Y Almacenamiento', '2025-06-19', '09:34:46', '2025-06-19', '09:34:46', 1),
+(3, 'Componentes Y Periféricos', '2025-06-19', '09:35:02', '2025-06-19', '15:06:45', 1),
+(4, 'Consumibles Y Accesorios', '2025-06-19', '09:35:21', '2025-06-19', '09:35:21', 1),
+(5, 'Equipos De Mantenimiento', '2025-06-19', '09:35:41', '2025-06-19', '09:35:41', 1);
 
 -- --------------------------------------------------------
 
@@ -338,7 +361,7 @@ CREATE TABLE `wifi_directory` (
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_isMACProtected`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
 (1, 'INFORMATICA', '123456', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-06-18 11:38:14', 1),
 (3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-06-18 11:26:07', 1),
-(4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-18 11:17:16', 1),
+(4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-19 14:09:00', 1),
 (11, 'QUIROFANO', 'Ait991.QUIR', '192.168.1.1', 7, 36, 1, '2025-06-18 11:23:26', '2025-06-18 11:25:04', 1);
 
 --
@@ -474,7 +497,7 @@ ALTER TABLE `observations_type`
 -- AUTO_INCREMENT de la tabla `storage_categories`
 --
 ALTER TABLE `storage_categories`
-  MODIFY `storageCategory_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `storageCategory_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `storage_stock`
@@ -486,7 +509,7 @@ ALTER TABLE `storage_stock`
 -- AUTO_INCREMENT de la tabla `storage_types`
 --
 ALTER TABLE `storage_types`
-  MODIFY `storageType_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `storageType_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

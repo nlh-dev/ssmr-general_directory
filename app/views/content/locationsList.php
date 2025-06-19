@@ -14,7 +14,7 @@
             <div>
                 <h1 class="text-lg font-semibold text-left">
                     Ubicaciones
-                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de las Ubicaciones/Pisos pertenecientes al Sistema de Salud Madre Rafols.</p>
+                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de las Ubicaciones/Pisos pertenecientes al Hospital Madre Rafols.</p>
                 </h1>
             </div>
             <div class="">

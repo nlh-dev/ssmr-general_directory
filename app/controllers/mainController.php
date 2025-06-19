@@ -6,37 +6,11 @@ use app\models\mainModel;
 
 class mainController extends mainModel
 {
-    public function getDepartmentsController()
+    public function getDataController($tableName, $tableNameOrder, $orderBy)
     {
-        $getDepartments_Query = "SELECT * FROM departments
-        ORDER BY department_name ASC";
-        $getDepartments_SLQ = $this->dbRequestExecute($getDepartments_Query);
-        $getDepartments_SLQ->execute();
-        return $getDepartments_SLQ;
-    }
-
-    public function getLocationsController()
-    {
-        $getLocations_Query = "SELECT * FROM locations 
-        ORDER BY location_name ASC";
-        $getLocations_SLQ = $this->dbRequestExecute($getLocations_Query);
-        $getLocations_SLQ->execute();
-        return $getLocations_SLQ;
-    }
-
-    public function getObservationsTypeController()
-    {
-        $getObservationsType_Query = "SELECT * FROM observations_type";
-        $getObservationsType_SLQ = $this->dbRequestExecute($getObservationsType_Query);
-        $getObservationsType_SLQ->execute();
-        return $getObservationsType_SLQ;
-    }
-
-    public function getObservationsPriorityController()
-    {
-        $getObservationsPriority_Query = "SELECT * FROM observations_priority";
-        $getObservationsPriority_SLQ = $this->dbRequestExecute($getObservationsPriority_Query);
-        $getObservationsPriority_SLQ->execute();
-        return $getObservationsPriority_SLQ;
+        $getData_Query = "SELECT * FROM $tableName ORDER BY $tableNameOrder $orderBy";
+        $getData_SLQ = $this->dbRequestExecute($getData_Query);
+        $getData_SLQ->execute();
+        return $getData_SLQ;
     }
 }

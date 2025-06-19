@@ -40,7 +40,8 @@ $sidebarMenu = [
         'label' => 'Inventario',
         'icon' => 'fileStorage',
         'submenu' => [
-            ['label' => 'Tipos y Categorias', 'url' => $routes['storageCategoryList']],
+            ['label' => 'Categorias', 'url' => $routes['storageCategoryList']],
+            ['label' => 'Tipos', 'url' => $routes['storageTypesList']],
             ['label' => 'Existencias', 'url' => $routes['storageList']],
             ['label' => 'Movimientos', 'url' => $routes['storageMovementsList']],
             ['label' => 'Historial', 'url' => $routes['storageHistoryList']],

@@ -16,6 +16,7 @@
                 "deviceObservationsList",
                 "storageList",
                 "storageCategoryList",
+                "storageTypesList",
                 "storageMovementsList",
                 "storageHistoryList",
                 "locationsList",

@@ -15,7 +15,7 @@ require_once "./app/views/components/modals/editDeviceWithdrew_Modal.php";
             <div>
                 <h1 class="text-lg font-semibold text-left">
                     Historial de Entrega de Dispositivos
-                    <p class="mt-1 text-sm font-normal text-gray-400">Historial de Dispositivos Entregados por el Departamento de Informática del Sistema de Salud Madre Rafols.</p>
+                    <p class="mt-1 text-sm font-normal text-gray-400">Historial de Dispositivos Entregados por el Departamento de Informática del Hospital Madre Rafols.</p>
                 </h1>
             </div>
         </div>

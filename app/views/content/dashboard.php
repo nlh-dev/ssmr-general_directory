@@ -9,6 +9,7 @@ $totalDevicesWithdrew = $dashboardController->countWithdrewDevicesController();
 $totalObservations = $dashboardController->countObservationsController();
 $totalDepartments = $dashboardController->countDepartmentsController();
 $totalLocations = $dashboardController->countLocationsController();
+$totalStorageTypes = $dashboardController ->countStorageTypesController();
 
 $dashboardModules = [
    [
@@ -56,16 +57,23 @@ $dashboardModules = [
       'sectionIcon' => 'fileStorage',
       'cards' => [
          [
-            'title' => 'Existencias',
-            'subtitle' => "(X) Registro(s)",
-            'description' => 'Ver Existencias de Inventario',
-            'icon' => 'book',
-            'link' => '#',
-         ],
-         [
             'title' => 'Categorías',
             'subtitle' => "(X) Categoría(s)",
             'description' => 'Ver Lista de Categorías',
+            'icon' => 'addCardFront',
+            'link' => '#',
+         ],
+         [
+            'title' => 'Tipos',
+            'subtitle' => "$totalStorageTypes Registro(s)",
+            'description' => 'Ver Existencias de Inventario',
+            'icon' => 'addCardBack',
+            'link' => $routes['storageTypesList'],
+         ],
+         [
+            'title' => 'Existencias',
+            'subtitle' => "(X) Registro(s)",
+            'description' => 'Ver Existencias de Inventario',
             'icon' => 'pencil',
             'link' => '#',
          ],

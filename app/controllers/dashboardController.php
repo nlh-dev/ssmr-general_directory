@@ -70,6 +70,17 @@
             }
             return $totalRegisters;
         }
+
+        public function countStorageTypesController(){
+            $totalRegisters = 0;
+            try {
+                $dbCountRequest = $this->dbRequestExecute("SELECT COUNT(*) AS totalCount FROM storage_types");
+                $totalRegisters = $dbCountRequest->fetchColumn();
+            } catch (Exception $e) {
+                $totalRegisters = 0;
+            }
+            return $totalRegisters;
+        }
     }
 
 ?>

@@ -3,8 +3,8 @@
 use app\controllers\mainController;
 
 $mainController = new mainController();
-$showDepartmentsData = $mainController->getDepartmentsController();
-$showLocationsData = $mainController->getLocationsController();
+$showDepartmentsData = $mainController->getDataController('departments', 'department_name', 'ASC');
+$showLocationsData = $mainController->getDataController('locations', 'location_name', 'ASC');
 
 
 $departmentsByLocation = [];

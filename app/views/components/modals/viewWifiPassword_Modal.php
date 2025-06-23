@@ -13,7 +13,7 @@
                         </h3>
                         <div class="flex items-center mt-1">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
-                            <p class="text-white font-semibold text-xs">Fecha de Creación:</p>
+                            <p class="text-white font-semibold text-xs me-1">Fecha de Creación:</p>
                             <p class="text-white font-semibold text-xs" data-field="wifi_fechaCreacion"></p>
                         </div>
                     </div>

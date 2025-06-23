@@ -1,5 +1,6 @@
 <?php
     require_once './app/views/components/modals/addStorageType_Modal.php';
+    require_once './app/views/components/modals/addStorageCategory_Modal.php';
 ?>
 <!-- CONTENT GRIDS -->
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
@@ -18,7 +19,7 @@
             </div>
             <div class="flex items-center space-x-2">
                 <div>
-                    <button data-popover-target="addCategory" data-popover-placement="bottom" data-modal-target="addStock" data-modal-toggle="addStock" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2 text-center transition duration-100" type="button">
+                    <button data-popover-target="addCategory" data-popover-placement="bottom" data-modal-target="addStorageCategory" data-modal-toggle="addStorageCategory" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2 text-center transition duration-100" type="button">
                         <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>app/assets/svg/FlowbiteIcons.sprite.svg#addCardFront" />
                         </svg>
@@ -46,7 +47,7 @@
                     </div>
                 </div>
                 <button data-modal-target="addStock" data-modal-toggle="addStock" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-100" type="button">
-                    <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <use xlink:href="<?= APP_URL ?>app/assets/svg/FlowbiteIcons.sprite.svg#addSymbol" />
                     </svg>
                     Añadir Existencia

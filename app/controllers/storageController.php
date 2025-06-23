@@ -570,41 +570,41 @@ class storageController extends mainModel
         }
 
         $storageCategoryRegisterData = [
-                [
-                    "db_FieldName" => "storageCategory_name",
-                    "db_ValueName" => ":category_name",
-                    "db_realValue" => $storageCategoryName
-                ],
-                [
-                    "db_FieldName" => "storageCategory_type_ID",
-                    "db_ValueName" => ":category_type_ID",
-                    "db_realValue" => $storageCategoryType
-                ],
-                [
-                    "db_FieldName" => "storageCategory_createdAtDate",
-                    "db_ValueName" => ":category_createdAtDate",
-                    "db_realValue" => date('Y-m-d')
-                ],
-                [
-                    "db_FieldName" => "storageCategory_createdAtTime",
-                    "db_ValueName" => ":category_createdAtTime",
-                    "db_realValue" => date('H:i:s')
-                ],
-                [
-                    "db_FieldName" => "storageCategory_updatedAtDate",
-                    "db_ValueName" => ":category_updatedAtDate",
-                    "db_realValue" => date('Y-m-d')
-                ],
-                [
-                    "db_FieldName" => "storageCategory_updatedAtTime",
-                    "db_ValueName" => ":category_updatedAtTime",
-                    "db_realValue" => date('H:i:s')
-                ],
-                [
-                    "db_FieldName" => "storageCategory_isEnable",
-                    "db_ValueName" => ":category_isEnable",
-                    "db_realValue" => 1
-                ],
+            [
+                "db_FieldName" => "storageCategory_name",
+                "db_ValueName" => ":category_name",
+                "db_realValue" => $storageCategoryName
+            ],
+            [
+                "db_FieldName" => "storageCategory_type_ID",
+                "db_ValueName" => ":category_type_ID",
+                "db_realValue" => $storageCategoryType
+            ],
+            [
+                "db_FieldName" => "storageCategory_createdAtDate",
+                "db_ValueName" => ":category_createdAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "storageCategory_createdAtTime",
+                "db_ValueName" => ":category_createdAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+            [
+                "db_FieldName" => "storageCategory_updatedAtDate",
+                "db_ValueName" => ":category_updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "storageCategory_updatedAtTime",
+                "db_ValueName" => ":category_updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+            [
+                "db_FieldName" => "storageCategory_isEnable",
+                "db_ValueName" => ":category_isEnable",
+                "db_realValue" => 1
+            ],
         ];
 
         $addStorageCategory = $this->saveData("storage_categories", $storageCategoryRegisterData);
@@ -626,7 +626,7 @@ class storageController extends mainModel
         return json_encode($alert);
     }
 
-        public function storageCategoryListController($page, $register, $url, $search)
+    public function storageCategoryListController($page, $register, $url, $search)
     {
 
         $page = $this->cleanRequest($page);
@@ -652,7 +652,7 @@ class storageController extends mainModel
         OR storageCategory_updatedAtDate LIKE '%$search%' 
         OR storageCategory_updatedAtTime LIKE '%$search%'
         OR storageCategory_isEnable LIKE '%$search%'
-        ORDER BY storageCategory_name ASC, storageType_name ASC
+        ORDER BY storageType_name ASC, storageCategory_name  ASC
         LIMIT $start, $register;";
 
         // Consulta para contar el total de registros encontrados

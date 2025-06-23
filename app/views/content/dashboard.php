@@ -1,15 +1,17 @@
 <?php
 
-use app\controllers\dashboardController;
+use app\controllers\mainController;
 
-$dashboardController = new dashboardController();
-$totalWifiRegisters = $dashboardController->countWifiRegistersController();
-$totalDevicesDelivered = $dashboardController->countDevicesDeliveredController();
-$totalDevicesWithdrew = $dashboardController->countWithdrewDevicesController();
-$totalObservations = $dashboardController->countObservationsController();
-$totalDepartments = $dashboardController->countDepartmentsController();
-$totalLocations = $dashboardController->countLocationsController();
-$totalStorageTypes = $dashboardController ->countStorageTypesController();
+$mainController = new mainController();
+
+$totalWifiRegisters = $mainController->countDataController("wifi_directory");
+$totalDevicesDelivered = $mainController->countConditionalDataController("devices", "device_isDelivered", 1);
+$totalDevicesWithdrew = $mainController->countConditionalDataController("devices", "device_isDelivered", 0);
+$totalObservations = $mainController->countConditionalDataController("observations", "observation_isDone", 0);
+$totalDepartments = $mainController->countConditionalDataController("departments", "department_isEnable", 1);
+$totalLocations = $mainController->countConditionalDataController("locations", "location_isEnable", 1);
+$totalStorageTypes = $mainController->countConditionalDataController("storage_types", "storageType_isEnable", 1);
+$totalStorageCategories = $mainController->countConditionalDataController("storage_categories", "storageCategory_isEnable", 1);
 
 $dashboardModules = [
    [
@@ -58,10 +60,10 @@ $dashboardModules = [
       'cards' => [
          [
             'title' => 'Categorías',
-            'subtitle' => "(X) Categoría(s)",
+            'subtitle' => "$totalStorageCategories Categoría(s)",
             'description' => 'Ver Lista de Categorías',
             'icon' => 'addCardFront',
-            'link' => '#',
+            'link' => $routes['storageCategoryList'],
          ],
          [
             'title' => 'Tipos',

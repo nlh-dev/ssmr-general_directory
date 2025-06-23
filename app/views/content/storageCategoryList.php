@@ -15,7 +15,7 @@ require_once "./app/views/components/modals/addStorageCategory_Modal.php";
             <div>
                 <h1 class="text-lg font-semibold text-left">
                     Lista de Categorías
-                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de Categorías de Articulos del Inventario de Informática del Sistema de Salud Madre Rafols.</p>
+                    <p class="mt-1 text-sm font-normal text-gray-400">Listado de Categorías de Articulos del Inventario de Informática del Hospital Madre Rafols.</p>
                 </h1>
             </div>
             <div class="flex items-center space-x-4">

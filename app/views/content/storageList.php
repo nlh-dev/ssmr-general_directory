@@ -1,6 +1,6 @@
 <?php
-    require_once './app/views/components/modals/addStorageType_Modal.php';
-    require_once './app/views/components/modals/addStorageCategory_Modal.php';
+    require_once './app/views/components/modals/storage/addStorageType_Modal.php';
+    require_once './app/views/components/modals/storage/addStorageCategory_Modal.php';
 ?>
 <!-- CONTENT GRIDS -->
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">

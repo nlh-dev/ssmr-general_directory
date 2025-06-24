@@ -1,6 +1,6 @@
 <?php
-require_once "./app/views/components/modals/viewDeviceWithdrew_Modal.php";
-require_once "./app/views/components/modals/editDeviceWithdrew_Modal.php";
+require_once "./app/views/components/modals/devices/viewDeviceWithdrew_Modal.php";
+require_once "./app/views/components/modals/devices/editDeviceWithdrew_Modal.php";
 ?>
 
 <!-- CONTENT GRIDS -->

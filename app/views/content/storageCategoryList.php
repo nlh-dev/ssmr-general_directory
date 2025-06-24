@@ -1,5 +1,5 @@
 <?php
-require_once "./app/views/components/modals/addStorageCategory_Modal.php";
+require_once "./app/views/components/modals/storage/addStorageCategory_Modal.php";
 
 ?>
 

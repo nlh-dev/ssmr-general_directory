@@ -1,9 +1,9 @@
 <?php
 
-require_once "./app/views/components/modals/addDeviceDelivery_Modal.php";
-require_once "./app/views/components/modals/viewDeviceDelivery_Modal.php";
-require_once "./app/views/components/modals/editDeviceDelivery_Modal.php";
-require_once "./app/views/components/modals/withdrawDeliveredDevice_Modal.php";
+require_once "./app/views/components/modals/devices/addDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/devices/viewDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/devices/editDeviceDelivery_Modal.php";
+require_once "./app/views/components/modals/devices/withdrawDeliveredDevice_Modal.php";
 
 ?>
 

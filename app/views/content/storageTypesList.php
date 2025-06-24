@@ -1,5 +1,5 @@
-<?php require_once './app/views/components/modals/addStorageType_Modal.php' ?>
-<?php require_once './app/views/components/modals/editStorageType_Modal.php' ?>
+<?php require_once './app/views/components/modals/storage/addStorageType_Modal.php' ?>
+<?php require_once './app/views/components/modals/storage/editStorageType_Modal.php' ?>
 
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
     <div class="p-2 mt-10">

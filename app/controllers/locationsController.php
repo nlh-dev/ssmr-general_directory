@@ -305,32 +305,39 @@ class locationsController extends mainModel
         $start = ($page > 0) ? (($page * $register) - $register) : 0;
 
         $dataRequest_Query = "SELECT
-        loc.location_ID,
+        loc.location_ID AS location_ID,
         loc.location_name AS location_name,         
         loc.location_createdAtDate AS location_createdDate,
         loc.location_createdAtTime AS location_createdTime,
         loc.location_updatedAtDate AS location_updatedDate,
         loc.location_updatedAtTime AS location_updatedTime,
-        loc.location_isEnable AS location_isEnable
-        COUNT(departments.department_ID) AS total_departments
+        loc.location_isEnable AS location_isEnable,
+        COUNT(dep.department_ID) AS total_departments
         FROM locations loc
         LEFT JOIN departments dep ON dep.department_location_ID = loc.location_ID
-        WHERE location_name LIKE '%$search%' 
-        OR location_createdAtDate LIKE '%$search%' 
-        OR location_createdAtTime LIKE '%$search%' 
-        OR location_updatedAtDate LIKE '%$search%' 
-        OR location_updatedAtTime LIKE '%$search%'
-        OR location_isEnable LIKE '%$search%'
-        ORDER BY location_name ASC
+        WHERE loc.location_name LIKE '%$search%' 
+        OR loc.location_createdAtDate LIKE '%$search%' 
+        OR loc.location_createdAtTime LIKE '%$search%' 
+        OR loc.location_updatedAtDate LIKE '%$search%' 
+        OR loc.location_updatedAtTime LIKE '%$search%'
+        OR loc.location_isEnable LIKE '%$search%'
+        GROUP BY loc.location_ID,
+        loc.location_name,
+        loc.location_createdAtDate,
+        loc.location_createdAtTime,
+        loc.location_updatedAtDate,
+        loc.location_updatedAtTime,
+        loc.location_isEnable
+        ORDER BY loc.location_name ASC
         LIMIT $start,$register";
 
-        $totalData_Query = "SELECT COUNT(location_ID) FROM locations
-        WHERE location_name LIKE '%$search%' 
-        OR location_createdAtDate LIKE '%$search%' 
-        OR location_createdAtTime LIKE '%$search%' 
-        OR location_updatedAtDate LIKE '%$search%' 
-        OR location_updatedAtTime LIKE '%$search%'
-        OR location_isEnable LIKE '%$search%'";
+        $totalData_Query = "SELECT COUNT(*) FROM locations loc
+        WHERE loc.location_name LIKE '%$search%' 
+        OR loc.location_createdAtDate LIKE '%$search%' 
+        OR loc.location_createdAtTime LIKE '%$search%' 
+        OR loc.location_updatedAtDate LIKE '%$search%' 
+        OR loc.location_updatedAtTime LIKE '%$search%'
+        OR loc.location_isEnable LIKE '%$search%'";
 
         $data = $this->dbRequestExecute($dataRequest_Query);
         $data = $data->fetchAll();
@@ -369,8 +376,8 @@ class locationsController extends mainModel
             $counter = $start + 1;
             $startPage = $start + 1;
             foreach ($data as $rows) {
-                $locationCreateTimeDots = $this->formatTimeDots($rows['location_createdAtTime']);
-                $locationUpdateTimeDots = $this->formatTimeDots($rows['location_updatedAtTime']);
+                $locationCreateTimeDots = $this->formatTimeDots($rows['location_createdTime']);
+                $locationUpdateTimeDots = $this->formatTimeDots($rows['location_updatedTime']);
                 $table .= '
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
@@ -385,7 +392,7 @@ class locationsController extends mainModel
                         <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-2 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
-                                </svg>(X) Departamentos
+                                </svg>'.$rows['total_departments'].' Departamentos
                             </span>
                             </div>
                         </td>
@@ -395,7 +402,7 @@ class locationsController extends mainModel
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                 </svg>
-                                ' . date('d/m/Y', strtotime($rows['location_createdAtDate'])) . ', ' . $locationCreateTimeDots . '
+                                ' . date('d/m/Y', strtotime($rows['location_createdDate'])) . ', ' . $locationCreateTimeDots . '
                             </span>
                             </div>
                         </td>
@@ -405,7 +412,7 @@ class locationsController extends mainModel
                             <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                             </svg>
-                            ' . date('d/m/Y', strtotime($rows['location_updatedAtDate'])) . ' - ' . $locationUpdateTimeDots . '
+                            ' . date('d/m/Y', strtotime($rows['location_updatedDate'])) . ' - ' . $locationUpdateTimeDots . '
                         </span>
                         </div>
                         </td>

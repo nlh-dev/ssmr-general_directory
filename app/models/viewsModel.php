@@ -9,8 +9,9 @@
             $viewsList = [
                 "dashboard",
                 "wifiList",
-                "conectionsList",
-                "conectionsPortList",
+                "switchList",
+                "switchPortList",
+                "switchBrandList",
                 "deviceDeliveryList",
                 "deviceHistoryList",
                 "deviceObservationsList",

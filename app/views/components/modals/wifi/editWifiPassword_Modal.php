@@ -164,6 +164,44 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                 let inputDepartments = document.querySelector('.modal-body #departments');
                 let macFilterCheckBox = document.querySelector('.modal-body #macFilterCheckBox');
 
+                let fetchURL = '<?= APP_URL ?>app/ajax/departmentsAjax.php';
+
+                // Función para cargar departamentos según la ubicación seleccionada
+                function getDepartmentsByLocation(locationId, selectedDepartmentId = null, fromSelector = false) {
+                    inputDepartments.innerHTML = '<option selected value="">Cargando Departamentos....</option>';
+                    if (!locationId) {
+                        inputDepartments.innerHTML = '<option selected value="">Seleccione....</option>';
+                        return;
+                    }
+                    setTimeout(function() {
+                        fetch(fetchURL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: 'location_ID=' + encodeURIComponent(locationId) + '&getDepartmentsByLocation=1'
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            let options = '';
+                            if (data.length === 0 && fromSelector) {
+                                options = '<option value="" selected>No hay departamentos Relacionados....</option>';
+                            } else {
+                                options = '<option selected value="">Seleccione....</option>';
+                                data.forEach(dep => {
+                                    options += `<option value="${dep.department_ID}" ${selectedDepartmentId == dep.department_ID ? 'selected' : ''}>${dep.department_name}</option>`;
+                                });
+                            }
+                            inputDepartments.innerHTML = options;
+                        })
+                        .catch(() => {
+                            inputDepartments.innerHTML = '<option selected value="">Error al cargar</option>';
+                        });
+                    }, 400);
+                }
+
+                inputLocations.addEventListener('change', function() {
+                    getDepartmentsByLocation(this.value, null, true);
+                });
+
                 macFilterCheckBox.addEventListener('change', function() {
                     this.value = this.checked ? '1' : '0';
                 });
@@ -183,7 +221,8 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                         inputPassword.value = dataResponse.data.wifi_password;
                         inputIpDirection.value = dataResponse.data.wifi_ipDirection;
                         inputLocations.value = dataResponse.data.wifi_location_ID;
-                        inputDepartments.value = dataResponse.data.wifi_department_ID;
+                        // Cargar departamentos según la ubicación y seleccionar el correspondiente
+                        getDepartmentsByLocation(dataResponse.data.wifi_location_ID, dataResponse.data.wifi_department_ID);
 
                         if (dataResponse.data.wifi_isMACProtected == "1") {
                             macFilterCheckBox.checked = true;

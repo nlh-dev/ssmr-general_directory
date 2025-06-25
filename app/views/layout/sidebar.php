@@ -21,8 +21,9 @@ $sidebarMenu = [
         'label' => 'Conexiones',
         'icon' => 'rightArrow',
         'submenu' => [
-            ['label' => 'Puertos', 'url' => '#'],
-            ['label' => 'Switches', 'url' => '#'],
+            ['label' => 'Switches', 'url' => $routes['switchList']],
+            ['label' => 'Puertos', 'url' => $routes['switchPortList']],
+            ['label' => 'Marcas Utilizadas', 'url' => $routes['switchBrandList']],
         ],
         'dropdownId' => 'conections-dropdown',
     ],

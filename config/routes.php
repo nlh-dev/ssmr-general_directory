@@ -4,6 +4,9 @@
         'dashboard' => APP_URL . 'dashboard/',
         'users' => APP_URL . 'users/',
         'wifiList' => APP_URL . 'wifiList/',
+        'switchList' => APP_URL . 'switchList/',
+        'switchPortList' => APP_URL . 'switchPortList/',
+        'switchBrandList' => APP_URL . 'switchBrandList/',
         'deviceDeliveryList' => APP_URL . 'deviceDeliveryList/',
         'deviceHistoryList' => APP_URL . 'deviceHistoryList/',
         'deviceObservationsList' => APP_URL . 'deviceObservationsList/',
@@ -19,6 +22,7 @@
     // AJAX REQUESTS
     $AjaxRoutes = [
         'wifiPasswords' => APP_URL . 'app/ajax/wifiPasswordsAjax.php',
+        'switches' => APP_URL . 'app/ajax/switchesAjax.php',
         'deliveryDevices' => APP_URL . 'app/ajax/deliveryDevicesAjax.php',
         'Observations' => APP_URL . 'app/ajax/observationsAjax.php',
         'locations' => APP_URL . 'app/ajax/locationsAjax.php',

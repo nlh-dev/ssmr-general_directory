@@ -304,7 +304,17 @@ class locationsController extends mainModel
         $page = (isset($page) && $page > 0) ? (int) $page : 1;
         $start = ($page > 0) ? (($page * $register) - $register) : 0;
 
-        $dataRequest_Query = "SELECT * FROM locations
+        $dataRequest_Query = "SELECT
+        loc.location_ID,
+        loc.location_name AS location_name,         
+        loc.location_createdAtDate AS location_createdDate,
+        loc.location_createdAtTime AS location_createdTime,
+        loc.location_updatedAtDate AS location_updatedDate,
+        loc.location_updatedAtTime AS location_updatedTime,
+        loc.location_isEnable AS location_isEnable
+        COUNT(departments.department_ID) AS total_departments
+        FROM locations loc
+        LEFT JOIN departments dep ON dep.department_location_ID = loc.location_ID
         WHERE location_name LIKE '%$search%' 
         OR location_createdAtDate LIKE '%$search%' 
         OR location_createdAtTime LIKE '%$search%' 
@@ -365,11 +375,18 @@ class locationsController extends mainModel
                     <tr class="bg-white border-b border-gray-200 text-gray-800 hover:bg-gray-200 transition duration-100">
                         <td class="px-5 py-2 whitespace-nowrap text-xs text-gray-400">' . $counter . '</td>
                         <td scope="row" class="px-5 py-2 font-medium text-gray-900 whitespace-nowrap">
+                        <div>
                         <div class="flex items-center">
-                        <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                        <svg class="shrink-0 w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#tagLocation" />
                             </svg>
                         <p class="text-xs">' . $rows['location_name'] . '</p>
+                        </div>
+                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-2 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                </svg>(X) Departamentos
+                            </span>
                             </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">

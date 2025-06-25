@@ -3,6 +3,7 @@
 namespace app\models;
 
 use \PDO;
+use DateTime;
 
 if (file_exists(__DIR__ . "/../../config/server.php")) {
     require_once __DIR__ . "/../../config/server.php";
@@ -34,7 +35,6 @@ class mainModel
     // FUNCTION TO AVOID SQL INJECTION
     public function cleanRequest($string)
     {
-
         $forbiddenWords = ["<script>", "</script>", "<script src", "<script type=", "SELECT * FROM", "SELECT ", " SELECT ", "DELETE FROM", "INSERT INTO", "DROP TABLE", "DROP DATABASE", "TRUNCATE TABLE", "SHOW TABLES", "SHOW DATABASES", "<?php", "?>", "--", "^", "<", ">", "==", "=", ";", "::"];
 
         $string = trim($string);
@@ -115,12 +115,11 @@ class mainModel
     // FUNCTION TO DELETE DATA FROM DATABASE
     protected function deleteData($table, $field, $id)
     {
+        $delteData_SQL = $this->dbConnect()->prepare("DELETE FROM $table WHERE $field= :ID");
+        $delteData_SQL->bindParam(":ID", $id);
+        $delteData_SQL->execute();
 
-        $delteData_SLQ = $this->dbConnect()->prepare("DELETE FROM $table WHERE $field= :ID");
-        $delteData_SLQ->bindParam(":ID", $id);
-        $delteData_SLQ->execute();
-
-        return $delteData_SLQ;
+        return $delteData_SQL;
     }
 
     // FUNCTION TO UPDATE DATA FROM DATABASE
@@ -148,6 +147,7 @@ class mainModel
         return $updateData_SQL;
     }
 
+    // FUNCTION TO PAGINATE DATA
     protected function paginationData($page, $numPages, $url, $buttons)
     {
         $table = '
@@ -207,5 +207,13 @@ class mainModel
 
         $table .= '</nav>';
         return $table;
+    }
+
+    // FUNCTION TO FORMAT DATE TIME
+    private function formatTimeDots($timeString)
+    {
+        $dateTime = new DateTime($timeString);
+        $dateTimeDots = str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
+        return $dateTimeDots;
     }
 }

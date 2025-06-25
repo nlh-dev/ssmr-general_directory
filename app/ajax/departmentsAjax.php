@@ -32,3 +32,14 @@ if (isset($_POST['departmentModule'])) {
             break;
     }
 }
+
+// Endpoint para obtener departamentos por ubicación (usado en el modal de Wifi)
+if (isset($_POST['getDepartmentsByLocation']) && isset($_POST['location_ID'])) {
+    $locationId = $_POST['location_ID'];
+    // Debes tener un método en el controlador que obtenga los departamentos por ubicación
+    $departmentsList = $departmentsInstance->getDepartmentsByLocationController($locationId);
+    // Se espera que retorne un array asociativo con department_ID y department_name
+    header('Content-Type: application/json');
+    echo json_encode($departmentsList);
+    exit();
+}

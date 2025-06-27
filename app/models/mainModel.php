@@ -210,7 +210,7 @@ class mainModel
     }
 
     // FUNCTION TO FORMAT DATE TIME
-    private function formatTimeDots($timeString)
+    protected function formatTimeDots($timeString)
     {
         $dateTime = new DateTime($timeString);
         $dateTimeDots = str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));

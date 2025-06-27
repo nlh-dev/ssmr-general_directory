@@ -28,6 +28,33 @@ $dashboardModules = [
       ]
    ],
    [
+      'section' => 'Conexiones',
+      'sectionIcon' => 'rightArrow',
+      'cards' => [
+         [
+            'title' => 'Switches',
+            'subtitle' => "(X) Registro(s)",
+            'description' => 'Ver Directorio de Contraseñas',
+            'icon' => 'codeFork',
+            'link' => $routes['switchList'],
+         ],
+         [
+            'title' => 'Puertos',
+            'subtitle' => "(X) Registro(s)",
+            'description' => 'Ver Directorio de Contraseñas',
+            'icon' => 'codeMerge',
+            'link' => $routes['switchPortList'],
+         ],
+         [
+            'title' => 'Marcas Utilizadas',
+            'subtitle' => "(X) Registro(s)",
+            'description' => 'Ver Directorio de Contraseñas',
+            'icon' => 'sharingNodes',
+            'link' => $routes['switchBrandList'],
+         ],
+      ]
+   ],
+   [
       'section' => 'Dispositivos',
       'sectionIcon' => 'clipBoard',
       'cards' => [
@@ -44,13 +71,6 @@ $dashboardModules = [
             'description' => 'Ver Historial de Entrega',
             'icon' => 'book',
             'link' => $routes['deviceHistoryList'],
-         ],
-         [
-            'title' => 'Observaciones',
-            'subtitle' => "$totalObservations Observaciones Pendientes",
-            'description' => 'Ver Observaciones',
-            'icon' => 'floppyDisk',
-            'link' => $routes['deviceObservationsList'],
          ],
       ]
    ],
@@ -83,7 +103,7 @@ $dashboardModules = [
             'title' => 'Movimientos',
             'subtitle' => "(X) Movimientos",
             'description' => 'Ver Lista de Movimientos',
-            'icon' => 'codeFork',
+            'icon' => 'codePull',
             'link' => '#',
          ],
          [

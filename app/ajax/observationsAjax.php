@@ -29,8 +29,5 @@ if (isset($_POST['observationsModule'])) {
         case 'deleteObservations':
             echo $observationsInstance -> deleteObservationsController();
             break;
-        case 'markDoneObservations':
-            echo $observationsInstance -> markDoneObservationsController();
-            break;
     }
 }

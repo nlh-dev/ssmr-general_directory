@@ -4,14 +4,12 @@
         <li>
             <div class="flex items-center">
                 <svg class="shrink-0 w-5 h-5 text-gray-800" aria-hidden="true" fill="currentColor">
-                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard"></use>
+                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#floppyDisk"></use>
                 </svg>
                 <p class="px-3 text-lg font-medium text-gray-900">
-                    Dispositivos
+                    Observaciones
                 </p>
             </div>
         </li>
-        <span class="mx-2 text-gray-400">/</span>
-        <span class="mx-2 font-medium text-gray-400">Observaciones</span>
     </ol>
 </nav>

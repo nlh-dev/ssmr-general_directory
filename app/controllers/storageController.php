@@ -3,16 +3,9 @@
 namespace app\controllers;
 
 use app\models\mainModel;
-use DateTime;
 
 class storageController extends mainModel
 {
-    // GENERAL FUNCTIONS
-    private function formatTimeDots($timeString)
-    {
-        $dateTime = new DateTime($timeString);
-        return str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
-    }
 
     // STORAGE TYPES CONTROLLER
     public function getStorageTypeDataController()

@@ -119,11 +119,6 @@ class departmentsController extends mainModel
         return json_encode($alert);
     }
 
-    private function formatTimeDots($timeString)
-    {
-        $dateTime = new DateTime($timeString);
-        return str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
-    }
 
     public function updateDepartmentStateController()
     {

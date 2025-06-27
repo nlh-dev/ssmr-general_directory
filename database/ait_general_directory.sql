@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2025 a las 21:38:35
+-- Tiempo de generación: 27-06-2025 a las 20:21:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -171,19 +171,18 @@ CREATE TABLE `observations` (
   `observation_createdAtDate` date NOT NULL,
   `observation_createdAtTime` time NOT NULL,
   `observation_updatedAtDate` date NOT NULL,
-  `observation_updatedAtTime` time NOT NULL,
-  `observation_isDone` tinyint(1) NOT NULL
+  `observation_updatedAtTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `observations`
 --
 
-INSERT INTO `observations` (`observation_ID`, `observation_user_ID`, `observation_reason`, `observation_type_ID`, `observations_priority_ID`, `observation_description`, `observation_createdAtDate`, `observation_createdAtTime`, `observation_updatedAtDate`, `observation_updatedAtTime`, `observation_isDone`) VALUES
-(1, 1, 'PRUEBA 1', 4, 1, '', '2025-06-04', '09:09:06', '2025-06-10', '10:53:23', 0),
-(2, 1, 'PRUEBA 2', 2, 2, 'l aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-09', '09:19:04', 1),
-(3, 1, 'PRUEBA 3', 3, 3, 'PRUEBA DE ACTUALIZACION 3', '2025-06-06', '10:55:57', '2025-06-09', '15:24:16', 1),
-(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION 4', '2025-06-07', '10:56:15', '2025-06-10', '10:54:51', 1);
+INSERT INTO `observations` (`observation_ID`, `observation_user_ID`, `observation_reason`, `observation_type_ID`, `observations_priority_ID`, `observation_description`, `observation_createdAtDate`, `observation_createdAtTime`, `observation_updatedAtDate`, `observation_updatedAtTime`) VALUES
+(1, 1, 'PRUEBA 1', 4, 1, '', '2025-06-04', '09:09:06', '2025-06-27', '14:07:23'),
+(2, 1, 'INSPECCION DE AULA DE CLASES', 2, 2, 'El aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-27', '14:12:55'),
+(3, 1, 'PRUEBA 3', 3, 3, 'PRUEBA DE ACTUALIZACION 3', '2025-06-06', '10:55:57', '2025-06-09', '15:24:16'),
+(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION 4', '2025-06-07', '10:56:15', '2025-06-27', '13:59:31');
 
 -- --------------------------------------------------------
 
@@ -320,6 +319,15 @@ CREATE TABLE `switch_brand_directory` (
   `switchBrand_updatedAtTime` time NOT NULL,
   `switchBrand_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `switch_brand_directory`
+--
+
+INSERT INTO `switch_brand_directory` (`switchBrand_ID`, `switchBrand_name`, `switchBrand_createdAtDate`, `switchBrand_createdAtTime`, `switchBrand_updatedAtDate`, `switchBrand_updatedAtTime`, `switchBrand_isEnable`) VALUES
+(1, 'Microtik', '2025-06-27', '08:54:32', '2025-06-27', '08:54:32', 1),
+(2, 'Mercusys', '2025-06-27', '09:38:47', '2025-06-27', '09:38:47', 1),
+(3, 'TP-LINK', '2025-06-27', '09:39:12', '2025-06-27', '09:39:12', 1);
 
 -- --------------------------------------------------------
 
@@ -595,7 +603,7 @@ ALTER TABLE `storage_types`
 -- AUTO_INCREMENT de la tabla `switch_brand_directory`
 --
 ALTER TABLE `switch_brand_directory`
-  MODIFY `switchBrand_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `switchBrand_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `switch_directory`

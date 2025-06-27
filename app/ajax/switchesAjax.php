@@ -12,9 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
         case 'addSwitchBrand':
             echo $switchesController->addSwitchBrandController();
             break;
-        
-        default:
-            # code...
+        case 'deleteSwitchBrand':
+            echo $switchesController->deleteSwitchBrandController();
             break;
     }
 }

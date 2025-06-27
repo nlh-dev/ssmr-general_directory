@@ -30,14 +30,17 @@ require_once "./app/views/components/modals/observations/editObservation_Modal.p
             </div>
 
         </div>
+
         <?php
 
         use app\controllers\observationsController;
 
         $observationController = new observationsController();
 
-        echo $observationController->observationsListController($url[1], 10, $url[0], "");
+        echo $observationController->observationsListTimelineController($url[1], 4, $url[0], "");
 
         ?>
+
+
     </div>
 </div>

@@ -88,12 +88,6 @@ class locationsController extends mainModel
         return json_encode($alert);
     }
 
-    private function formatTimeDots($timeString)
-    {
-        $dateTime = new DateTime($timeString);
-        return str_replace(['am', 'pm'], ["a. m.", "p. m."], $dateTime->format("h:i a"));
-    }
-
     public function getLocationsByIdController()
     {
         $locationId = $this->cleanRequest($_GET['location_ID']);
@@ -389,7 +383,7 @@ class locationsController extends mainModel
                             </svg>
                         <p class="text-xs">' . $rows['location_name'] . '</p>
                         </div>
-                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-2 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-1 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
                                 <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                                 </svg>'.$rows['total_departments'].' Departamentos

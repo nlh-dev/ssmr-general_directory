@@ -9,7 +9,7 @@
         'switchBrandList' => APP_URL . 'switchBrandList/',
         'deviceDeliveryList' => APP_URL . 'deviceDeliveryList/',
         'deviceHistoryList' => APP_URL . 'deviceHistoryList/',
-        'deviceObservationsList' => APP_URL . 'deviceObservationsList/',
+        'observationsList' => APP_URL . 'observationsList/',
         'locationsList' => APP_URL . 'locationsList/',
         'departmentsList' => APP_URL . 'departmentsList/',
         'storageList' => APP_URL . 'storageList/',

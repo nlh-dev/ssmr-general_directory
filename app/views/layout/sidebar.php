@@ -33,7 +33,6 @@ $sidebarMenu = [
         'submenu' => [
             ['label' => 'Control de Entrega', 'url' => $routes['deviceDeliveryList']],
             ['label' => 'Historial', 'url' => $routes['deviceHistoryList']],
-            ['label' => 'Observaciones', 'url' => $routes['deviceObservationsList']],
         ],
         'dropdownId' => 'devices-dropdown',
     ],
@@ -48,6 +47,11 @@ $sidebarMenu = [
             ['label' => 'Historial', 'url' => $routes['storageHistoryList']],
         ],
         'dropdownId' => 'storage-dropdown',
+    ],
+    [
+        'label' => 'Observaciones',
+        'icon' => 'floppyDisk',
+        'url' => $routes['observationsList'],
     ],
     'separator',
     [

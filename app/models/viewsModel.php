@@ -14,7 +14,7 @@
                 "switchBrandList",
                 "deviceDeliveryList",
                 "deviceHistoryList",
-                "deviceObservationsList",
+                "observationsList",
                 "storageList",
                 "storageCategoryList",
                 "storageTypesList",

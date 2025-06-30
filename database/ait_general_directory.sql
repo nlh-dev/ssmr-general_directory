@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-06-2025 a las 20:21:37
+-- Tiempo de generación: 30-06-2025 a las 21:54:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,10 +45,10 @@ CREATE TABLE `departments` (
 INSERT INTO `departments` (`department_ID`, `department_name`, `department_location_ID`, `department_createdAtDate`, `department_createdAtTime`, `department_updatedAtDate`, `department_updatedAtTime`, `department_isEnable`) VALUES
 (1, 'Oftalmología', 2, '2025-05-16', '00:00:00', '2025-06-16', '12:23:47', 1),
 (2, 'Laboratorio', 1, '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
-(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-18', '08:02:32', 1),
-(6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-18', '08:02:32', 1),
+(5, 'Medicina General', 5, '2025-06-13', '14:55:08', '2025-06-30', '09:22:58', 1),
+(6, 'Nefrología Pediátrica', 5, '2025-06-13', '14:55:57', '2025-06-30', '09:22:58', 1),
 (7, 'Ecografía', 6, '2025-06-13', '15:11:13', '2025-06-13', '15:11:13', 1),
-(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-18', '08:02:32', 1),
+(8, 'Caja', 5, '2025-06-13', '15:32:00', '2025-06-30', '09:22:58', 1),
 (9, 'Farmacia', 2, '2025-06-16', '09:19:54', '2025-06-16', '09:19:54', 1),
 (10, 'Informática', 17, '2025-06-16', '10:26:29', '2025-06-16', '10:26:29', 1),
 (11, 'Hospitalización', 9, '2025-06-16', '10:34:44', '2025-06-16', '10:34:44', 1),
@@ -59,13 +59,13 @@ INSERT INTO `departments` (`department_ID`, `department_name`, `department_locat
 (18, 'Rayos X', 17, '2025-06-16', '12:25:17', '2025-06-16', '12:25:17', 1),
 (19, 'Emergencias', 18, '2025-06-16', '12:25:26', '2025-06-16', '12:25:26', 1),
 (20, 'Caja (Emergencias)', 18, '2025-06-16', '12:25:40', '2025-06-16', '12:25:50', 1),
-(21, 'Traumatologia', 5, '2025-06-16', '12:26:45', '2025-06-18', '08:02:32', 1),
+(21, 'Traumatologia', 5, '2025-06-16', '12:26:45', '2025-06-30', '09:22:58', 1),
 (22, 'Oncología', 1, '2025-06-16', '12:27:20', '2025-06-16', '12:27:20', 1),
-(23, 'Pre-clínica', 5, '2025-06-16', '12:27:51', '2025-06-18', '08:02:32', 1),
-(24, 'Historias Médicas', 5, '2025-06-16', '12:28:02', '2025-06-18', '08:02:32', 1),
-(25, 'Gastroenterología', 5, '2025-06-16', '12:28:26', '2025-06-18', '08:02:32', 1),
-(26, 'ORL', 5, '2025-06-16', '12:28:47', '2025-06-18', '08:02:32', 1),
-(27, 'Medicina Familiar', 5, '2025-06-16', '12:29:03', '2025-06-18', '08:02:32', 1),
+(23, 'Pre-clínica', 5, '2025-06-16', '12:27:51', '2025-06-30', '09:22:58', 1),
+(24, 'Historias Médicas', 5, '2025-06-16', '12:28:02', '2025-06-30', '09:22:58', 1),
+(25, 'Gastroenterología', 5, '2025-06-16', '12:28:26', '2025-06-30', '09:22:58', 1),
+(26, 'ORL', 5, '2025-06-16', '12:28:47', '2025-06-30', '09:22:58', 1),
+(27, 'Medicina Familiar', 5, '2025-06-16', '12:29:03', '2025-06-30', '09:22:58', 1),
 (28, 'Psicología', 2, '2025-06-16', '12:33:10', '2025-06-16', '12:33:10', 1),
 (29, 'Fisiatría', 2, '2025-06-16', '12:33:30', '2025-06-16', '12:33:30', 1),
 (32, 'Administración', 6, '2025-06-16', '12:52:30', '2025-06-16', '12:52:30', 1),
@@ -140,7 +140,7 @@ CREATE TABLE `locations` (
 INSERT INTO `locations` (`location_ID`, `location_name`, `location_createdAtDate`, `location_createdAtTime`, `location_updatedAtDate`, `location_updatedAtTime`, `location_isEnable`) VALUES
 (1, 'Piso 1, Lado A', '2025-05-16', '00:00:00', '2025-06-14', '13:38:14', 1),
 (2, 'Piso 1, Lado B', '2025-05-16', '00:00:00', '2025-06-13', '13:19:06', 1),
-(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-18', '08:02:32', 1),
+(5, 'PB, Lado A', '2025-06-13', '12:59:42', '2025-06-30', '09:22:58', 1),
 (6, 'PB, Lado B', '2025-06-13', '12:59:53', '2025-06-13', '12:59:53', 1),
 (7, 'Piso 2, Lado A', '2025-06-13', '13:04:09', '2025-06-13', '13:04:09', 1),
 (8, 'Piso 2, Lado B', '2025-06-13', '13:04:17', '2025-06-13', '13:04:17', 1),
@@ -325,9 +325,11 @@ CREATE TABLE `switch_brand_directory` (
 --
 
 INSERT INTO `switch_brand_directory` (`switchBrand_ID`, `switchBrand_name`, `switchBrand_createdAtDate`, `switchBrand_createdAtTime`, `switchBrand_updatedAtDate`, `switchBrand_updatedAtTime`, `switchBrand_isEnable`) VALUES
-(1, 'Microtik', '2025-06-27', '08:54:32', '2025-06-27', '08:54:32', 1),
-(2, 'Mercusys', '2025-06-27', '09:38:47', '2025-06-27', '09:38:47', 1),
-(3, 'TP-LINK', '2025-06-27', '09:39:12', '2025-06-27', '09:39:12', 1);
+(1, 'Microtik', '2025-06-27', '08:54:32', '2025-06-30', '10:35:31', 1),
+(2, 'Mercusys', '2025-06-27', '09:38:47', '2025-06-30', '10:29:28', 1),
+(3, 'TP-LINK', '2025-06-27', '09:39:12', '2025-06-30', '09:52:48', 1),
+(7, 'Dahua', '2025-06-30', '09:54:43', '2025-06-30', '10:30:19', 1),
+(8, 'NETGEAR', '2025-06-30', '09:54:59', '2025-06-30', '09:54:59', 1);
 
 -- --------------------------------------------------------
 
@@ -338,6 +340,7 @@ INSERT INTO `switch_brand_directory` (`switchBrand_ID`, `switchBrand_name`, `swi
 CREATE TABLE `switch_directory` (
   `switch_ID` int(11) NOT NULL,
   `switch_name` text NOT NULL,
+  `switch_serialCode` varchar(20) NOT NULL,
   `switch_brand_ID` int(11) NOT NULL,
   `switch_ipManagement` varchar(20) NOT NULL,
   `switch_portAmount` int(11) NOT NULL,
@@ -603,7 +606,7 @@ ALTER TABLE `storage_types`
 -- AUTO_INCREMENT de la tabla `switch_brand_directory`
 --
 ALTER TABLE `switch_brand_directory`
-  MODIFY `switchBrand_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `switchBrand_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `switch_directory`

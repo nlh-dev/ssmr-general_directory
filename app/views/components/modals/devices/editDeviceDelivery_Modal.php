@@ -35,7 +35,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
                             </svg>
-                            Recibido por:
+                            Recibido por:<span class="text-gray-400 ms-1">(Opcional)</span>
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="recievedByName" name="recievedByName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Recibido por....">
@@ -130,7 +130,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bed" />
                             </svg>
-                            Número de Habitación
+                            Número de Habitación<span class="text-gray-400 ms-1">(Opcional)</span>
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="roomCode" name="roomCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Número de Habitación....">

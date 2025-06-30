@@ -27,7 +27,7 @@
                             Entregado por:
                             <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
                                 <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#users" />
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#usersGroup" />
                                 </svg>
                                 <p data-field="usuario"></p>
                             </span>
@@ -48,12 +48,15 @@
                         </label>
                     </div>
                     <div class="col-span-2">
-                        <label for="withdrawalDate" class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                            </svg>
-                            Fecha de Retiro
-                        </label>
+                        <div class="flex items-center justify-between">
+                            <label for="withdrawalDate" class="flex items-center block text-sm font-medium text-gray-900">
+                                <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
+                                </svg>
+                                Fecha de Retiro
+                            </label>
+                            <p class="font-bold text-red-600">*</p>
+                        </div>
                         <div class="relative my-2">
                             <input type="date" id="withdrawalDate" name="withdrawalDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>

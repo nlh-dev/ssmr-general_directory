@@ -383,12 +383,24 @@ class locationsController extends mainModel
                             </svg>
                         <p class="text-xs">' . $rows['location_name'] . '</p>
                         </div>
-                        <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-1 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
-                                <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
-                                </svg>'.$rows['total_departments'].' Departamentos
-                            </span>
-                            </div>
+                        <div class="flex items-center">';
+                        if ($rows['location_isEnable'] === 0) {
+                            $table .= '
+                            <span class="flex items-center bg-red-100 text-red-900 text-xs font-medium px-2.5 py-1.5 mt-1 rounded-sm hover:bg-red-900 hover:text-white transition duration-100">
+                                    <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                    </svg>'.$rows['total_departments'].' Departamentos
+                            </span>';
+                        } else {
+                            $table .= '
+                            <span class="flex items-center bg-green-100 text-green-900 text-xs font-medium px-2.5 py-1.5 mt-1 rounded-sm hover:bg-green-900 hover:text-white transition duration-100">
+                                    <svg class="shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                        <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                    </svg>'.$rows['total_departments'].' Departamentos
+                            </span>';
+                        }
+            $table .='</div>
+                        </div>
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center">

@@ -312,29 +312,29 @@ class observationsController extends mainModel
                 $observationTimeDots = $this -> formatTimeDots($rows['observation_createdAtTime']);
                 $table .= '
                     <li class="p-4 mb-2 ms-4 shadow-lg hover:bg-gray-100 rounded-2xl transition duration-100">
-                        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                        <div class="flex items-center">
-                        <span class="flex items-center text-sm text-gray-500">
-                            <svg class="w-4 h-4 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
-                            </svg>
-                            Creada por: '.$rows['user_fullName'].'
-                        </span>
-                        <span class="text-sm text-gray-500 mx-1">|</span>
-                        <span class="flex items-center text-sm text-gray-500 me-1">
-                        <svg class="w-4 h-4 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                        </svg>
-                            Fecha de Creación:
-                            ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ', ' . $observationTimeDots . '                            
-                        </span>
+                        <div class="absolute w-3 h-3 bg-gray-700 rounded-full mt-1.5 -start-1.5"></div>
+                        <div class="flex items-center justify-start">
+                            <span class="flex items-center text-sm text-gray-500">
+                                <svg class="w-4 h-4 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#clipBoard" />
+                                </svg>
+                                Creada por: '.$rows['user_fullName'].'
+                                </span>
+                                <span class="text-sm text-gray-500 mx-1">|</span>
+                                <span class="flex items-center text-sm text-gray-500 me-1">
+                                <svg class="w-4 h-4 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
+                                </svg>
+                                    Fecha de Creación:
+                                    ' . date('d/m/Y', strtotime($rows['observation_createdAtDate'])) . ', ' . $observationTimeDots . '                            
+                                </span>
                         </div>
                         <div class="flex items-center space-x-2">
                         <span class="text-lg font-semibold text-gray-900">
                             ' . $rows['observation_reason'] . '
                         </span>
                         <div class="flex items-center">
-                            <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" id="eye-btn-' . $rows['observation_ID'] . '" data-popover-target="popover-eye-' . $rows['observation_ID'] . '" data-popover-placement="bottom" class="text-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-1.5 py-1.5 rounded-full transition duration-100" data-observation-id="' . $rows['observation_ID'] . '">
+                            <button data-modal-toggle="viewObservationInfo" data-modal-target="viewObservationInfo" id="eye-btn-' . $rows['observation_ID'] . '" data-popover-target="popover-eye-' . $rows['observation_ID'] . '" data-popover-placement="bottom" class="hidden text-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-1.5 py-1.5 rounded-full transition duration-100" data-observation-id="' . $rows['observation_ID'] . '">
                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#eye"/>
                                 </svg>

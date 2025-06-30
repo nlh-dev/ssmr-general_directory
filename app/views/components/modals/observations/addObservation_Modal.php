@@ -32,42 +32,42 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
                 <input type="hidden" name="observationsModule" id="observationsModule" value="saveObservations">
                 <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="col-span-2">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="observationReason" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
                                 </svg>
                                 Motivo
+                                <p class="font-bold text-red-600 ms-1">*</p>
                             </label>
-                            <p class="font-bold text-red-600">*</p>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="observationReason" name="observationReason" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Recibido por....">
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="observationDate" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
                                 </svg>
                                 Fecha de Creación
                             </label>
-                            <p class="font-bold text-red-600">*</p>
+                            <p class="font-bold text-red-600 ms-1">*</p>
                         </div>
                         <div class="relative my-2">
                             <input type="date" id="observationDate" name="observationDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="">
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="observationType" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#mailBox" />
                                 </svg>
                                 Tipo de Observación
                             </label>
-                            <p class="font-bold text-red-600">*</p>
+                            <p class="font-bold text-red-600 ms-1">*</p>
                         </div>
                         <div class="relative my-2">
                             <select id="observationType" name="observationType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -81,14 +81,14 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="observationPriority" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bellActive" />
                                 </svg>
                                 Prioridad
                             </label>
-                            <p class="font-bold text-red-600">*</p>
+                            <p class="font-bold text-red-600 ms-1">*</p>
                         </div>
                         <div class="relative my-2">
                             <select id="observationPriority" name="observationPriority" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">

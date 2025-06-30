@@ -12,6 +12,6 @@
             </div>
         </li>
         <span class="mx-2 text-gray-400">/</span>
-        <span class="mx-2 font-medium text-gray-400">Switches</span>
+        <span class="mx-2 font-medium text-gray-400">Marcas Utilizadas</span>
     </ol>
 </nav>

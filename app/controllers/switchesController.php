@@ -6,8 +6,38 @@ use app\models\mainModel;
 
 class switchesController extends mainModel
 {
+    // SWITCH CONTROLLER FUNCTIONS
+    public function addSwitchController(){
+        $switchName = $this->cleanRequest($_POST['switchName']);
+        $serialNumber = $this->cleanRequest($_POST['serialNumber']);
+        $switchBrand = $this->cleanRequest($_POST['switchBrand']);
+        $locations = $this->cleanRequest($_POST['locations']);
+        $departments = $this->cleanRequest($_POST['departments']);
+        $primalIpDirection = $this->cleanRequest($_POST['primalIpDirection']);
+        $switchPortAmount = $this->cleanRequest($_POST['switchPortAmount']);
+
+        if (empty($switchName) || empty($switchBrand) || empty($locations) || empty($departments) || empty($switchPortAmount)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "El campo se encuentra vacío.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+    }
 
     // SWITCH BRANDS CONTROLLER FUNCTIONS
+    public function getSwitchBrandDataController()
+    {
+        $brandId = $this->cleanRequest($_GET['brand_ID']);
+        $getBrands_SQL = "SELECT * FROM switch_brand_directory WHERE switchBrand_ID = '$brandId' LIMIT 1";
+        $getBrands_Query = $this->dbRequestExecute($getBrands_SQL);
+        $getBrands_Query->execute();
+        return $getBrands_Query->fetch();
+    }
+
     public function addSwitchBrandController()
     {
         $brandName = ucwords($this->cleanRequest($_POST['brandName']));
@@ -80,7 +110,141 @@ class switchesController extends mainModel
         }
     }
 
-    public function deleteSwitchBrandController(){
+    public function updateSwitchBrandController()
+    {
+        $brandID = $this->cleanRequest($_POST['brand_ID']);
+        $switchBrandData = $this->dbRequestExecute("SELECT * FROM switch_brand_directory WHERE switchBrand_ID = '$brandID'");
+        if ($switchBrandData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Marca no encontrada",
+            ];
+            return json_encode($alert);
+            exit();
+        } else {
+            $switchBrandData = $switchBrandData->fetch();
+        }
+
+        $brandName = $this->cleanRequest($_POST['brandName']);
+        if (empty($brandName)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "Algunos campos se encuentran Vacíos",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $switchBrandData = [
+            [
+                "db_FieldName" => "switchBrand_name",
+                "db_ValueName" => ":brand_name",
+                "db_realValue" => $brandName
+            ],
+            [
+                "db_FieldName" => "switchBrand_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "switchBrand_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $switchBrandCondition = [
+            "condition_FieldName" => "switchBrand_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $brandID
+        ];
+
+        if ($this->updateData("switch_brand_directory", $switchBrandData, $switchBrandCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Marca actualizada exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar la Marca, Intente Nuevamente.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function updateSwitchBrandStatusController()
+    {
+        $brandID = $this->cleanRequest($_POST['brand_ID']);
+
+        $storageTypeData = $this->dbRequestExecute("SELECT * FROM switch_brand_directory WHERE switchBrand_ID = '$brandID'");
+        if ($storageTypeData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $swtichBrandCurrentState = $storageTypeData->fetch()['switchBrand_isEnable'];
+        $swtichBrandNewState = $swtichBrandCurrentState ? 0 : 1;
+
+        $swtichBrandStateData = [
+            [
+                "db_FieldName" => "switchBrand_isEnable",
+                "db_ValueName" => ":isEnable",
+                "db_realValue" => $swtichBrandNewState
+            ],
+            [
+                "db_FieldName" => "switchBrand_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "switchBrand_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $swtichBrandCondition = [
+            "condition_FieldName" => "switchBrand_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $brandID
+        ];
+
+        $saveSwtichBrandState = $this->updateData("switch_brand_directory", $swtichBrandStateData, $swtichBrandCondition);
+        if ($saveSwtichBrandState->rowCount() >= 1) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Estado actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el estado.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function deleteSwitchBrandController()
+    {
         $brandId = $this->cleanRequest($_POST['brand_ID']);
 
         if (empty($brandId)) {
@@ -134,7 +298,7 @@ class switchesController extends mainModel
 
         // Consulta para obtener los datos y el total de categorías por tipo
         $dataRequest_Query = "SELECT
-        brand.switchBrand_ID as brand_ID,
+        brand.switchBrand_ID AS brand_ID,
         brand.switchBrand_name AS brand_name,
         brand.switchBrand_createdAtDate AS brand_createdAtDate,
         brand.switchBrand_createdAtTime AS brand_createdAtTime,
@@ -189,7 +353,7 @@ class switchesController extends mainModel
                                             #
                                         </th>
                                         <th scope="col" class="px-5 py-3">
-                                            Nombre de Marca
+                                            Marca
                                         </th>
                                         <th scope="col" class="px-5 py-3">
                                             Fecha de Creación
@@ -268,23 +432,6 @@ class switchesController extends mainModel
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
-                                <div class="flex items-center">
-                                    <button data-modal-toggle="viewSwitchBrandInfo" data-modal-target="viewSwitchBrandInfo" 
-                                    id="eye-btn-' . $rows['brand_ID'] . '"
-                                    data-popover-target="popover-eye-' . $rows['brand_ID'] . '"
-                                    data-popover-placement="bottom" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100" data-observation-id="' . $rows['brand_ID'] . '">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                            <use xlink:href="' . APP_URL . 'app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
-                                        </svg>
-                                    </button>
-                                <div data-popover id="popover-eye-' . $rows['brand_ID'] . '" role="tooltip"
-                                    class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
-                                    <div class="px-3 py-2 bg-gray-900 rounded-lg">
-                                        <h3 class="font-semibold text-white text-xs">Ver</h3>
-                                    </div>
-                                        <div data-popper-arrow bg-gray-900></div>
-                                </div>
-                                </div>
                                 <div class="flex items-center">
                                     <button data-modal-toggle="editSwitchBrand" data-modal-target="editSwitchBrand" id="editPen-btn-' . $rows['brand_ID'] . '"
                                     data-popover-target="popover-editPen-' . $rows['brand_ID'] . '"

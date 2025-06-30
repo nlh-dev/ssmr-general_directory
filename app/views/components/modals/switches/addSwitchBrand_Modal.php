@@ -22,14 +22,14 @@
                 <input type="hidden" name="switchModule" id="switchModule" value="addSwitchBrand">
                 <div class="p-4 bg-white grid grid-cols-1 gap-5">
                     <div class="">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="brandName" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#sharingNodes" />
                                 </svg>
                                 Nombre de la Marca
                             </label>
-                            <p class="font-bold text-red-600">*</p>
+                            <span class="font-bold text-red-600 ms-1">*</span>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="brandName" name="brandName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ubicación....">

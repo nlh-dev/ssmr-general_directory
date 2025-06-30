@@ -15,7 +15,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
                 <h3 class="text-xl font-medium text-white">
-                    Editar Retiro de Dispositivo
+                    Editar Dispositivo Retirado
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editWithdrewDevices">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -34,7 +34,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#userSettings" />
                             </svg>
-                            Recibido por:
+                            Recibido por:<span class="text-gray-400 ms-1">(Opcional)</span>
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="recievedByName" name="recievedByName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Recibido por....">
@@ -129,7 +129,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#bed" />
                             </svg>
-                            Número de Habitación
+                            Número de Habitación<span class="text-gray-400 ms-1">(Opcional)</span>
                         </label>
                         <div class="relative my-2">
                             <input type="text" id="roomCode" name="roomCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Número de Habitación....">

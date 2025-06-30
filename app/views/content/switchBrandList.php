@@ -1,11 +1,12 @@
 <?php
 require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";
+require_once "./app/views/components/modals/switches/editSwitchBrand_Modal.php";
 ?>
 
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
     <div class="p-2 mt-10">
         <div class="my-4">
-            <?php require_once "./app/views/components/breadcrumbs/switchListBreadcrumb.php"; ?>
+            <?php require_once "./app/views/components/breadcrumbs/switchBrandListBreadcrumb.php"; ?>
             <hr class="my-4 border-gray-300">
         </div>
         <div class="flex items-center justify-between text-gray-800 pb-4">

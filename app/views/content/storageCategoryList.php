@@ -1,5 +1,6 @@
 <?php
 require_once "./app/views/components/modals/storage/addStorageCategory_Modal.php";
+require_once "./app/views/components/modals/storage/addStorageType_Modal.php";
 
 ?>
 
@@ -18,9 +19,9 @@ require_once "./app/views/components/modals/storage/addStorageCategory_Modal.php
                     <p class="mt-1 text-sm font-normal text-gray-400">Listado de Categorías de Articulos del Inventario de Informática del Hospital Madre Rafols.</p>
                 </h1>
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center gap-x-2">
                 <div>
-                    <button data-popover-target="addType" data-popover-placement="bottom" data-modal-target="addStock" data-modal-toggle="addStock" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2 text-center transition duration-100" type="button">
+                    <button data-popover-target="addType" data-popover-placement="top" data-modal-target="addStorageType" data-modal-toggle="addStorageType" class="flex items-center text-white bg-gray-900 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-100" type="button">
                         <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <use xlink:href="<?= APP_URL ?>app/assets/svg/FlowbiteIcons.sprite.svg#addCardBack" />
                         </svg>

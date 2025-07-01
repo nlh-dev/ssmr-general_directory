@@ -1,6 +1,6 @@
-<?php 
-    require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";
-    require_once "./app/views/components/modals/switches/addSwitch_Modal.php";
+<?php
+require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";
+require_once "./app/views/components/modals/switches/addSwitch_Modal.php";
 ?>
 
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">
@@ -43,5 +43,14 @@
                 </button>
             </div>
         </div>
+        <?php
+
+        use app\controllers\switchesController;
+
+        $switchesController = new switchesController();
+
+        echo $switchesController->switchListController($url[1], 10, $url[0], "");
+
+        ?>
     </div>
 </div>

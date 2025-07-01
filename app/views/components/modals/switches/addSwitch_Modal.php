@@ -175,6 +175,7 @@ foreach ($showDepartmentsData as $dep) {
                         Guardar
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -182,7 +183,6 @@ foreach ($showDepartmentsData as $dep) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
         // También puedes limpiar al abrir el modal si lo deseas
         document.querySelectorAll('[data-modal-target="addSwitch"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
@@ -201,7 +201,6 @@ foreach ($showDepartmentsData as $dep) {
             });
 
             setTodayToDeliveryDate();
-
             const departmentsSelect = form.querySelector('#departments');
             if (departmentsSelect) {
                 departmentsSelect.innerHTML = '<option selected value="">Seleccione....</option>';

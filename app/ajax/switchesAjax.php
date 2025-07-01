@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
         case 'addSwitch':
             echo $switchesController->addSwitchController();
             break;
+        case 'deleteSwitch':
+            echo $switchesController->deleteSwitchController();
+            break;
         // SWITCH BRANDS AJAX REQUESTS
         case 'addSwitchBrand':
             echo $switchesController->addSwitchBrandController();

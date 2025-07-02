@@ -136,8 +136,111 @@ class switchesController extends mainModel
         return json_encode($alert);
     }
 
-    public function updateSwitchController(){
+    public function updateSwitchController()
+    {
+        $switch_ID = $this->cleanRequest($_POST['switch_ID']);
+        $switchBrandData = $this->dbRequestExecute("SELECT * FROM switch_directory WHERE switch_ID = '$switch_ID'");
+        if ($switchBrandData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Marca no encontrada",
+            ];
+            return json_encode($alert);
+            exit();
+        } else {
+            $switchBrandData = $switchBrandData->fetch();
+        }
 
+        $switchName = ucwords($this->cleanRequest($_POST['switchName']));
+        $serialNumber = strtoupper($this->cleanRequest($_POST['serialNumber']));
+        $switchBrand = $this->cleanRequest($_POST['switchBrand']);
+        $locations = $this->cleanRequest($_POST['locations']);
+        $departments = $this->cleanRequest($_POST['departments']);
+        $primalIpDirection = $this->cleanRequest($_POST['primalIpDirection']);
+        $switchPortAmount = $this->cleanRequest($_POST['switchPortAmount']);
+        if (empty($switchName) || empty($switchBrand) || empty($locations) || empty($departments) || empty($switchPortAmount)) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al Registrar!",
+                "text" => "Algunos campos se encuentran vacíos.",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $updateSwitchBrandData = [
+            [
+                "db_FieldName" => "switch_name",
+                "db_ValueName" => ":name",
+                "db_realValue" => $switchName
+            ],
+            [
+                "db_FieldName" => "switch_serialCode",
+                "db_ValueName" => ":serialCode",
+                "db_realValue" => $serialNumber
+            ],
+            [
+                "db_FieldName" => "switch_brand_ID",
+                "db_ValueName" => ":brand_ID",
+                "db_realValue" => $switchBrand
+            ],
+            [
+                "db_FieldName" => "switch_ipManagement",
+                "db_ValueName" => ":ipManagement",
+                "db_realValue" => $primalIpDirection
+            ],
+            [
+                "db_FieldName" => "switch_portAmount",
+                "db_ValueName" => ":portAmount",
+                "db_realValue" => $switchPortAmount
+            ],
+            [
+                "db_FieldName" => "switch_location_ID",
+                "db_ValueName" => ":location_ID",
+                "db_realValue" => $locations
+            ],
+            [
+                "db_FieldName" => "switch_department_ID",
+                "db_ValueName" => ":department_ID",
+                "db_realValue" => $departments
+            ],
+            [
+                "db_FieldName" => "switch_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "switch_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('h:i:s')
+            ],
+        ];
+
+        $switchCondition = [
+            "condition_FieldName" => "switch_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $switch_ID
+        ];
+
+        if ($this->updateData("switch_directory", $updateSwitchBrandData, $switchCondition)) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Switch actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar la Marca, Intente Nuevamente.",
+            ];
+        }
+        return json_encode($alert);
     }
     public function deleteSwitchController()
     {

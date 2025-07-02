@@ -107,7 +107,7 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
                             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#clipboardList" />
                             </svg>
-                            Descripción de Observación
+                            Descripción de Observación<span class="text-gray-400 ms-1">(Opcional)</span>
                         </label>
                         <textarea id="observationDescription" name="observationDescription" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Descripción..."></textarea>
                     </div>
@@ -189,7 +189,7 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
                                     if (inputMap) inputMap.value = data[observationKey] || observationId || '';
                                 });
                             } else if (input) {
-                                input.value = data[observationKey] || 'N/A';
+                                input.value = data[observationKey] || '';
                             }
                         });
                     }).catch(err => {

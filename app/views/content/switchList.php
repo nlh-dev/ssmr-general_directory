@@ -1,6 +1,7 @@
 <?php
-require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";
 require_once "./app/views/components/modals/switches/addSwitch_Modal.php";
+require_once "./app/views/components/modals/switches/editSwitch_Modal.php";
+require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";
 ?>
 
 <div class="p-4 sm:ml-64 content-main transition-all duration-100">

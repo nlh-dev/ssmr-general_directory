@@ -4,8 +4,9 @@ use app\controllers\mainController;
 
 $mainController = new mainController();
 
-$totalWifiRegisters = 
-$mainController->countDataController("wifi_directory");
+$totalWifiRegisters = $mainController->countDataController("wifi_directory");
+$totalSwitches = $mainController->countConditionalDataController("switch_directory", "switch_isEnable", 1);
+$totalSwitchBrands = $mainController->countConditionalDataController("switch_brand_directory", "switchBrand_isEnable", 1);
 $totalDevicesDelivered = $mainController->countConditionalDataController("devices", "device_isDelivered", 1);
 $totalDevicesWithdrew = $mainController->countConditionalDataController("devices", "device_isDelivered", 0);
 $totalObservations = $mainController->countConditionalDataController("observations", "observation_isDone", 0);
@@ -13,7 +14,6 @@ $totalDepartments = $mainController->countConditionalDataController("departments
 $totalLocations = $mainController->countConditionalDataController("locations", "location_isEnable", 1);
 $totalStorageTypes = $mainController->countConditionalDataController("storage_types", "storageType_isEnable", 1);
 $totalStorageCategories = $mainController->countConditionalDataController("storage_categories", "storageCategory_isEnable", 1);
-$totalSwitchBrands = $mainController->countConditionalDataController("switch_brand_directory", "switchBrand_isEnable", 1);
 
 $dashboardModules = [
    [
@@ -34,18 +34,18 @@ $dashboardModules = [
       'sectionIcon' => 'rightArrow',
       'cards' => [
          [
-            'title' => 'Switches',
-            'subtitle' => "(X) Registro(s)",
-            'description' => 'Ver Directorio de Contraseñas',
-            'icon' => 'codeFork',
-            'link' => $routes['switchList'],
-         ],
-         [
             'title' => 'Puertos',
             'subtitle' => "(X) Registro(s)",
             'description' => 'Ver Directorio de Contraseñas',
             'icon' => 'codeMerge',
             'link' => $routes['switchPortList'],
+         ],
+         [
+            'title' => 'Switches',
+            'subtitle' => "$totalSwitches Switch(es) Activo(s)",
+            'description' => 'Ver Directorio de Contraseñas',
+            'icon' => 'codeFork',
+            'link' => $routes['switchList'],
          ],
          [
             'title' => 'Marcas Utilizadas',

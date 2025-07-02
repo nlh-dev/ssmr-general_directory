@@ -7,6 +7,19 @@ use app\models\mainModel;
 class switchesController extends mainModel
 {
     // SWITCH CONTROLLER FUNCTIONS
+    public function getSwitchDataController()
+    {
+        $switchId = $this->cleanRequest($_GET['switch_ID']);
+        $switchData_SQL = "SELECT * FROM switch_directory switches
+        JOIN switch_brand_directory brands ON switches.switch_brand_ID = brands.switchBrand_ID
+        JOIN locations loc ON switches.switch_location_ID = loc.location_ID
+        JOIN departments dep ON switches.switch_department_ID = dep.department_ID
+        WHERE switches.switch_ID = '$switchId'";
+        $switchData_Query = $this->dbRequestExecute($switchData_SQL);
+        $switchData_Query->execute();
+        return $switchData_Query->fetch();
+    }
+
     public function addSwitchController()
     {
         $switchName = ucwords($this->cleanRequest($_POST['switchName']));
@@ -118,6 +131,93 @@ class switchesController extends mainModel
                 "icon" => "error",
                 "title" => "¡Error!",
                 "text" => "Switch no Registrado, intente nuevamente!",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function updateSwitchController(){
+
+    }
+    public function deleteSwitchController()
+    {
+        $switchID = $this->cleanRequest($_POST['switch_ID']);
+
+        $switchData = $this->dbRequestExecute("SELECT * FROM switch_directory WHERE switch_ID = '$switchID'");
+        if ($switchData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $checkSwitchPorts = "SELECT COUNT(*) FROM switch_port_directory port WHERE port.port_switch_ID = '$switchID'";
+        $checkSwitchData = $this->dbRequestExecute($checkSwitchPorts);
+        $totalPorts = (int)$checkSwitchData->fetchColumn();
+        if ($totalPorts >= 1) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "warning",
+                "title" => "¡Error al eliminar!",
+                "text" => "Hay $totalPorts puerto(s) relacionados a este Switch!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $deleteSwitch = $this->deleteData("switch_directory", "switch_ID", $switchID);
+        if ($deleteSwitch->rowCount() >= 1) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Switch eliminado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo eliminar el Switch.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
+    public function deleteSwitchPortsController()
+    {
+        $switchID = $this->cleanRequest($_POST['switch_ID']);
+
+        $storageTypeData = $this->dbRequestExecute("SELECT * FROM switch_directory WHERE switch_ID = '$switchID'");
+        if ($storageTypeData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $deleteSwitch = $this->deleteData("switch_port_directory", "port_switch_ID", $switchID);
+        if ($deleteSwitch->rowCount() >= 1) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Puertos de eliminados exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo eliminar los puertos.",
             ];
         }
         return json_encode($alert);
@@ -287,8 +387,8 @@ class switchesController extends mainModel
                         </td>
                         <td class="px-5 py-2 whitespace-nowrap">
                             <div class="flex items-center justify-end space-x-1">
-                                <div class="flex items-center">
-                                    <button data-modal-target="viewWifiPasswordInfo" data-modal-toggle="viewWifiPasswordInfo"
+                                <div>
+                                    <button data-modal-target="viewSwitchInfo" data-modal-toggle="viewSwitchInfo"
                                     id="eye-btn-' . $rows['switch_ID'] . '"
                                     data-popover-target="popover-eye-' . $rows['switch_ID'] . '"
                                     data-popover-placement="bottom"
@@ -305,11 +405,11 @@ class switchesController extends mainModel
                                             <div data-popper-arrow bg-gray-900></div>
                                     </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <button data-modal-toggle="editSwitchBrand" data-modal-target="editSwitchBrand" id="editPen-btn-' . $rows['switch_ID'] . '"
+                                <div>
+                                    <button data-modal-toggle="editSwitch" data-modal-target="editSwitch" id="editPen-btn-' . $rows['switch_ID'] . '"
                                     data-popover-target="popover-editPen-' . $rows['switch_ID'] . '"
                                     data-popover-placement="bottom" class="flex items-center text-yellow-400 border border-yellow-400 hover:bg-yellow-500 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100"
-                                    data-brand-id="' . $rows['switch_ID'] . '">
+                                    data-switch-id="' . $rows['switch_ID'] . '">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#editPen" />
                                         </svg>
@@ -320,47 +420,70 @@ class switchesController extends mainModel
                                         <h3 class="font-semibold text-white text-xs">Editar</h3>
                                     </div>
                                         <div data-popper-arrow bg-gray-900></div>
-                                </div>
-                                </div>
-                                <div class="flex items-center">
-                                <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
-                                    <input type="hidden" name="switchModule" value="deleteSwitch">
-                                    <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
-                                    <button data-popover-target="popover-delete-' . $rows['switch_ID'] . '"
-                                    data-popover-placement="bottom" class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                            <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
-                                        </svg>
-                                    </button>
-                                    <div data-popover id="popover-delete-' . $rows['switch_ID'] . '" role="tooltip"
-                                    class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
-                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
-                                            <h3 class="font-semibold text-white text-xs">Eliminar</h3>
-                                        </div>
-                                            <div data-popper-arrow bg-gray-900></div>
                                     </div>
                                 </div>
-                                </form>
-                                <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
-                                <input type="hidden" name="switchModule" value="updateSwitchBrandStatus">
-                                <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
-                                    <div class="flex items-center">
-                                        <button data-popover-target="popover-state-' . $rows['switch_ID'] . '"
-                                    data-popover-placement="bottom" type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                <div>
+                                    <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
+                                        <input type="hidden" name="switchModule" value="deleteSwitch">
+                                        <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
+                                        <button data-popover-target="popover-delete-' . $rows['switch_ID'] . '"
+                                        data-popover-placement="bottom" class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
+                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#trashCan" />
                                             </svg>
                                         </button>
-                                    <div data-popover id="popover-state-' . $rows['switch_ID'] . '" role="tooltip"
-                                    class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
-                                        <div class="px-3 py-2 bg-gray-900 rounded-lg">
-                                            <h3 class="font-semibold text-white text-xs">Cambiar Estado</h3>
+                                        <div data-popover id="popover-delete-' . $rows['switch_ID'] . '" role="tooltip"
+                                        class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                            <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                                <h3 class="font-semibold text-white text-xs">Eliminar</h3>
+                                            </div>
+                                                <div data-popper-arrow bg-gray-900></div>
                                         </div>
-                                            <div data-popper-arrow bg-gray-900></div>
-                                    </div>
-                                    </div>
-                                </form>
-                 </td>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
+                                        <input type="hidden" name="switchModule" value="deleteSwitchPorts">
+                                        <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
+                                        <button data-popover-target="popover-delete-ports-' . $rows['switch_ID'] . '"
+                                        data-popover-placement="bottom" class="flex items-center text-red-800 border border-red-700 hover:bg-red-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#codeMerge" />
+                                            </svg>
+                                        </button>
+                                        <div data-popover id="popover-delete-ports-' . $rows['switch_ID'] . '" role="tooltip"
+                                        class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                            <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                                <h3 class="font-semibold text-white text-xs">Eliminar Puertos</h3>
+                                            </div>
+                                                <div data-popper-arrow bg-gray-900></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
+                                    <input type="hidden" name="switchModule" value="updateSwitchBrandStatus">
+                                    <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
+                                        <div>
+                                            <button data-popover-target="popover-state-' . $rows['switch_ID'] . '"
+                                        data-popover-placement="bottom" type="submit" class="flex items-center text-green-700 border border-green-700 hover:bg-green-800 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                    <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#arrowRepeat" />
+                                                </svg>
+                                            </button>
+                                        <div data-popover id="popover-state-' . $rows['switch_ID'] . '" role="tooltip"
+                                        class="absolute flex z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-gray-900 rounded-lg opacity-0">
+                                            <div class="px-3 py-2 bg-gray-900 rounded-lg">
+                                                <h3 class="font-semibold text-white text-xs">Cambiar Estado</h3>
+                                            </div>
+                                                <div data-popper-arrow bg-gray-900></div>
+                                        </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>';
                 $counter++;
             }
@@ -410,9 +533,6 @@ class switchesController extends mainModel
             $table .= $this->paginationData($page, $numPages, $url, 1);
         }
         return $table;
-    }
-
-    public function deleteSwitchController(){
     }
 
     // SWITCH BRANDS CONTROLLER FUNCTIONS

@@ -31,7 +31,7 @@ class observationsController extends mainModel
         $observationDate = $this->cleanRequest($_POST['observationDate']);
         $observationType = $this->cleanRequest($_POST['observationType']);
         $observationPriority = $this->cleanRequest($_POST['observationPriority']);
-        $observationDescription = $this->cleanRequest($_POST['observationDescription']);
+        $observationDescription = ucfirst($this->cleanRequest($_POST['observationDescription']));
 
         if (empty($observationReason) || empty($observationDate) || empty($observationType) || empty($observationPriority)) {
             $alert = [
@@ -89,11 +89,6 @@ class observationsController extends mainModel
                 "db_FieldName" => "observation_updatedAtTime",
                 "db_ValueName" => ":updatedAtTime",
                 "db_realValue" => date('H:i:s')
-            ],
-            [
-                "db_FieldName" => "observation_isDone",
-                "db_ValueName" => ":isDone",
-                "db_realValue" => false
             ],
         ];
 
@@ -302,8 +297,15 @@ class observationsController extends mainModel
 
         $numPages = ceil($total / $register);
 
-        $table .= '<div class="">
-            <ol class="relative border-s border-gray-200 dark:border-gray-700">';
+        $orderedListClass = "relative border-s border-gray-200 dark:border-gray-700";
+        if (!empty($data)) {
+            $orderedListClass = "relative border-s border-gray-200 dark:border-gray-700";
+        } else {
+            $orderedListClass = "";
+        }
+
+        $table .= '<div class="'.$orderedListClass.'">
+            <ol class="">';
 
         if ($total >= 1 && $page <= $numPages) {
             $counter = $start + 1;
@@ -311,7 +313,7 @@ class observationsController extends mainModel
             foreach ($data as $rows) {
                 $observationTimeDots = $this -> formatTimeDots($rows['observation_createdAtTime']);
                 $table .= '
-                    <li class="p-4 mb-2 ms-4 shadow-lg hover:bg-gray-100 rounded-2xl transition duration-100">
+                    <li class="p-4 mb-2 ms-4 shadow-lg bg-gray-100 hover:bg-gray-200 rounded-2xl transition duration-100">
                         <div class="absolute w-3 h-3 bg-gray-700 rounded-full mt-1.5 -start-1.5"></div>
                         <div class="flex items-center justify-start">
                             <span class="flex items-center text-sm text-gray-500">
@@ -486,7 +488,11 @@ class observationsController extends mainModel
             }
             $finalPage = $counter - 1;
         } else {
-            $table .= '<li class="mb-10 ms-4"><div class="text-center text-gray-500">No se encontraron registros</div></li>';
+            $table .= '<li class="mb-10 p-4 bg-gray-100 hover:bg-gray-200 rounded-md transition duration-200">
+                            <div class="text-center text-gray-500">
+                                No se encontraron registros
+                            </div>
+                        </li>';
         }
         $table .= '</ol>
                     </div>

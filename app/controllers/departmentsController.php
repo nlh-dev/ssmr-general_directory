@@ -574,7 +574,11 @@ class departmentsController extends mainModel
     public function getDepartmentsByLocationController($locationId)
     {
         $locationId = $this->cleanRequest($locationId);
-        $getDepartmentsByLocation_SQL = "SELECT department_ID, department_name FROM departments WHERE department_location_ID = '$locationId' AND department_isEnable = 1 ORDER BY department_name ASC";
+        $getDepartmentsByLocation_SQL = "SELECT department_ID, department_name 
+        FROM departments 
+        WHERE department_location_ID = '$locationId' 
+        AND department_isEnable = 1 
+        ORDER BY department_name ASC";
         $getDepartmentsByLocation_Query = $this->dbRequestExecute($getDepartmentsByLocation_SQL);
         return $getDepartmentsByLocation_Query->fetchAll(\PDO::FETCH_ASSOC);
     }

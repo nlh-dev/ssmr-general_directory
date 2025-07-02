@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-07-2025 a las 21:05:43
+-- Tiempo de generación: 02-07-2025 a las 21:30:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -183,10 +183,7 @@ CREATE TABLE `observations` (
 --
 
 INSERT INTO `observations` (`observation_ID`, `observation_user_ID`, `observation_reason`, `observation_type_ID`, `observations_priority_ID`, `observation_description`, `observation_createdAtDate`, `observation_createdAtTime`, `observation_updatedAtDate`, `observation_updatedAtTime`) VALUES
-(1, 1, 'PRUEBA 1', 4, 1, '', '2025-06-04', '09:09:06', '2025-06-27', '14:07:23'),
-(2, 1, 'INSPECCION DE AULA DE CLASES', 2, 2, 'El aula está bien iluminada y ordenada. Los estudiantes trabajan en silencio, concentrados en sus tareas. La profesora circula entre las mesas, ofreciendo ayuda individual. Se percibe un ambiente de calma y productividad. Algunos alumnos intercambian comentarios en voz baja.', '2025-06-05', '10:55:01', '2025-06-27', '14:12:55'),
-(3, 1, 'PRUEBA 3', 3, 3, 'PRUEBA DE ACTUALIZACION 3', '2025-06-06', '10:55:57', '2025-06-09', '15:24:16'),
-(4, 1, 'PRUEBA 4', 1, 4, 'PRUEBA DE ACTUALIZACION 4', '2025-06-07', '10:56:15', '2025-06-27', '13:59:31');
+(2, 1, 'PRUEBA', 3, 3, '', '2025-07-02', '08:09:52', '2025-07-02', '08:09:52');
 
 -- --------------------------------------------------------
 
@@ -331,7 +328,7 @@ CREATE TABLE `switch_brand_directory` (
 INSERT INTO `switch_brand_directory` (`switchBrand_ID`, `switchBrand_name`, `switchBrand_createdAtDate`, `switchBrand_createdAtTime`, `switchBrand_updatedAtDate`, `switchBrand_updatedAtTime`, `switchBrand_isEnable`) VALUES
 (1, 'MicroTiK', '2025-06-27', '08:54:32', '2025-07-01', '09:48:07', 1),
 (3, 'TP-LINK', '2025-06-27', '09:39:12', '2025-06-30', '09:52:48', 1),
-(9, 'Hikvision', '2025-07-01', '09:47:17', '2025-07-01', '09:47:17', 1);
+(9, 'Hikvision', '2025-07-01', '09:47:17', '2025-07-02', '15:11:27', 1);
 
 -- --------------------------------------------------------
 
@@ -360,8 +357,7 @@ CREATE TABLE `switch_directory` (
 --
 
 INSERT INTO `switch_directory` (`switch_ID`, `switch_name`, `switch_serialCode`, `switch_brand_ID`, `switch_ipManagement`, `switch_portAmount`, `switch_location_ID`, `switch_department_ID`, `switch_createdAtDate`, `switch_createdAtTime`, `switch_updatedAtDate`, `switch_updatedAtTime`, `switch_isEnable`) VALUES
-(3, 'Switch PB A', '', 3, '192.168.10', 48, 5, 49, '0000-00-00', '10:48:17', '0000-00-00', '10:48:17', 1),
-(4, 'Prueba', '', 1, '', 4, 17, 10, '2025-07-01', '12:36:22', '2025-07-01', '12:36:22', 1);
+(3, 'Switch Prueba Actualización', '', 1, '', 8, 17, 10, '2025-07-02', '12:30:39', '2025-07-02', '03:29:59', 1);
 
 -- --------------------------------------------------------
 
@@ -380,15 +376,6 @@ CREATE TABLE `switch_port_directory` (
   `port_updateAtTime` time NOT NULL,
   `port_isEnable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `switch_port_directory`
---
-
-INSERT INTO `switch_port_directory` (`port_ID`, `port_number`, `port_conectedDeviceName`, `port_switch_ID`, `port_createdAtDate`, `port_createdAtTime`, `port_updateAtDate`, `port_updateAtTime`, `port_isEnable`) VALUES
-(3, 1, 'PUERTO WAN', 4, '2025-07-01', '12:36:32', '2025-07-01', '12:36:32', 1),
-(4, 2, 'INTERNET MODINES', 4, '2025-07-01', '12:37:36', '2025-07-01', '12:37:36', 1),
-(7, 3, 'PRUEBA', 4, '2025-07-01', '13:00:04', '2025-07-01', '13:00:04', 1);
 
 -- --------------------------------------------------------
 
@@ -449,8 +436,8 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_isMACProtected`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-06-18 11:38:14', 1),
-(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-06-18 11:26:07', 1),
+(1, 'INFORMATICA', '123456', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-07-02 12:39:55', 1),
+(3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-07-02 12:40:00', 1),
 (4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-25 15:35:10', 1),
 (11, 'QUIROFANO', 'Ait991.QUIR', '192.168.1.1', 7, 36, 1, '2025-06-18 11:23:26', '2025-06-18 11:25:04', 1);
 
@@ -591,7 +578,7 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT de la tabla `observations`
 --
 ALTER TABLE `observations`
-  MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `observation_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `observations_priority`
@@ -633,13 +620,13 @@ ALTER TABLE `switch_brand_directory`
 -- AUTO_INCREMENT de la tabla `switch_directory`
 --
 ALTER TABLE `switch_directory`
-  MODIFY `switch_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `switch_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `switch_port_directory`
 --
 ALTER TABLE `switch_port_directory`
-  MODIFY `port_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `port_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

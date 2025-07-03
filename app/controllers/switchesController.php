@@ -20,6 +20,31 @@ class switchesController extends mainModel
         return $switchData_Query->fetch();
     }
 
+
+    public function getAllSwitchDataController()
+    {
+        $switchId = $this->cleanRequest($_GET['switch_ID']);
+        $switchData_SQL = "SELECT switches.*, 
+        brands.switchBrand_name, 
+        loc.location_name, 
+        dep.department_name,
+        (SELECT COUNT(*) 
+            FROM switch_port_directory port 
+            WHERE port.port_switch_ID = switches.switch_ID) AS used_ports,
+        (switches.switch_portAmount - (
+            SELECT COUNT(*) 
+            FROM switch_port_directory port 
+            WHERE port.port_switch_ID = switches.switch_ID)) AS available_ports
+        FROM switch_directory switches
+        JOIN switch_brand_directory brands ON switches.switch_brand_ID = brands.switchBrand_ID
+        JOIN locations loc ON switches.switch_location_ID = loc.location_ID
+        JOIN departments dep ON switches.switch_department_ID = dep.department_ID
+        WHERE switches.switch_ID = '$switchId'";
+        $switchData_Query = $this->dbRequestExecute($switchData_SQL);
+        $switchData_Query->execute();
+        return $switchData_Query->fetch();
+    }
+
     public function addSwitchController()
     {
         $switchName = ucwords($this->cleanRequest($_POST['switchName']));
@@ -145,7 +170,7 @@ class switchesController extends mainModel
                 "type" => "simple",
                 "icon" => "error",
                 "title" => "¡Error!",
-                "text" => "Marca no encontrada",
+                "text" => "Switch no encontrada",
             ];
             return json_encode($alert);
             exit();
@@ -266,7 +291,7 @@ class switchesController extends mainModel
                 "type" => "simple",
                 "icon" => "warning",
                 "title" => "¡Error al eliminar!",
-                "text" => "Hay $totalPorts puerto(s) relacionados a este Switch!",
+                "text" => "Hay $totalPorts puerto(s) relacionados a este Switch, elimine los puertos antes de eliminar este switch!",
             ];
             return json_encode($alert);
             exit();
@@ -495,7 +520,7 @@ class switchesController extends mainModel
                                     id="eye-btn-' . $rows['switch_ID'] . '"
                                     data-popover-target="popover-eye-' . $rows['switch_ID'] . '"
                                     data-popover-placement="bottom"
-                                    data-wifi-id="' . $rows['switch_ID'] . '" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
+                                    data-switch-id="' . $rows['switch_ID'] . '" class="flex items-center text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white text-xs font-medium px-2.5 py-2.5 rounded-full transition duration-100">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                             <use xlink:href="' . APP_URL . '/app/assets/svg/FlowbiteIcons.sprite.svg#eye" />
                                         </svg>

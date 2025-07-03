@@ -47,5 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
             $switchData = $switchesController->getSwitchDataController();
             echo json_encode($switchData);
             break;
+        case 'getAllSwitchData':
+            $switchData = $switchesController->getAllSwitchDataController();
+            echo json_encode($switchData);
+            break;
     }
 }

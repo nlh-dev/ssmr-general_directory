@@ -1,4 +1,5 @@
 <?php
+require_once "./app/views/components/modals/switches/viewSwitch_Modal.php";
 require_once "./app/views/components/modals/switches/addSwitch_Modal.php";
 require_once "./app/views/components/modals/switches/editSwitch_Modal.php";
 require_once "./app/views/components/modals/switches/addSwitchBrand_Modal.php";

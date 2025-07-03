@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-07-2025 a las 21:30:29
+-- Tiempo de generación: 03-07-2025 a las 22:04:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -357,7 +357,7 @@ CREATE TABLE `switch_directory` (
 --
 
 INSERT INTO `switch_directory` (`switch_ID`, `switch_name`, `switch_serialCode`, `switch_brand_ID`, `switch_ipManagement`, `switch_portAmount`, `switch_location_ID`, `switch_department_ID`, `switch_createdAtDate`, `switch_createdAtTime`, `switch_updatedAtDate`, `switch_updatedAtTime`, `switch_isEnable`) VALUES
-(3, 'Switch Prueba Actualización', '', 1, '', 8, 17, 10, '2025-07-02', '12:30:39', '2025-07-02', '03:29:59', 1);
+(3, 'Proveedor Principal', '', 1, '', 8, 17, 10, '2025-07-02', '12:30:39', '2025-07-02', '03:31:53', 1);
 
 -- --------------------------------------------------------
 
@@ -436,7 +436,7 @@ CREATE TABLE `wifi_directory` (
 --
 
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_isMACProtected`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
-(1, 'INFORMATICA', '123456', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-07-02 12:39:55', 1),
+(1, 'INFOR', 'STEC99.INF0R', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-07-03 12:32:38', 1),
 (3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-07-02 12:40:00', 1),
 (4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-25 15:35:10', 1),
 (11, 'QUIROFANO', 'Ait991.QUIR', '192.168.1.1', 7, 36, 1, '2025-06-18 11:23:26', '2025-06-18 11:25:04', 1);

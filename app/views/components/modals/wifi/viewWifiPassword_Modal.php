@@ -43,18 +43,25 @@
                     </div>
                 </div>
                 <div class="">
-                    <div class="">
+                    <div class="flex items-center">
                         <div class="flex items-center block text-sm font-medium text-gray-900">
                             <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#padLock" />
                             </svg>
                             Contraseña
                         </div>
-                        <div class="flex items-center mt-2">
-                            <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
-                                <p data-field="wifi_clave"></p>
-                            </span>
+                        <div class="flex items-center ms-4">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="showPasswordToggle" name="showPasswordToggle" value="" class="sr-only peer">
+                                <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                                <span class="text-xs ms-2 font-semibold text-gray-600">Ver</span>
+                            </label>
                         </div>
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm">
+                            <p data-field="wifi_clave"></p>
+                        </span>
                     </div>
                 </div>
                 <div class="">
@@ -96,7 +103,7 @@
                     <div class="flex items-center mt-2">
                         <span class="flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1.5 rounded-sm hover:bg-purple-800 hover:text-white transition duration-100">
                             <svg class="w-5 h-5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?=APP_URL?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
+                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#departments" />
                             </svg>
                             <p data-field="wifi_departamento"></p>
                         </span>
@@ -122,6 +129,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let toggle_wifiPassword;
+        let field_wifiPassword;
         document.querySelectorAll('[data-modal-target="viewWifiPasswordInfo"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 const wifiId = this.getAttribute('data-wifi-id');
@@ -133,11 +142,16 @@
                 // FIELDS FROM MODAL BODY
                 let field_wifiCreatedAt = document.querySelector('.modal-header [data-field="wifi_fechaCreacion"]');
                 let field_wifiSSID = document.querySelector('.modal-body [data-field="wifi_SSID"]');
-                let field_wifiPassword = document.querySelector('.modal-body [data-field="wifi_clave"]');
                 let field_wifiIP = document.querySelector('.modal-body [data-field="wifi_direccionIP"]');
                 let field_wifiLocation = document.querySelector('.modal-body [data-field="wifi_ubicacion"]');
                 let field_wifiDepartment = document.querySelector('.modal-body [data-field="wifi_departamento"]');
                 let field_MACFilter = document.querySelector('.modal-body [data-field="wifi_filtroMAC"]');
+
+                // PASSWORD FIELDS
+                field_wifiPassword = document.querySelector('.modal-body [data-field="wifi_clave"]');
+                toggle_wifiPassword = document.querySelector('.modal-body #showPasswordToggle');
+
+
 
                 fetch(wifiURL, {
                         method: 'GET',
@@ -161,13 +175,26 @@
                                 field_wifiCreatedAt.textContent = 'Fecha de Creación no Encontrada'
                             }
                             field_wifiSSID.textContent = dataResponse.data.wifi_SSID;
-                            field_wifiPassword.textContent = dataResponse.data.wifi_password;
+
+                            let realPassword = dataResponse.data.wifi_password || 'N/A';
+                            field_wifiPassword.setAttribute('data-password', realPassword);
+                            field_wifiPassword.textContent = '*'.repeat(realPassword.length);
+
                             field_wifiIP.textContent = dataResponse.data.wifi_ipDirection || 'N/A';
                             field_wifiLocation.textContent = dataResponse.data.location_name;
                             field_wifiDepartment.textContent = dataResponse.data.department_name;
                             field_MACFilter.textContent = dataResponse.data.wifi_isMACProtected == 1 ? 'Activado' : 'No Activado'
                         }
                     });
+
+                toggle_wifiPassword.addEventListener('change', function() {
+                    let passwordData = field_wifiPassword.getAttribute('data-password') || 'N/A';
+                    if (this.checked) {
+                        field_wifiPassword.textContent = passwordData;
+                    } else {
+                        field_wifiPassword.textContent = '*'.repeat(passwordData.length);
+                    }
+                });
             });
         });
     });

@@ -5,6 +5,7 @@ require_once "../views/includes/session_start.php";
 require_once "../../autoload.php";
 
 use app\controllers\switchesController;
+
 $switchesController = new switchesController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
@@ -22,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
         case 'deleteSwitchPorts':
             echo $switchesController->deleteSwitchPortsController();
             break;
-            
+
         // SWITCH BRANDS AJAX REQUESTS
         case 'addSwitchBrand':
             echo $switchesController->addSwitchBrandController();
@@ -43,12 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
             $switchBrandData = $switchesController->getSwitchBrandDataController();
             echo json_encode($switchBrandData);
             break;
-        case 'getSwitchData':
-            $switchData = $switchesController->getSwitchDataController();
-            echo json_encode($switchData);
-            break;
         case 'getAllSwitchData':
             $switchData = $switchesController->getAllSwitchDataController();
+            echo json_encode($switchData);
+            break;
+        case 'getSwitchData':
+            $switchData = $switchesController->getSwitchDataController();
             echo json_encode($switchData);
             break;
     }

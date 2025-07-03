@@ -187,11 +187,11 @@ foreach ($showDepartmentsData as $dep) {
         document.querySelectorAll('[data-modal-target="editSwitch"]').forEach(function(editSwitchButton) {
             editSwitchButton.addEventListener('click', function() {
                 const switchId = this.getAttribute('data-switch-id');
-                document.getElementById('switch_ID').value = switchId;
+                document.querySelector('#editSwitch #switch_ID').value = switchId;
                 
                 let switchURL = "<?= APP_URL ?>app/ajax/switchesAjax.php?switchModule=getSwitchData&switch_ID=" + switchId;
-                const switchFormData = new FormData();
-                switchFormData.append("switch_ID", switchId);
+                const formData = new FormData();
+                formData.append("switch_ID", switchId);
 
                 const editSwitch = document.getElementById('editSwitch');
                 let inputSwitchName = editSwitch.querySelector('#switchName');

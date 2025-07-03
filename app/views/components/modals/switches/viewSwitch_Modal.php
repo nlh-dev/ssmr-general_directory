@@ -26,7 +26,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-4 gap-5 rounded-b">
+            <div class="modal-body p-4 bg-white grid grid-cols-2 md:grid-cols-4 gap-5 rounded-b">
                 <input type="hidden" name="switch_ID" id="switch_ID" value="" />
                 <div class="md:col-span-2">
                     <div class="flex items-center block text-sm font-medium text-gray-900">

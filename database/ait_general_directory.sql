@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-07-2025 a las 22:04:02
+-- Tiempo de generación: 04-07-2025 a las 20:49:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -85,7 +85,7 @@ INSERT INTO `departments` (`department_ID`, `department_name`, `department_locat
 (46, 'SIMR (Atención Al Cliente)', 1, '2025-07-01', '07:46:56', '2025-07-01', '07:52:59', 1),
 (47, 'SIMR (Pre-clínica)', 1, '2025-07-01', '07:47:46', '2025-07-01', '07:47:46', 1),
 (48, 'SIMR (Polinter)', 1, '2025-07-01', '07:53:20', '2025-07-01', '07:53:20', 1),
-(49, 'Cuarto De Servicio', 5, '2025-07-01', '10:41:30', '2025-07-01', '12:56:48', 1);
+(49, 'Cuarto De Servicio', 5, '2025-07-01', '10:41:30', '2025-07-04', '10:02:23', 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +115,7 @@ CREATE TABLE `devices` (
 --
 
 INSERT INTO `devices` (`device_ID`, `device_deliveryUser_ID`, `device_recievedByName`, `device_description`, `device_serialCode`, `device_deliveryDate`, `device_deliveryTime`, `device_location_ID`, `device_department_ID`, `device_roomCode`, `device_withdrawDate`, `device_withdrawTime`, `device_withdrawUser_ID`, `device_isDelivered`) VALUES
-(1, 1, '', 'CONTROL SAMSUNG', 'HM-2-97', '2025-05-31', '11:34:14', 1, 2, 'A-314', '0000-00-00', '00:00:00', 1, 1),
+(1, 1, 'N/A', 'CONTROL SAMSUNG', 'HM-2-97', '2025-05-31', '11:06:31', 1, 2, 'A-314', '0000-00-00', '00:00:00', 1, 1),
 (2, 1, 'DANNY MORAN', 'CONTROL SAMSUNG', 'HM-2-646', '2025-05-31', '11:34:41', 1, 2, 'A-332', '2025-06-04', '11:36:20', 2, 0),
 (3, 1, 'N/A', 'CONTROL SAMSUNG', 'HM-2-565', '2025-06-05', '14:42:07', 1, 2, 'N/A', '2025-07-05', '14:44:05', 2, 0),
 (4, 1, '', 'CABLE HDMI', 'HM-2-100', '2025-06-05', '15:00:04', 1, 2, '', '0000-00-00', '00:00:00', 1, 1),
@@ -328,7 +328,7 @@ CREATE TABLE `switch_brand_directory` (
 INSERT INTO `switch_brand_directory` (`switchBrand_ID`, `switchBrand_name`, `switchBrand_createdAtDate`, `switchBrand_createdAtTime`, `switchBrand_updatedAtDate`, `switchBrand_updatedAtTime`, `switchBrand_isEnable`) VALUES
 (1, 'MicroTiK', '2025-06-27', '08:54:32', '2025-07-01', '09:48:07', 1),
 (3, 'TP-LINK', '2025-06-27', '09:39:12', '2025-06-30', '09:52:48', 1),
-(9, 'Hikvision', '2025-07-01', '09:47:17', '2025-07-02', '15:11:27', 1);
+(9, 'Hikvision', '2025-07-01', '09:47:17', '2025-07-04', '12:32:57', 1);
 
 -- --------------------------------------------------------
 
@@ -357,7 +357,7 @@ CREATE TABLE `switch_directory` (
 --
 
 INSERT INTO `switch_directory` (`switch_ID`, `switch_name`, `switch_serialCode`, `switch_brand_ID`, `switch_ipManagement`, `switch_portAmount`, `switch_location_ID`, `switch_department_ID`, `switch_createdAtDate`, `switch_createdAtTime`, `switch_updatedAtDate`, `switch_updatedAtTime`, `switch_isEnable`) VALUES
-(3, 'Proveedor Principal', '', 1, '', 8, 17, 10, '2025-07-02', '12:30:39', '2025-07-02', '03:31:53', 1);
+(3, 'Switch Principal', '', 1, '192.168.10.1', 8, 17, 10, '2025-07-02', '12:30:39', '2025-07-04', '12:47:06', 1);
 
 -- --------------------------------------------------------
 
@@ -438,7 +438,7 @@ CREATE TABLE `wifi_directory` (
 INSERT INTO `wifi_directory` (`wifi_ID`, `wifi_SSID`, `wifi_password`, `wifi_ipDirection`, `wifi_location_ID`, `wifi_department_ID`, `wifi_isMACProtected`, `wifi_createdAt`, `wifi_updatedAt`, `wifi_isEnable`) VALUES
 (1, 'INFOR', 'STEC99.INF0R', '', 17, 10, 0, '2025-05-27 13:50:29', '2025-07-03 12:32:38', 1),
 (3, 'FARMACIA', 'STEC991.FARM', '192.168.1.1', 1, 9, 1, '2025-06-10 11:19:34', '2025-07-02 12:40:00', 1),
-(4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-06-25 15:35:10', 1),
+(4, 'STEC', 'STEC991.INFOR', '', 5, 8, 1, '2025-06-13 15:32:22', '2025-07-04 08:27:43', 1),
 (11, 'QUIROFANO', 'Ait991.QUIR', '192.168.1.1', 7, 36, 1, '2025-06-18 11:23:26', '2025-06-18 11:25:04', 1);
 
 --

@@ -15,13 +15,24 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
-                <h3 class="text-xl font-medium text-white">
-                    Editar Observacion
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editObservation">
-                    <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <div class="flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-xl font-medium text-white">Información de la Observación
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-yellow-900 text-yellow-300">Editando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Creado el</span>
+                                <span id="observation_createdAt" class="text-white font-semibold text-xs"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editDepartment">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
                     <span class="sr-only">Close modal</span>
@@ -192,6 +203,44 @@ $showObservationsTypeData = $mainController->getDataController('observations_typ
                                 input.value = data[observationKey] || '';
                             }
                         });
+                        const createdAtDate = data['observation_createdAtDate'] || '';
+                        const createdAtTime = data['observation_createdAtTime'] || '';
+                        const createdAtSpan = document.getElementById('observation_createdAt');
+                        if (createdAtSpan) {
+                            let displayText = '';
+                            // Formatear fecha a dd/mm/yyyy
+                            let formattedDate = '';
+                            if (createdAtDate) {
+                                const dateParts = createdAtDate.split('-'); // yyyy-mm-dd
+                                if (dateParts.length === 3) {
+                                    formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                                } else {
+                                    formattedDate = createdAtDate;
+                                }
+                            }
+                            // Formatear hora a 12 horas sin segundos y con a. m./p. m.
+                            let formattedTime = '';
+                            if (createdAtTime) {
+                                let [hour, minute] = createdAtTime.split(':');
+                                hour = parseInt(hour, 10);
+                                let period = 'a. m.';
+                                if (hour >= 12) {
+                                    period = 'p. m.';
+                                    if (hour > 12) hour -= 12;
+                                } else if (hour === 0) {
+                                    hour = 12;
+                                }
+                                formattedTime = `${hour}:${minute} ${period}`;
+                            }
+                            if (formattedDate && formattedTime) {
+                                displayText = `${formattedDate}, ${formattedTime}`;
+                            } else if (formattedDate) {
+                                displayText = formattedDate;
+                            } else if (formattedTime) {
+                                displayText = formattedTime;
+                            }
+                            createdAtSpan.textContent = displayText;
+                        }
                     }).catch(err => {
                         console.error(err);
                     });

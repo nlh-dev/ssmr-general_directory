@@ -1,29 +1,36 @@
 <?php
-
-
 use app\controllers\mainController;
-
 $mainController = new mainController();
 $showLocationsData = $mainController->getDataController('locations', 'location_name', 'ASC');
 ?>
 <div id="editDepartment" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full animate__animated animate__fadeInDownBig md:mx-2">
-    <div class="relative w-full max-w-lg max-h-full">
+    <div class="relative w-full max-w-xl max-h-full">
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <div class="flex items-center justify-between">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-8 mr-3" alt="">
-                    <h3 class="text-xl font-medium text-white">
-                        Editar Ubicación
-                    </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editDepartment">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
+            <div class="flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-xl font-medium text-white">Información de
+                            <span id="department_name" class="text-xl font-medium text-white"></span>
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-yellow-900 text-yellow-300">Editando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Creado el</span>
+                                <span id="department_createdAt" class="text-white font-semibold text-xs"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editDepartment">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
             </div>
             <!-- Modal body -->
             <form action="<?= $AjaxRoutes['departments'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
@@ -110,6 +117,8 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                 const departmentId = this.getAttribute('data-department-id');
                 document.getElementById('department_ID').value = departmentId;
 
+                let field_departmentName = document.querySelector('#editDepartment #department_name');
+                let field_departmentCreatedAt = document.querySelector('#editDepartment #department_createdAt');
                 let inputDepartmentName = document.querySelector('#editDepartment #departmentName');
                 let inputLocationsName = document.querySelector('#editDepartment #locations');
                 let departmentURL = "<?= APP_URL ?>app/ajax/departmentsAjax.php?departmentModule=getDepartmentData&department_ID=" + departmentId;
@@ -124,6 +133,16 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
+                        field_departmentCreatedAt.textContent =
+                                (dataResponse.department_createdAtDate ? new Date(dataResponse.department_createdAtDate + 'T' + dataResponse.department_createdAtTime).toLocaleString('es-ES', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                }) : 'Fecha y Hora no encontrada');
+                        field_departmentName.textContent = dataResponse.department_name;
                         inputDepartmentName.value = dataResponse.department_name;
                         inputLocationsName.value = dataResponse.department_location_ID;
                     }).catch(err => {

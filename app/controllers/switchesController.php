@@ -20,7 +20,6 @@ class switchesController extends mainModel
         return $switchData_Query->fetch();
     }
 
-
     public function getAllSwitchDataController()
     {
         $switchId = $this->cleanRequest($_GET['switch_ID']);
@@ -267,6 +266,69 @@ class switchesController extends mainModel
         }
         return json_encode($alert);
     }
+
+    public function updateSwitchStatusController()
+    {
+        $switchID = $this->cleanRequest($_POST['switch_ID']);
+
+        $switchData = $this->dbRequestExecute("SELECT * FROM switch_directory WHERE switch_ID = '$switchID'");
+        if ($switchData->rowCount() <= 0) {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "Registro no encontrado!",
+            ];
+            return json_encode($alert);
+            exit();
+        }
+
+        $swtichCurrentState = $switchData->fetch()['switch_isEnable'];
+        $switchNewState = $swtichCurrentState ? 0 : 1;
+
+        $switchStateData = [
+            [
+                "db_FieldName" => "switch_isEnable",
+                "db_ValueName" => ":isEnable",
+                "db_realValue" => $switchNewState
+            ],
+            [
+                "db_FieldName" => "switch_updatedAtDate",
+                "db_ValueName" => ":updatedAtDate",
+                "db_realValue" => date('Y-m-d')
+            ],
+            [
+                "db_FieldName" => "switch_updatedAtTime",
+                "db_ValueName" => ":updatedAtTime",
+                "db_realValue" => date('H:i:s')
+            ],
+        ];
+
+        $swtichStateCondition = [
+            "condition_FieldName" => "switch_ID",
+            "condition_ValueName" => ":ID",
+            "condition_realValue" => $switchID
+        ];
+
+        $saveSwtichBrandState = $this->updateData("switch_directory", $switchStateData, $swtichStateCondition);
+        if ($saveSwtichBrandState->rowCount() >= 1) {
+            $alert = [
+                "type" => "reload",
+                "icon" => "success",
+                "title" => "¡Operación Realizada!",
+                "text" => "Estado actualizado exitosamente.",
+            ];
+        } else {
+            $alert = [
+                "type" => "simple",
+                "icon" => "error",
+                "title" => "¡Error!",
+                "text" => "No se pudo actualizar el estado.",
+            ];
+        }
+        return json_encode($alert);
+    }
+
     public function deleteSwitchController()
     {
         $switchID = $this->cleanRequest($_POST['switch_ID']);
@@ -590,7 +652,7 @@ class switchesController extends mainModel
                                 </div>
                                 <div>
                                     <form action="' . APP_URL . 'app/ajax/switchesAjax.php" class="AjaxForm" method="POST">
-                                    <input type="hidden" name="switchModule" value="updateSwitchBrandStatus">
+                                    <input type="hidden" name="switchModule" value="updateSwitchStatus">
                                     <input type="hidden" name="switch_ID" value="' . $rows['switch_ID'] . '">
                                         <div>
                                             <button data-popover-target="popover-state-' . $rows['switch_ID'] . '"

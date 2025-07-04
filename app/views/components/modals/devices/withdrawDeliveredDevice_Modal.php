@@ -4,11 +4,25 @@
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
-                <h3 class="text-xl font-medium text-white">
-                    Retirar Dispositivo
-                </h3>
+            <div class="modal-header flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-xl font-medium text-white">Retirar
+                            <span id="device_description" class="text-xl font-medium text-white"></span>
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-green-900 text-green-300">Retirando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Entregado por</span>
+                                <span id="device_deliveryUser" class="text-white font-semibold text-xs"></span>
+                                <span class="text-white font-semibold text-xs mx-1">/</span>
+                                <span id="device_deliveredAt" class="text-xs text-white font-semibold"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="withdrawDevice">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -20,33 +34,7 @@
             <form action="<?= $AjaxRoutes['deliveryDevices'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
                 <input type="hidden" name="deviceModule" id="deviceModule" value="withdrawDevice">
                 <input type="hidden" name="device_ID" id="device_ID" value="" />
-                <div class="modal-body p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="">
-                        <label class="flex items-center block text-sm font-medium text-gray-900">
-                            <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
-                            Entregado por:
-                            <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#usersGroup" />
-                                </svg>
-                                <p data-field="usuario"></p>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="">
-                        <label class="flex items-center block text-sm font-medium text-gray-900">
-                            <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                            </svg>
-                            Fecha de Entrega:
-                            <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-sm ml-2">
-                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                                    <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                                </svg>
-                                <p data-field="fecha"></p>
-                            </span>
-                        </label>
-                    </div>
+                <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="col-span-2">
                         <div class="flex items-center justify-between">
                             <label for="withdrawalDate" class="flex items-center block text-sm font-medium text-gray-900">
@@ -109,9 +97,10 @@
                     console.error('Withdraw form not found');
                 }
 
-                // FIELDS FROM MODAL BODY
-                let field_UserID = document.querySelector('.modal-body [data-field="usuario"]');
-                let field_DeliveryDate = document.querySelector('.modal-body [data-field="fecha"]');
+                // FIELDS FROM MODAL HEADER
+                let field_deviceDescription = document.querySelector('.modal-header #device_description')
+                let field_deviceDeliveryUser = document.querySelector('.modal-header #device_deliveryUser')
+                let field_DeliveryDate = document.querySelector('.modal-header #device_deliveredAt');
                 let fetchURL = '<?= APP_URL ?>app/ajax/deliveryDevicesAjax.php?deviceModule=getDeviceData&device_ID=' + deviceId;
 
                 fetch(fetchURL, {
@@ -119,9 +108,13 @@
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
-                        field_UserID.textContent = dataResponse.delivery_user_fullName;
+                        field_deviceDeliveryUser.textContent = dataResponse.delivery_user_fullName
+                        field_deviceDescription.textContent = dataResponse.device_description;
                         field_DeliveryDate.textContent =
                             (dataResponse.device_deliveryDate ? new Date(dataResponse.device_deliveryDate + 'T' + dataResponse.device_deliveryTime).toLocaleString('es-ES', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true,
                                 year: 'numeric',
                                 month: '2-digit',
                                 day: '2-digit'

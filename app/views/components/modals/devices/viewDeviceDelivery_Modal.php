@@ -6,14 +6,14 @@
             <!-- Modal header -->
             <div class="modal-header flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <div class="flex items-center">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
                     <div class="flex flex-col">
                         <h3 class="text-xl font-medium text-white">
                             Información del Dispositivo
                         </h3>
                         <div class="flex items-center">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
-                            <p class="font-semibold text-white text-xs mr-1">Entregado por:</p>
+                            <p class="font-semibold text-white text-xs mr-1">Entregado por</p>
                             <p class="text-white font-semibold text-xs" data-field="usuario"></p>
                             <p class="mx-1 text-white">/</p>
                             <p class="text-white font-semibold text-xs" data-field="fecha"></p>

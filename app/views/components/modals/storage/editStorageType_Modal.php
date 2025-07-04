@@ -3,19 +3,29 @@
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <div class="flex items-center justify-between">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-8 mr-3" alt="">
-                    <h3 class="text-xl font-medium text-white">
-                        Editar Tipo
-                    </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editStorageType">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
+            <div class="modal-header flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-md font-medium text-white">Información de
+                            <span id="storageType_name" class="text-md font-medium text-white"></span>
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-yellow-900 text-yellow-300">Editando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Creado el</span>
+                                <span id="storageType_createdAt" class="text-white font-semibold text-xs"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editStorageType">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
             </div>
             <!-- Modal body -->
             <form action="<?= $AjaxRoutes['storage'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
@@ -23,14 +33,14 @@
                 <input type="hidden" name="storageType_ID" id="storageType_ID" value="">
                 <div class="p-4 bg-white grid grid-cols-1 gap-5">
                     <div class="">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center">
                             <label for="storageTypeName" class="flex items-center block text-sm font-medium text-gray-900">
                                 <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                     <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#addCardBack" />
                                 </svg>
                                 Nombre del Tipo
+                                <p class="font-bold text-red-600 ms-1">*</p>
                             </label>
-                            <p class="font-bold text-red-600">*</p>
                         </div>
                         <div class="relative my-2">
                             <input type="text" id="storageTypeName" name="storageTypeName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Tipo....">
@@ -64,6 +74,7 @@
                 const storageTypeId = this.getAttribute('data-storage-id');
                 document.getElementById('storageType_ID').value = storageTypeId;
 
+                let field_storageTypeName = document.querySelector('#editStorageType #storageType_name')
                 let inputStorageTypeName = document.querySelector('#editStorageType #storageTypeName');
                 let storageTypeURL = "<?= APP_URL ?>app/ajax/storageAjax.php?storageModule=getStorageTypeData&storageType_ID=" + storageTypeId;
                 let formData = new FormData();
@@ -77,6 +88,7 @@
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
+                        field_storageTypeName.textContent = dataResponse.storageType_name;
                         inputStorageTypeName.value = dataResponse.storageType_name;
                     }).catch(err => {
                         console.error(err);

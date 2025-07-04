@@ -13,11 +13,23 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
-                <h3 class="text-xl font-medium text-white">
-                    Editar Contraseña
-                </h3>
+            <div class="modal-header flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-xl font-medium text-white">Información de
+                            <span id="wifi_name" class="text-xl font-medium text-white"></span>
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-yellow-900 text-yellow-300">Editando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Creado el</span>
+                                <span id="wifi_createdAt" class="text-white font-semibold text-xs"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editWifiPassword">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -157,6 +169,8 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                 let formData = new FormData();
                 formData.append('wifi_ID', wifiId);
 
+                let field_wifiName = document.querySelector('.modal-header #wifi_name')
+                let field_wifiCreatedAt = document.querySelector('.modal-header #wifi_createdAt')
                 let inputSSID = document.querySelector('.modal-body #SSID');
                 let inputPassword = document.querySelector('.modal-body #wifiPassword');
                 let inputIpDirection = document.querySelector('.modal-body #ipDirection');
@@ -175,26 +189,28 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                     }
                     setTimeout(function() {
                         fetch(fetchURL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            body: 'location_ID=' + encodeURIComponent(locationId) + '&getDepartmentsByLocation=1'
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            let options = '';
-                            if (data.length === 0 && fromSelector) {
-                                options = '<option value="" selected>No hay departamentos Relacionados....</option>';
-                            } else {
-                                options = '<option selected value="">Seleccione....</option>';
-                                data.forEach(dep => {
-                                    options += `<option value="${dep.department_ID}" ${selectedDepartmentId == dep.department_ID ? 'selected' : ''}>${dep.department_name}</option>`;
-                                });
-                            }
-                            inputDepartments.innerHTML = options;
-                        })
-                        .catch(() => {
-                            inputDepartments.innerHTML = '<option selected value="">Error al cargar</option>';
-                        });
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: 'location_ID=' + encodeURIComponent(locationId) + '&getDepartmentsByLocation=1'
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                let options = '';
+                                if (data.length === 0 && fromSelector) {
+                                    options = '<option value="" selected>No hay departamentos Relacionados....</option>';
+                                } else {
+                                    options = '<option selected value="">Seleccione....</option>';
+                                    data.forEach(dep => {
+                                        options += `<option value="${dep.department_ID}" ${selectedDepartmentId == dep.department_ID ? 'selected' : ''}>${dep.department_name}</option>`;
+                                    });
+                                }
+                                inputDepartments.innerHTML = options;
+                            })
+                            .catch(() => {
+                                inputDepartments.innerHTML = '<option selected value="">Error al cargar</option>';
+                            });
                     }, 400);
                 }
 
@@ -208,7 +224,7 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                 document.querySelector('#editWifiPassword form').addEventListener('submit', function() {
                     macFilterCheckBox.value = macFilterCheckBox.checked ? '1' : '0';
                 });
-                
+
                 fetch(wifiURL, {
                         method: 'GET',
                         headers: {
@@ -217,6 +233,22 @@ $showLocationsData = $mainController->getDataController('locations', 'location_n
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
+                        if (dataResponse) {
+                            let createdAtDateTime = dataResponse.data.wifi_createdAt;
+                            if (createdAtDateTime) {
+                                let dateValue = new Date(createdAtDateTime.replace('  ', 'T'));
+                                let dateOptions = {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                };
+                                field_wifiCreatedAt.textContent = dateValue.toLocaleString('es-ES', dateOptions);
+                            }
+                        }
+                        field_wifiName.textContent = dataResponse.data.wifi_SSID;
                         inputSSID.value = dataResponse.data.wifi_SSID;
                         inputPassword.value = dataResponse.data.wifi_password;
                         inputIpDirection.value = dataResponse.data.wifi_ipDirection;

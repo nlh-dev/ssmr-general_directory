@@ -6,14 +6,14 @@
             <!-- Modal header -->
             <div class="modal-header flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <div class="flex items-center">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
                     <div class="flex flex-col">
                         <h3 class="text-xl font-medium text-white">
                             Información del Dispositivo
                         </h3>
                         <div class="flex items-center">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
-                            <p class="font-semibold text-white text-xs mr-1">Retirado por:</p>
+                            <p class="font-semibold text-white text-xs mr-1">Retirado por</p>
                             <p class="text-white font-semibold text-xs" data-field="usuario_retiro"></p>
                             <p class="mx-1 text-white">/</p>
                             <p class="text-white font-semibold text-xs" data-field="fecha_retiro"></p>
@@ -129,37 +129,16 @@
                         </span>
                     </div>
                 </div>
-                <hr class="md:col-span-2 border-gray-300">
-                <div>
-                    <div class="flex items-center">
-                        <div class="flex items-center block text-sm font-medium text-gray-900">
-                            <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
-                            Entregado por:
+                <div class="md:col-span-2 relative">
+                    <hr class="absolute inset-x-0 top-1/2 transform -translate-y-1/2 z-0 md:col-span-4 text-gray-300">
+                    <div class="flex items-center justify-center relative z-10">
+                        <div class="px-4 py-1 bg-white rounded-full border border-gray-300 flex items-center">
+                            <div class="h-2.5 w-2.5 rounded-full bg-gray-500 me-2"></div>
+                            <p class="text-gray-500 font-semibold text-xs me-1">Entregado por</p>
+                            <p class="text-xs font-semibold text-gray-500" data-field="usuario_entrega"></p>
+                            <p class="text-gray-500 font-semibold text-xs me-1">,</p>
+                            <p class="text-xs font-semibold text-gray-500" data-field="fecha_entrega"></p>
                         </div>
-                    </div>
-                    <div class="flex mt-1">
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm">
-                            <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#usersGroup" />
-                            </svg>
-                            <p data-field="usuario_entrega"></p>
-                        </span>
-                    </div>
-                </div>
-                <div>
-                    <div class="flex items-center">
-                        <div class="flex items-center block text-sm font-medium text-gray-900">
-                            <div class="h-2.5 w-2.5 rounded-full bg-gray-900 me-2"></div>
-                            Fecha de Entrega:
-                        </div>
-                    </div>
-                    <div class="flex mt-1">
-                        <span class="flex items-center bg-gray-900 text-white text-xs font-medium px-1.5 py-1 rounded-sm">
-                            <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <use xlink:href="<?= APP_URL ?>/app/assets/svg/FlowbiteIcons.sprite.svg#calendarPen" />
-                            </svg>
-                            <p data-field="fecha_entrega"></p>
-                        </span>
                     </div>
                 </div>
             </div>

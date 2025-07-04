@@ -6,10 +6,11 @@
             <!-- Modal header -->
             <div class="modal-header flex items-center justify-between p-3 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <div class="flex items-center">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-10 mr-3" alt="">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
                     <div class="flex flex-col">
                         <h3 class="text-xl font-medium text-white">
-                            Información de Switch
+                            Información de
+                            <span id="switch_name"></span>
                         </h3>
                         <div class="flex items-center mt-1">
                             <div class="h-2.5 w-2.5 rounded-full bg-white me-2"></div>
@@ -178,6 +179,7 @@
 
                 // FIELDS FROM MODAL
                 let field_switchCreatedAt = document.querySelector('.modal-header [data-field="switch_createdAt"]');
+                let field_switchHeaderName = document.querySelector('.modal-header #switch_name');
                 let field_switchUpdatedAt = document.querySelector('.modal-body [data-field="switch_updatedAt"]');
                 let field_switchName = document.querySelector('.modal-body [data-field="switch_nombre"]');
                 let field_switchSerial = document.querySelector('.modal-body [data-field="switch_serial"]');
@@ -220,7 +222,7 @@
                             } else {
                                 field_switchUpdatedAt.textContent = 'Fecha de Actualización no Encontrada';
                             }
-                            // ...resto de asignaciones...
+                            field_switchHeaderName.textContent = dataResponse.switch_name;
                             field_switchName.textContent = dataResponse.switch_name;
                             field_switchSerial.textContent = dataResponse.switch_serialCode || 'N/A';
                             field_switchBrand.textContent = dataResponse.switchBrand_name;

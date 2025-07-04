@@ -17,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['switchModule'])) {
         case 'editSwitch':
             echo $switchesController->updateSwitchController();
             break;
+        case 'updateSwitchStatus':
+            echo $switchesController->updateSwitchStatusController();
+            break;
         case 'deleteSwitch':
             echo $switchesController->deleteSwitchController();
             break;

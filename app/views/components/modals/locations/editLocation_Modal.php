@@ -3,19 +3,29 @@
         <!-- Modal content -->
         <div class="relative rounded-lg shadow-sm bg-gray-900">
             <!-- Modal header -->
-            <div class="p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <div class="flex items-center justify-between">
-                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-8 mr-3" alt="">
-                    <h3 class="text-xl font-medium text-white">
-                        Editar Ubicación
-                    </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editLocation">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
+            <div class="flex items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <div class="flex items-center">
+                    <img src="<?= APP_URL ?>app/assets/logos/SSMR_LOGO-1.png" class="h-12 mr-3" alt="">
+                    <div class="flex-col">
+                        <h3 class="text-xl font-medium text-white">Información de
+                            <span id="location_name" class="text-xl font-medium text-white"></span>
+                        </h3>
+                        <div class="flex items-center gap-x-1">
+                            <span class="text-xs font-medium px-1.5 py-0.5 rounded-sm bg-yellow-900 text-yellow-300">Editando</span>
+                            <div class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full bg-white me-1"></div>
+                                <span class="text-white font-semibold text-xs me-1">Creado el</span>
+                                <span id="location_createdAt" class="text-white font-semibold text-xs"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editLocation">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
             </div>
             <!-- Modal body -->
             <form action="<?= $AjaxRoutes['locations'] ?>" class="AjaxForm" method="POST" autocomplete="OFF">
@@ -64,6 +74,8 @@
                 const locationId = this.getAttribute('data-location-id');
                 document.getElementById('location_ID').value = locationId;
 
+                let field_locationName = document.querySelector('#editLocation #location_name');
+                let field_locationCreatedAt = document.querySelector('#editLocation #location_createdAt');
                 let inputLocationName = document.querySelector('#editLocation #locationName');
                 let locationURL = "<?= APP_URL ?>app/ajax/locationsAjax.php?locationModule=getLocationData&location_ID=" + locationId;
                 let formData = new FormData();
@@ -77,6 +89,16 @@
                     })
                     .then(response => response.json())
                     .then(dataResponse => {
+                        field_locationName.textContent = dataResponse.location_name;
+                        field_locationCreatedAt.textContent =
+                            (dataResponse.location_createdAtDate ? new Date(dataResponse.location_createdAtDate + 'T' + dataResponse.location_createdAtTime).toLocaleString('es-ES', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true,
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }) : 'Fecha y Hora no encontrada');
                         inputLocationName.value = dataResponse.location_name;
                     }).catch(err => {
                         console.error(err);
